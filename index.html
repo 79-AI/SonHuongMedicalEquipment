@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MED-CRM | Anh Sáng Y Tế</title>
+<title>MED-CRM | Sơn Hương Medical Equipment</title>
 <style>
 :root {
   --primary:#F97316; --primary-dark:#EA580C; --primary-darker:#C2410C;
@@ -288,7 +288,7 @@ textarea.form-control{resize:vertical;min-height:72px}
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <div class="logo-icon">🏥</div>
-    <div><div class="logo-text">MED-CRM</div><div class="logo-sub">Anh Sáng Y Tế</div></div>
+    <div><div class="logo-text">MED-CRM</div><div class="logo-sub">Sơn Hương Medical</div></div>
     <button class="sidebar-close" onclick="closeSB()">✕</button>
   </div>
   <nav class="nav">
@@ -649,8 +649,8 @@ function load(){
 
 function seedCompany(){
   return {
-    name:'Công ty TNHH Vật Tư Y Tế',
-    shortName:'Anh Sáng Y Tế',
+    name:'Sơn Hương Medical Equipment Co., Ltd',
+    shortName:'Sơn Hương Medical',
     founded:'2010',
     tagline:'Đồng hành cùng sức khỏe cộng đồng',
     vision:'Trở thành đơn vị phân phối vật tư y tế hàng đầu miền Nam — uy tín, tốc độ và chuyên nghiệp. Đến năm 2030, mở rộng ra toàn quốc với doanh thu vượt 50 tỷ/năm.',
@@ -1568,7 +1568,7 @@ function buildOrgChart(){
   return`<div id="org-print-area">
   <div style="text-align:center;margin-bottom:28px">
     <div style="font-size:20px;font-weight:700;color:var(--primary-dark)">SƠ ĐỒ TỔ CHỨC</div>
-    <div style="font-size:13px;color:var(--muted);margin-top:4px">Công ty TNHH Anh Sáng Y Tế · Cập nhật ${new Date().toLocaleDateString('vi-VN')}</div>
+    <div style="font-size:13px;color:var(--muted);margin-top:4px">Sơn Hương Medical Equipment · Cập nhật ${new Date().toLocaleDateString('vi-VN')}</div>
   </div>
 
   <!-- Tầng 1: CEO -->
@@ -1808,7 +1808,7 @@ function buildSOPs(){
   return`<div id="sop-print-area">
     <div style="text-align:center;margin-bottom:24px">
       <div style="font-size:20px;font-weight:700;color:var(--primary-dark)">QUY TRÌNH LÀM VIỆC — SOP</div>
-      <div style="font-size:13px;color:var(--muted);margin-top:4px">Công ty TNHH Anh Sáng Y Tế · Tất cả nhân viên bắt buộc nắm rõ và thực hiện đúng</div>
+      <div style="font-size:13px;color:var(--muted);margin-top:4px">Sơn Hương Medical Equipment · Tất cả nhân viên bắt buộc nắm rõ và thực hiện đúng</div>
     </div>
     ${sopCard('QUY TRÌNH 1: BÁN HÀNG — Từ khách tiềm năng đến thu tiền','🛒','#6366F1',sop1.replace(/<div style="margin-left:18px.*?<\/div>/g,'').replace(/<div style="margin-left:18px[^>]*>[^<]*<\/div>/g,''))}
     ${sopCard('QUY TRÌNH 2: NHẬP KHO','📦','#F97316','<div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Quy trình nhập kho</div>'+sop2N.replace(/<div style="margin-left:18px.*?<\/div>/g,'')+'<div style="font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 12px;text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--border);padding-top:18px">Quy trình xuất kho</div>'+sop2X.replace(/<div style="margin-left:18px.*?<\/div>/g,''))}
@@ -1821,7 +1821,7 @@ function printOrgChart(){
   const oc=document.getElementById('org-print-area')||document.getElementById('sop-print-area');
   if(!oc){toast('Vui lòng mở tab Sơ đồ hoặc Quy trình trước','info');return;}
   const win=window.open('','_blank');
-  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Sơ đồ tổ chức — Anh Sáng Y Tế</title>
+  win.document.write(`<!DOCTYPE html><html><head><meta charset="UTF-8"><title>Sơ đồ tổ chức — Sơn Hương Medical Equipment</title>
   <style>
     body{font-family:Arial,sans-serif;font-size:12px;color:#111;padding:15mm 12mm;margin:0}
     *{box-sizing:border-box}
@@ -2502,7 +2502,7 @@ Trước khi liên hệ, cần biết:
 Mục đích: xin được gặp mặt hoặc gửi catalog — KHÔNG cố bán ngay.
 
 [script]
-"Chào anh/chị [Tên], em là [Tên] từ Công ty Anh Sáng Y Tế. Bên em chuyên cung cấp vật tư y tế cho các bệnh viện khu vực. Em muốn hỏi hiện tại bên mình đang mua kim tiêm, găng tay từ đơn vị nào không? Em muốn gửi bảng giá để anh/chị so sánh ạ."
+"Chào anh/chị [Tên], em là [Tên] từ Công ty Sơn Hương Medical. Bên em chuyên cung cấp vật tư y tế cho các bệnh viện khu vực. Em muốn hỏi hiện tại bên mình đang mua kim tiêm, găng tay từ đơn vị nào không? Em muốn gửi bảng giá để anh/chị so sánh ạ."
 [/script]
 
 === Bước 3: Lần gặp đầu tiên ===
@@ -2572,7 +2572,7 @@ Khách hàng B (PK/NT, đơn vừa):
 
 === Script chăm sóc sau bán hàng ===
 [script]
-"Anh/chị ơi, em [Tên] từ Anh Sáng Y Tế. Đơn hàng tuần trước bên em giao có đủ và đúng chất lượng không ạ? Nếu có gì chưa ổn em xin lỗi và xử lý ngay. Bên mình có cần thêm gì không ạ?"
+"Anh/chị ơi, em [Tên] từ Sơn Hương Medical. Đơn hàng tuần trước bên em giao có đủ và đúng chất lượng không ạ? Nếu có gì chưa ổn em xin lỗi và xử lý ngay. Bên mình có cần thêm gì không ạ?"
 [/script]`},
     {id:'lib4',title:'Phân loại và ưu tiên khách hàng theo mức độ tiềm năng',cat:'ky-nang',difficulty:'trung-cap',readTime:6,author:'Ban Kinh Doanh',tags:['phân loại','ABC','pipeline'],pinned:false,views:0,createdAt:'2025-02-15',content:`=== Tại sao cần phân loại khách hàng? ===
 Mỗi nhân viên sales chỉ có 8 tiếng/ngày. Nếu dành đều nhau cho tất cả KH = lãng phí. Cần ưu tiên đúng để tối đa doanh thu.
@@ -2683,7 +2683,7 @@ Luôn báo giá cao hơn mục tiêu 10-15% → tạo không gian để giảm k
 === Quy trình 5 lần tiếp cận đa kênh ===
 
 Ngày 1: Gọi điện → Không nghe → Nhắn Zalo ngay sau đó
-[script]"Chào anh/chị, em [Tên] từ Anh Sáng Y Tế vừa gọi điện không liên lạc được. Khi nào anh/chị rảnh em xin gọi lại ạ 🙏"[/script]
+[script]"Chào anh/chị, em [Tên] từ Sơn Hương Medical vừa gọi điện không liên lạc được. Khi nào anh/chị rảnh em xin gọi lại ạ 🙏"[/script]
 
 Ngày 3: Gọi lại → Nếu không nghe → Gửi email với catalog đính kèm
 
@@ -2781,7 +2781,7 @@ Cách bạn nhắc nợ sẽ quyết định khách có mua tiếp hay không.
 [script]"Chào anh/chị [Tên], bên em có khoản thanh toán đơn DH-XXX đến hạn ngày [ngày] trị giá [số tiền]. Anh/chị kiểm tra và sắp xếp thanh toán giúp em nhé. Nếu cần hỗ trợ thêm thông tin em sẵn sàng ạ 🙏"[/script]
 
 === 15-30 ngày quá hạn: Gọi điện trực tiếp ===
-[script]"Anh/chị [Tên] ơi, em [Tên] từ Anh Sáng Y Tế gọi về đơn hàng DH-XXX. Hiện tại đã quá hạn [X] ngày rồi ạ. Anh/chị đang gặp khó khăn gì không? Bên em có thể hỗ trợ chia 2 lần thanh toán nếu cần."[/script]
+[script]"Anh/chị [Tên] ơi, em [Tên] từ Sơn Hương Medical gọi về đơn hàng DH-XXX. Hiện tại đã quá hạn [X] ngày rồi ạ. Anh/chị đang gặp khó khăn gì không? Bên em có thể hỗ trợ chia 2 lần thanh toán nếu cần."[/script]
 
 === 30-45 ngày quá hạn: Thư chính thức + gặp mặt ===
 [script]"Anh/chị, đây là thông báo chính thức về khoản công nợ [số tiền] đã quá hạn [X] ngày. Bên em cần thanh toán trước ngày [ngày] để tiếp tục phục vụ."[/script]
@@ -2989,8 +2989,8 @@ function rSettings(){
     <div class="set-card">
       <h3>🏢 Thông tin công ty</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="form-group"><label>Tên công ty đầy đủ</label><input class="form-control" id="set-cname" value="${esc(c.name||'')}" placeholder="Công ty TNHH Vật Tư Y Tế"></div>
-        <div class="form-group"><label>Tên viết tắt / Thương hiệu</label><input class="form-control" id="set-csname" value="${esc(c.shortName||'')}" placeholder="Anh Sáng Y Tế"></div>
+        <div class="form-group"><label>Tên công ty đầy đủ</label><input class="form-control" id="set-cname" value="${esc(c.name||'')}" placeholder="Sơn Hương Medical Equipment Co., Ltd"></div>
+        <div class="form-group"><label>Tên viết tắt / Thương hiệu</label><input class="form-control" id="set-csname" value="${esc(c.shortName||'')}" placeholder="Sơn Hương Medical Equipment"></div>
         <div class="form-group"><label>Năm thành lập</label><input class="form-control" id="set-cfounded" value="${esc(c.founded||'')}" placeholder="2010"></div>
         <div class="form-group"><label>Slogan công ty</label><input class="form-control" id="set-ctag" value="${esc(c.tagline||'')}" placeholder="Đồng hành cùng sức khỏe cộng đồng"></div>
       </div>
