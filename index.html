@@ -3845,7 +3845,8 @@ function initEmailJS(){
 async function sendReportEmail(showToast=true){
   const html=generateEmailHtml();
   const recipients=(DB.settings.emailRecipients||[]).filter(e=>e&&e.includes('@'));
-  const dateStr=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+  const _now=new Date();
+  const dateStr=`${_now.toLocaleDateString('vi-VN',{weekday:'long'})} ${String(_now.getDate()).padStart(2,'0')}-${String(_now.getMonth()+1).padStart(2,'0')}-${_now.getFullYear()}`;
   const activeEmps=DB.employees.filter(e=>e.status==='active');
   const todayRpts=DB.dailyReports.filter(r=>r.date===td());
   const totalOrders=todayRpts.reduce((s,r)=>s+(+r.orders||0),0);
@@ -3895,7 +3896,8 @@ async function sendReportEmail(showToast=true){
 function generateEmailHtml(){
   const activeEmps=DB.employees.filter(e=>e.status==='active');
   const todayRpts=DB.dailyReports.filter(r=>r.date===td());
-  const dateStr=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+  const _d=new Date();
+  const dateStr=`${_d.toLocaleDateString('vi-VN',{weekday:'long'})} ${String(_d.getDate()).padStart(2,'0')}-${String(_d.getMonth()+1).padStart(2,'0')}-${_d.getFullYear()}`;
   const totalOrders=todayRpts.reduce((s,r)=>s+(+r.orders||0),0);
   const totalQuotes=todayRpts.reduce((s,r)=>s+(+r.quotes||0),0);
   const totalNew=todayRpts.reduce((s,r)=>s+(+r.newCustomers||0),0);
