@@ -428,15 +428,15 @@ body.density-spacious table thead th,body.density-spacious table tbody td{paddin
     <div class="nav-item" data-page="library" onclick="nav(this)"><span class="ni">📚</span> Thư viện <span class="badge" id="badge-lib">0</span></div>
     <div class="nav-sec">Tài chính</div>
     <div class="nav-item" data-page="accounting" onclick="nav(this)"><span class="ni">📒</span> Kế toán</div>
-    <div class="nav-sec">Doanh nghiệp</div>
-    <div class="nav-item" data-page="employees" onclick="nav(this)"><span class="ni">👥</span> Nhân viên <span class="badge" id="badge-emp">0</span></div>
-    <div class="nav-item" data-page="company" onclick="nav(this)"><span class="ni">🏢</span> Công ty</div>
-    <div class="nav-item" data-page="settings" onclick="nav(this)"><span class="ni">⚙️</span> Cài đặt</div>
     <div class="nav-sec">Mua hàng</div>
     <div class="nav-item" data-page="suppliers" onclick="nav(this)"><span class="ni">🏭</span> Nhà cung cấp</div>
     <div class="nav-item" data-page="tenders" onclick="nav(this)"><span class="ni">⚖️</span> Đấu thầu <span class="badge" id="badge-tender">0</span></div>
     <div class="nav-item" data-page="contracts" onclick="nav(this)"><span class="ni">📋</span> Hợp đồng <span class="badge" id="badge-contract">0</span></div>
     <div class="nav-item" data-page="warranty" onclick="nav(this)"><span class="ni">🔧</span> Bảo hành</div>
+    <div class="nav-sec">Doanh nghiệp</div>
+    <div class="nav-item" data-page="employees" onclick="nav(this)"><span class="ni">👥</span> Nhân viên <span class="badge" id="badge-emp">0</span></div>
+    <div class="nav-item" data-page="company" onclick="nav(this)"><span class="ni">🏢</span> Công ty</div>
+    <div class="nav-item" data-page="settings" onclick="nav(this)"><span class="ni">⚙️</span> Cài đặt</div>
     <div class="nav-sec">Nội bộ</div>
     <div class="nav-item" data-page="chat" onclick="nav(this)"><span class="ni">💬</span> Chat nội bộ</div>
   </nav>
@@ -951,6 +951,10 @@ function load(){
   if(!DB.contracts||!DB.contracts.length)DB.contracts=seedContracts();
   if(!DB.warranties||!DB.warranties.length)DB.warranties=seedWarranties();
   if(DB.hrPin)HR_PIN=DB.hrPin;
+  // ── Migrate v3: remove any broken Wikimedia URLs stored in localStorage ──
+  let _imgPatched=false;
+  DB.products.forEach(p=>{if(p.image&&p.image.includes('wikimedia.org')){p.image='';_imgPatched=true;}});
+  if(_imgPatched)save();
 }
 
 function seedCompany(){
@@ -1033,9 +1037,9 @@ function seed(){
   ];
   DB.products=[
     // Vật tư tiêu hao (15 sản phẩm)
-    {id:'p1',code:'SP001',name:'Kim tiêm 5ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:45000,price:65000,stock:250,minStock:50,exp:d(180),sup:'Công ty Bình Thuận',notes:''},
-    {id:'p2',code:'SP002',name:'Găng tay vô trùng cỡ L',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:85000,price:120000,stock:180,minStock:60,exp:d(365),sup:'Công ty Bình Thuận',notes:''},
-    {id:'pa1',code:'SP003',name:'Bơm tiêm 10ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:52000,price:75000,stock:320,minStock:80,exp:d(360),sup:'Công ty Bình Thuận',notes:''},
+    {id:'p1',code:'SP001',name:'Kim tiêm 5ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:45000,price:65000,stock:250,minStock:50,exp:d(180),sup:'Công ty Bình Thuận',notes:'',image:''},
+    {id:'p2',code:'SP002',name:'Găng tay vô trùng cỡ L',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:85000,price:120000,stock:180,minStock:60,exp:d(365),sup:'Công ty Bình Thuận',notes:'',image:''},
+    {id:'pa1',code:'SP003',name:'Bơm tiêm 10ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:52000,price:75000,stock:320,minStock:80,exp:d(360),sup:'Công ty Bình Thuận',notes:'',image:''},
     {id:'pa2',code:'SP004',name:'Bơm tiêm 20ml',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:68000,price:98000,stock:180,minStock:50,exp:d(360),sup:'Công ty Bình Thuận',notes:''},
     {id:'pa3',code:'SP005',name:'Bơm tiêm insulin 1ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:38000,price:58000,stock:150,minStock:40,exp:d(300),sup:'Công ty Bình Thuận',notes:'Kim 29G, đầu nhọn an toàn'},
     {id:'pa4',code:'SP006',name:'Kim luồn tĩnh mạch 20G',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:120000,price:175000,stock:85,minStock:30,exp:d(270),sup:'BD Vietnam',notes:'Màu hồng, vô trùng EO'},
@@ -1043,29 +1047,29 @@ function seed(){
     {id:'pa6',code:'SP008',name:'Găng tay khám bệnh cỡ M',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:72000,price:105000,stock:240,minStock:80,exp:d(365),sup:'Thái Lan Latex Co.',notes:'Không bột, không mủ cao su'},
     {id:'pa7',code:'SP009',name:'Khẩu trang y tế 3 lớp',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:38000,price:58000,stock:380,minStock:100,exp:d(730),sup:'Khải Hoàn Med',notes:'Đạt tiêu chuẩn TCVN 8389'},
     {id:'pa8',code:'SP010',name:'Khẩu trang N95 (3M 8210)',cat:'Vật tư tiêu hao',unit:'Hộp 20c',cost:145000,price:210000,stock:60,minStock:20,exp:d(365),sup:'3M Vietnam',notes:'Lọc ≥95% bụi mịn PM2.5, NIOSH'},
-    {id:'pa9',code:'SP011',name:'Bông y tế cuộn 500g',cat:'Vật tư tiêu hao',unit:'Cuộn',cost:78000,price:115000,stock:95,minStock:25,exp:d(365),sup:'Công ty Bình Thuận',notes:'Bông tẩm cồn tinh khiết'},
-    {id:'pa10',code:'SP012',name:'Băng keo y tế 1.25cm',cat:'Vật tư tiêu hao',unit:'Cuộn',cost:22000,price:35000,stock:200,minStock:50,exp:d(730),sup:'Khải Hoàn Med',notes:'Vải dệt không gây dị ứng'},
-    {id:'p6',code:'SP013',name:'Băng gạc vô trùng 10x10',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:35000,price:55000,stock:3,minStock:20,exp:d(300),sup:'Công ty Bình Thuận',notes:''},
+    {id:'pa9',code:'SP011',name:'Bông y tế cuộn 500g',cat:'Vật tư tiêu hao',unit:'Cuộn',cost:78000,price:115000,stock:95,minStock:25,exp:d(365),sup:'Công ty Bình Thuận',notes:'Bông tẩm cồn tinh khiết',image:''},
+    {id:'pa10',code:'SP012',name:'Băng keo y tế 1.25cm',cat:'Vật tư tiêu hao',unit:'Cuộn',cost:22000,price:35000,stock:200,minStock:50,exp:d(730),sup:'Khải Hoàn Med',notes:'Vải dệt không gây dị ứng',image:''},
+    {id:'p6',code:'SP013',name:'Băng gạc vô trùng 10x10',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:35000,price:55000,stock:3,minStock:20,exp:d(300),sup:'Công ty Bình Thuận',notes:'',image:''},
     {id:'pa11',code:'SP014',name:'Ống hút đờm 14Fr vô trùng',cat:'Vật tư tiêu hao',unit:'Hộp 10c',cost:95000,price:140000,stock:45,minStock:15,exp:d(180),sup:'BD Vietnam',notes:'Silicone mềm, có van điều chỉnh'},
     {id:'pa12',code:'SP015',name:'Chỉ phẫu thuật Vicryl 2-0',cat:'Vật tư tiêu hao',unit:'Hộp 12 sợi',cost:85000,price:125000,stock:30,minStock:10,exp:d(365),sup:'Ethicon VN',notes:'Tự tiêu, kim taper 26mm'},
     // Thiết bị y tế (8 sản phẩm)
-    {id:'p3',code:'SP016',name:'Máy đo SpO2 fingertip',cat:'Thiết bị y tế',unit:'Cái',cost:350000,price:550000,stock:25,minStock:5,exp:'',sup:'Medcare VN',notes:'Đo SpO2 + nhịp tim, pin AA'},
-    {id:'p4',code:'SP017',name:'Nhiệt kế hồng ngoại trán',cat:'Thiết bị y tế',unit:'Cái',cost:80000,price:130000,stock:40,minStock:10,exp:'',sup:'Medcare VN',notes:'Kết quả trong 1 giây'},
-    {id:'pb1',code:'SP018',name:'Máy đo huyết áp Omron HEM-7156',cat:'Thiết bị y tế',unit:'Cái',cost:850000,price:1250000,stock:18,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Bắp tay, tự động, nhớ 60 lần đo'},
-    {id:'pb2',code:'SP019',name:'Ống nghe Littmann Classic III',cat:'Thiết bị y tế',unit:'Cái',cost:1950000,price:2800000,stock:8,minStock:3,exp:'',sup:'3M Vietnam',notes:'Đầu nghe kép, thép không gỉ'},
+    {id:'p3',code:'SP016',name:'Máy đo SpO2 fingertip',cat:'Thiết bị y tế',unit:'Cái',cost:350000,price:550000,stock:25,minStock:5,exp:'',sup:'Medcare VN',notes:'Đo SpO2 + nhịp tim, pin AA',image:''},
+    {id:'p4',code:'SP017',name:'Nhiệt kế hồng ngoại trán',cat:'Thiết bị y tế',unit:'Cái',cost:80000,price:130000,stock:40,minStock:10,exp:'',sup:'Medcare VN',notes:'Kết quả trong 1 giây',image:''},
+    {id:'pb1',code:'SP018',name:'Máy đo huyết áp Omron HEM-7156',cat:'Thiết bị y tế',unit:'Cái',cost:850000,price:1250000,stock:18,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Bắp tay, tự động, nhớ 60 lần đo',image:''},
+    {id:'pb2',code:'SP019',name:'Ống nghe Littmann Classic III',cat:'Thiết bị y tế',unit:'Cái',cost:1950000,price:2800000,stock:8,minStock:3,exp:'',sup:'3M Vietnam',notes:'Đầu nghe kép, thép không gỉ',image:''},
     {id:'pb3',code:'SP020',name:'Đèn soi tai mũi họng Heine',cat:'Thiết bị y tế',unit:'Bộ',cost:580000,price:850000,stock:12,minStock:3,exp:'',sup:'Heine Optotechnik VN',notes:'Gồm đầu soi tai + mũi họng'},
     {id:'pb4',code:'SP021',name:'Máy xông khí dung Omron NE-C803',cat:'Thiết bị y tế',unit:'Cái',cost:450000,price:650000,stock:15,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Phun hạt 3–5 micron, yên tĩnh'},
     {id:'pb5',code:'SP022',name:'Bộ tiểu phẫu cơ bản',cat:'Thiết bị y tế',unit:'Bộ',cost:1250000,price:1800000,stock:10,minStock:3,exp:'',sup:'Công ty Bảo Ngọc',notes:'Kẹp, dao, kéo, nhíp inox 316L, hộp đựng'},
     {id:'pb6',code:'SP023',name:'Máy hút áp lực âm WS-500',cat:'Thiết bị y tế',unit:'Cái',cost:2800000,price:3900000,stock:5,minStock:2,exp:'',sup:'Medcare VN',notes:'Công suất 500mmHg, bình 1000ml'},
     // Hóa chất (5 sản phẩm)
-    {id:'p7',code:'SP024',name:'Hóa chất khử khuẩn Anios NPC 32',cat:'Hóa chất',unit:'Can 5L',cost:320000,price:480000,stock:12,minStock:5,exp:d(200),sup:'Anios VN',notes:'Khử khuẩn mức cao, không cồn'},
-    {id:'pc1',code:'SP025',name:'Cồn y tế 70° isopropyl',cat:'Hóa chất',unit:'Can 5L',cost:120000,price:180000,stock:35,minStock:10,exp:d(730),sup:'Đức Giang Hóa Chất',notes:'Sát khuẩn dụng cụ và da'},
-    {id:'pc2',code:'SP026',name:'Povidone Iodine 10% (Betadine)',cat:'Hóa chất',unit:'Lọ 90ml',cost:62000,price:95000,stock:80,minStock:20,exp:d(365),sup:'Egis VN',notes:'Sát khuẩn vết thương và da'},
+    {id:'p7',code:'SP024',name:'Hóa chất khử khuẩn Anios NPC 32',cat:'Hóa chất',unit:'Can 5L',cost:320000,price:480000,stock:12,minStock:5,exp:d(200),sup:'Anios VN',notes:'Khử khuẩn mức cao, không cồn',image:''},
+    {id:'pc1',code:'SP025',name:'Cồn y tế 70° isopropyl',cat:'Hóa chất',unit:'Can 5L',cost:120000,price:180000,stock:35,minStock:10,exp:d(730),sup:'Đức Giang Hóa Chất',notes:'Sát khuẩn dụng cụ và da',image:''},
+    {id:'pc2',code:'SP026',name:'Povidone Iodine 10% (Betadine)',cat:'Hóa chất',unit:'Lọ 90ml',cost:62000,price:95000,stock:80,minStock:20,exp:d(365),sup:'Egis VN',notes:'Sát khuẩn vết thương và da',image:''},
     {id:'pc3',code:'SP027',name:'Nước oxy già 3% (H2O2)',cat:'Hóa chất',unit:'Chai 500ml',cost:28000,price:45000,stock:55,minStock:15,exp:d(365),sup:'Đức Giang Hóa Chất',notes:'Làm sạch vết thương'},
     {id:'pc4',code:'SP028',name:'Dung dịch rửa tay nhanh Anios',cat:'Hóa chất',unit:'Chai 500ml',cost:48000,price:75000,stock:42,minStock:12,exp:d(730),sup:'Anios VN',notes:'Ethanol 70% + Aloe vera, không cần nước'},
     // Kit xét nghiệm (7 sản phẩm)
-    {id:'p5',code:'SP029',name:'Kit xét nghiệm HBsAg nhanh',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:280000,price:420000,stock:8,minStock:15,exp:d(120),sup:'Roche VN',notes:'Viêm gan B bề mặt, độ nhạy 99.5%'},
-    {id:'pd1',code:'SP030',name:'Kit HIV Rapid Test (combo)',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:380000,price:580000,stock:22,minStock:10,exp:d(150),sup:'Abbott VN',notes:'Kháng thể HIV 1+2, kết quả 15 phút'},
+    {id:'p5',code:'SP029',name:'Kit xét nghiệm HBsAg nhanh',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:280000,price:420000,stock:8,minStock:15,exp:d(120),sup:'Roche VN',notes:'Viêm gan B bề mặt, độ nhạy 99.5%',image:''},
+    {id:'pd1',code:'SP030',name:'Kit HIV Rapid Test (combo)',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:380000,price:580000,stock:22,minStock:10,exp:d(150),sup:'Abbott VN',notes:'Kháng thể HIV 1+2, kết quả 15 phút',image:''},
     {id:'pd2',code:'SP031',name:'Kit HCV Rapid Test',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:410000,price:620000,stock:18,minStock:10,exp:d(150),sup:'Abbott VN',notes:'Viêm gan C, độ nhạy 99.7%'},
     {id:'pd3',code:'SP032',name:'Kit COVID-19 Antigen nhanh',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:250000,price:380000,stock:30,minStock:15,exp:d(180),sup:'SD Biosensor VN',notes:'Kháng nguyên SARS-CoV-2, kết quả 15 phút'},
     {id:'pd4',code:'SP033',name:'Kit thai kỳ HCG nhanh',cat:'Kit xét nghiệm',unit:'Hộp 30 test',cost:62000,price:95000,stock:65,minStock:20,exp:d(365),sup:'Omega Diagnostics',notes:'Phát hiện từ 4 ngày trước trễ kinh'},
@@ -1498,12 +1502,25 @@ function delC(id){const c=DB.customers.find(x=>x.id===id);cfm('Xóa khách hàng
 
 // ═══════ PRODUCTS ═══════
 let pf={s:'',c:''};
+function prodImg(cat){
+  // Emoji SVG thumbnail — btoa(unescape(encodeURIComponent())) handles multi-byte chars
+  const map={
+    'Vật tư tiêu hao':{bg:'#EFF6FF',bd:'#BFDBFE',ico:'💉'},
+    'Thiết bị y tế':{bg:'#F0FDF4',bd:'#BBF7D0',ico:'🩺'},
+    'Hóa chất':{bg:'#FFF7ED',bd:'#FED7AA',ico:'🧪'},
+    'Kit xét nghiệm':{bg:'#FDF4FF',bd:'#E9D5FF',ico:'🔬'}
+  };
+  const m=map[cat]||{bg:'#F1F5F9',bd:'#CBD5E1',ico:'💊'};
+  const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" rx="6" fill="${m.bg}" stroke="${m.bd}" stroke-width="1"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="22" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif">${m.ico}</text></svg>`;
+  try{return 'data:image/svg+xml;base64,'+btoa(unescape(encodeURIComponent(svg)));}
+  catch(e){return 'data:image/svg+xml;base64,'+btoa(svg);}
+}
 function rProd(){
   document.getElementById('pg-actions').innerHTML=`<button class="btn btn-ghost btn-sm" onclick="openImportM('products')" title="Import Excel">📥 Import</button><button class="btn btn-ghost btn-sm" onclick="exportProdExcel()" title="Xuất Excel">📊 Excel</button><button class="btn btn-primary" onclick="openPM()">＋ Thêm sản phẩm</button>`;
   const list=DB.products.filter(p=>(!pf.s||p.name.toLowerCase().includes(pf.s.toLowerCase())||p.code.toLowerCase().includes(pf.s.toLowerCase()))&&(!pf.c||p.cat===pf.c));
   const rows=list.map(p=>{const low=p.stock<=p.minStock;return`<tr>
     <td style="font-family:monospace;font-size:12px">${p.code}</td>
-    <td><div style="display:flex;align-items:center;gap:8px">${p.image?`<img src="${esc(p.image)}" class="prod-img-thumb" onerror="this.style.display='none'">`:'<div class="prod-img-thumb" style="background:var(--bg);display:flex;align-items:center;justify-content:center;font-size:18px">💊</div>'}<div><strong>${esc(p.name)}</strong><div style="font-size:11px;color:var(--muted)">${esc(p.cat)}</div></div></div></td>
+    <td><div style="display:flex;align-items:center;gap:8px"><img src="${p.image||prodImg(p.cat)}" class="prod-img-thumb" onerror="this.src='${prodImg(p.cat)}'" title="${p.image?esc(p.name):'Chưa có ảnh — nhấp ✏️ để thêm'}"><div><strong>${esc(p.name)}</strong><div style="font-size:11px;color:var(--muted)">${esc(p.cat)}</div></div></div></td>
     <td>${esc(p.unit)}</td><td style="font-weight:700">${fmt(p.price)}</td>
     <td><span style="font-weight:700;color:${low?'var(--red)':'var(--text)'}">${fmtN(p.stock)}</span> <span style="font-size:11px;color:var(--muted)">/ min ${fmtN(p.minStock)}</span>${low?' <span class="chip chip-red" style="font-size:10px;padding:2px 5px">Thấp!</span>':''}</td>
     <td>${p.exp?fmtD(p.exp):'—'}</td>
@@ -2453,115 +2470,159 @@ function buildOrgChart(){
 }
 
 function buildSOPs(){
-  const step=(num,who,color,icon,title,details,time,note)=>`
-    <div style="display:flex;gap:14px;align-items:flex-start;margin-bottom:14px">
-      <div style="flex-shrink:0;width:36px;height:36px;border-radius:50%;background:${color};color:#fff;font-size:14px;font-weight:700;display:flex;align-items:center;justify-content:center">${num}</div>
-      <div style="flex:1">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;flex-wrap:wrap">
-          <span style="font-size:14px">${icon}</span>
-          <span style="font-size:13px;font-weight:700;color:var(--text)">${title}</span>
-          <span style="font-size:11px;background:${color}20;color:${color};border-radius:6px;padding:2px 8px;font-weight:600">${who}</span>
-          ${time?`<span style="font-size:11px;color:var(--muted)">⏱ ${time}</span>`:''}
-        </div>
-        <div style="font-size:12px;color:var(--muted);line-height:1.6;padding-left:4px">${details}</div>
-        ${note?`<div style="margin-top:6px;background:#FFF7ED;border-left:3px solid var(--primary);padding:6px 10px;border-radius:0 6px 6px 0;font-size:11px;color:var(--primary-darker)">⚠️ ${note}</div>`:''}
+  // ── pipeline card (click-to-expand) ───────────────────────────────────
+  const pc=(s,col)=>`
+    <div style="flex-shrink:0;width:168px;background:var(--card);border-radius:12px;border:1px solid var(--border);border-top:4px solid ${col};padding:13px;cursor:pointer;transition:box-shadow .15s,transform .15s" onmouseenter="this.style.transform='translateY(-2px)';this.style.boxShadow='0 6px 20px rgba(0,0,0,.1)'" onmouseleave="this.style.transform='';this.style.boxShadow=''" onclick="(function(el){var d=el.querySelector('[data-det]');var w=el.querySelector('[data-wrn]');var a=el.querySelector('[data-arr]');var o=d.style.display!=='none';d.style.display=o?'none':'block';if(w)w.style.display=o?'none':'block';a.textContent=o?'▼ chi tiết':'▲ thu lại';el.style.boxShadow=o?'':'0 4px 18px rgba(0,0,0,.12)'})(this)">
+      <div style="display:flex;align-items:center;gap:6px;margin-bottom:8px">
+        <div style="width:22px;height:22px;border-radius:50%;background:${col};color:#fff;font-size:10px;font-weight:800;display:flex;align-items:center;justify-content:center;flex-shrink:0">${s.n}</div>
+        <span style="font-size:16px">${s.ic}</span>
+        <span style="font-size:10px;background:${s.wc||col}18;color:${s.wc||col};border-radius:6px;padding:2px 5px;font-weight:600;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;max-width:100px">${s.wh}</span>
       </div>
-    </div>
-    <div style="margin-left:18px;width:2px;height:12px;background:${color}40;margin-bottom:2px"></div>`;
+      <div style="font-size:12px;font-weight:700;color:var(--text);line-height:1.4;margin-bottom:6px">${s.ti}</div>
+      ${s.tm?`<div style="font-size:10px;color:var(--muted);margin-bottom:2px">⏱ ${s.tm}</div>`:''}
+      <div data-det style="display:none;margin-top:8px;font-size:11px;color:var(--muted);line-height:1.6;border-top:1px solid var(--border);padding-top:8px">${s.de}</div>
+      ${s.no?`<div data-wrn style="display:none;margin-top:6px;background:#FFF7ED;border-left:3px solid #F97316;padding:5px 8px;border-radius:0 5px 5px 0;font-size:10px;color:#92400E">⚠️ ${s.no}</div>`:''}
+      <div data-arr style="text-align:right;font-size:10px;color:var(--muted);margin-top:6px">▼ chi tiết</div>
+    </div>`;
 
-  const sopCard=(title,icon,color,content)=>`
-    <div class="card" style="margin-bottom:18px">
-      <div class="card-header" style="background:${color}10;border-bottom:2px solid ${color}30">
+  const arr=`<div style="flex-shrink:0;align-self:center;padding:0 2px;color:var(--muted);font-size:20px;font-weight:300;margin-top:-10px">›</div>`;
+
+  const strip=(col,steps,sub)=>`
+    <div style="margin-bottom:4px">
+      ${sub?`<div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.6px;margin-bottom:10px;display:flex;align-items:center;gap:6px">${sub}</div>`:''}
+      <div style="display:flex;align-items:flex-start;gap:6px;overflow-x:auto;padding-bottom:6px">
+        ${steps.map((s,i)=>(i?arr:'')+pc(s,col)).join('')}
+      </div>
+    </div>`;
+
+  const sopCard=(title,icon,col,body)=>`
+    <div class="card" style="margin-bottom:20px">
+      <div class="card-header" style="background:${col}10;border-bottom:2px solid ${col}30">
         <div style="display:flex;align-items:center;gap:10px">
-          <div style="font-size:24px">${icon}</div>
+          <span style="font-size:22px">${icon}</span>
           <div>
-            <div class="card-title" style="color:${color};font-size:15px">${title}</div>
+            <div class="card-title" style="color:${col}">${title}</div>
+            <div style="font-size:11px;color:var(--muted);margin-top:2px">Click vào từng bước để xem chi tiết</div>
           </div>
         </div>
       </div>
-      <div style="padding:20px">${content}</div>
+      <div style="padding:18px 20px">${body}</div>
     </div>`;
 
-  // SOP 1: Bán hàng
-  const sop1=step(1,'Sales','#6366F1','🔍','Tìm kiếm & tiếp cận khách hàng','Tìm khách qua referral, gọi lạnh, triển lãm, mạng xã hội. Ghi tên + SĐT vào CRM ngay khi có lead.','Hàng ngày','Không được gọi khách sau 18:00 hoặc trước 8:00')
-    +step(2,'Sales','#6366F1','📝','Ghi hồ sơ khách vào CRM','Điền đầy đủ: tên cơ sở, loại hình, người liên hệ, SĐT, sản phẩm quan tâm. Ghi ngay sau cuộc gọi đầu tiên.','Trong ngày',null)
-    +step(3,'Sales → Trưởng nhóm','#8B5CF6','💰','Tạo & gửi báo giá','Tạo BG trong CRM với mã BG-YYYYMMDD-XXX. BG dưới 50 triệu: Sales tự gửi. BG trên 50 triệu: phải có Trưởng nhóm duyệt trước.','Trong 2 giờ làm việc','BG phải ghi rõ ngày hiệu lực, người lập, chiết khấu nếu có')
-    +step(4,'Sales','#8B5CF6','📞','Follow-up báo giá','Sau 2 ngày chưa phản hồi: gọi hỏi lại. Sau 5 ngày: cập nhật trạng thái BG trong CRM (accepted/rejected/sent).','Sau 2 ngày gửi BG',null)
-    +step(5,'Sales + Thủ kho','#F97316','✅','Chốt đơn & kiểm tồn kho','Khi khách đồng ý: tạo đơn hàng trong CRM. Sales báo Thủ kho kiểm tra tồn thực tế TRƯỚC khi hứa ngày giao.','Ngay khi khách OK','Không được hứa ngày giao khi chưa xác nhận tồn kho')
-    +step(6,'Thủ kho','#F97316','📦','Chuẩn bị & xuất hàng','In phiếu xuất kho từ CRM. Kiểm tra SL, hạn SD, chất lượng trước khi đóng gói. Ghi lại lô hàng xuất.','Theo lịch giao hàng',null)
-    +step(7,'Thủ kho + Sales','#10B981','🚚','Giao hàng & xác nhận nhận hàng','Giao hàng và lấy chữ ký xác nhận. Sales gửi tin nhắn hỏi thăm sau giao. Cập nhật đơn hàng → "Hoàn thành" trong CRM.','Ngày giao hàng',null)
-    +step(8,'Sales → Kế toán','#10B981','💳','Thu tiền & cập nhật công nợ','Nhắc khách thanh toán đúng hạn. Khi nhận tiền: ghi vào CRM + báo Kế toán ghi sổ ngay trong ngày.','Theo kỳ hạn hợp đồng','Không được nhận tiền mặt >20tr mà không báo Kế toán & Chủ trong ngày');
 
-  // SOP 2: Kho
-  const sop2N=step(1,'Sales/Trưởng nhóm','#F97316','📋','Lập lệnh nhập hàng','Khi tồn kho < mức tối thiểu hoặc có đơn lớn sắp tới: Sales/Trưởng nhóm gửi yêu cầu nhập hàng cho Chủ/Thủ kho.','Khi tồn < min stock',null)
-    +step(2,'Chủ công ty','#EF4444','✅','Phê duyệt đơn nhập','Chủ phê duyệt danh sách hàng, số lượng, nhà cung cấp. Đơn nhập > 20tr cần chữ ký Chủ.','Trong 4 giờ làm việc',null)
-    +step(3,'Thủ kho','#F97316','📥','Nhận & kiểm tra hàng','Đếm SL, kiểm tra hạn SD, kiểm tra CO-CQ nếu có. Ký biên nhận với NCC. Ghi nhập kho vào CRM.','Khi hàng về','Từ chối nhận hàng không đủ giấy tờ hoặc lỗi/hư hỏng')
-    +step(4,'Thủ kho','#10B981','📊','Cập nhật tồn kho & báo cáo','Cập nhật CRM ngay sau nhập. Báo cáo tồn kho tổng hợp cho Trưởng nhóm vào mỗi sáng thứ Hai.','Ngay sau nhập kho',null);
-  const sop2X=step(1,'Sales','#6366F1','🛒','Có đơn hàng xác nhận','Đơn hàng phải được tạo trong CRM với trạng thái "Chờ xử lý" trước khi yêu cầu xuất kho.','Khi chốt đơn',null)
-    +step(2,'Trưởng nhóm/Chủ','#EF4444','🔐','Duyệt xuất kho','Trưởng nhóm duyệt xuất kho dưới 50tr. Chủ duyệt trên 50tr. Không xuất kho khi chưa có duyệt.','Trong 2 giờ','Tuyệt đối không xuất hàng khi chưa có lệnh duyệt')
-    +step(3,'Thủ kho','#F97316','📤','Xuất hàng & ghi phiếu','Xuất đúng SL, đúng lô, đúng hạn SD. Ghi phiếu xuất kho. Cập nhật CRM trừ tồn.','Theo lịch giao',null);
+  // ── SOP 1: Bán hàng (8 bước) ─────────────────────────────────────────
+  const s1=[
+    {n:1,wh:'Sales',wc:'#6366F1',ic:'🔍',ti:'Tìm kiếm & tiếp cận',tm:'Hàng ngày',
+     de:'Tìm khách qua referral, gọi lạnh, triển lãm, mạng xã hội. Ghi tên + SĐT vào CRM ngay khi có lead.',
+     no:'Không được gọi khách sau 18:00 hoặc trước 8:00'},
+    {n:2,wh:'Sales',wc:'#6366F1',ic:'📝',ti:'Ghi hồ sơ vào CRM',tm:'Trong ngày',
+     de:'Điền đầy đủ: tên cơ sở, loại hình, người liên hệ, SĐT, sản phẩm quan tâm. Ghi ngay sau cuộc gọi đầu tiên.'},
+    {n:3,wh:'Sales/Trưởng nhóm',wc:'#8B5CF6',ic:'💰',ti:'Tạo & gửi báo giá',tm:'Trong 2h làm việc',
+     de:'Tạo BG trong CRM với mã BG-YYYYMMDD-XXX. BG <50tr: Sales tự gửi. BG >50tr: cần Trưởng nhóm duyệt trước.',
+     no:'BG phải ghi rõ ngày hiệu lực, người lập, chiết khấu nếu có'},
+    {n:4,wh:'Sales',wc:'#8B5CF6',ic:'📞',ti:'Follow-up báo giá',tm:'Sau 2 ngày gửi BG',
+     de:'Sau 2 ngày chưa phản hồi: gọi hỏi lại. Sau 5 ngày: cập nhật trạng thái BG trong CRM (accepted/rejected/sent).'},
+    {n:5,wh:'Sales + Thủ kho',wc:'#F97316',ic:'✅',ti:'Chốt đơn & kiểm kho',tm:'Ngay khi khách OK',
+     de:'Khi khách đồng ý: tạo đơn hàng trong CRM. Sales báo Thủ kho kiểm tra tồn thực tế TRƯỚC khi hứa ngày giao.',
+     no:'Không được hứa ngày giao khi chưa xác nhận tồn kho'},
+    {n:6,wh:'Thủ kho',wc:'#F97316',ic:'📦',ti:'Chuẩn bị & xuất hàng',tm:'Theo lịch giao',
+     de:'In phiếu xuất kho từ CRM. Kiểm tra SL, hạn SD, chất lượng trước khi đóng gói. Ghi lại lô hàng xuất.'},
+    {n:7,wh:'Thủ kho + Sales',wc:'#10B981',ic:'🚚',ti:'Giao hàng & xác nhận',tm:'Ngày giao hàng',
+     de:'Giao hàng và lấy chữ ký xác nhận. Sales gửi tin nhắn hỏi thăm sau giao. Cập nhật đơn hàng → "Hoàn thành" trong CRM.'},
+    {n:8,wh:'Sales → Kế toán',wc:'#10B981',ic:'💳',ti:'Thu tiền & cập nhật nợ',tm:'Theo kỳ hạn HĐ',
+     de:'Nhắc khách thanh toán đúng hạn. Khi nhận tiền: ghi vào CRM + báo Kế toán ghi sổ ngay trong ngày.',
+     no:'Không được nhận tiền mặt >20tr mà không báo Kế toán & Chủ trong ngày'},
+  ];
 
-  // SOP 3: Báo cáo
-  const sop3=`<div style="display:grid;gap:14px">
+  // ── SOP 2: Kho ────────────────────────────────────────────────────────
+  const s2n=[
+    {n:1,wh:'Sales/Trưởng nhóm',wc:'#F97316',ic:'📋',ti:'Lập lệnh nhập hàng',tm:'Khi tồn < min stock',
+     de:'Khi tồn kho < mức tối thiểu hoặc có đơn lớn sắp tới: Sales/Trưởng nhóm gửi yêu cầu nhập hàng cho Chủ/Thủ kho.'},
+    {n:2,wh:'Chủ công ty',wc:'#EF4444',ic:'✅',ti:'Phê duyệt đơn nhập',tm:'Trong 4h làm việc',
+     de:'Chủ phê duyệt danh sách hàng, số lượng, nhà cung cấp. Đơn nhập > 20tr cần chữ ký Chủ.'},
+    {n:3,wh:'Thủ kho',wc:'#F97316',ic:'📥',ti:'Nhận & kiểm tra hàng',tm:'Khi hàng về',
+     de:'Đếm SL, kiểm tra hạn SD, kiểm tra CO-CQ nếu có. Ký biên nhận với NCC. Ghi nhập kho vào CRM.',
+     no:'Từ chối nhận hàng không đủ giấy tờ hoặc lỗi/hư hỏng'},
+    {n:4,wh:'Thủ kho',wc:'#10B981',ic:'📊',ti:'Cập nhật tồn & báo cáo',tm:'Ngay sau nhập',
+     de:'Cập nhật CRM ngay sau nhập. Báo cáo tồn kho tổng hợp cho Trưởng nhóm vào mỗi sáng thứ Hai.'},
+  ];
+  const s2x=[
+    {n:1,wh:'Sales',wc:'#6366F1',ic:'🛒',ti:'Có đơn hàng xác nhận',tm:'Khi chốt đơn',
+     de:'Đơn hàng phải được tạo trong CRM với trạng thái "Chờ xử lý" trước khi yêu cầu xuất kho.'},
+    {n:2,wh:'Trưởng nhóm/Chủ',wc:'#EF4444',ic:'🔐',ti:'Duyệt xuất kho',tm:'Trong 2h',
+     de:'Trưởng nhóm duyệt xuất kho dưới 50tr. Chủ duyệt trên 50tr. Không xuất kho khi chưa có duyệt.',
+     no:'Tuyệt đối không xuất hàng khi chưa có lệnh duyệt'},
+    {n:3,wh:'Thủ kho',wc:'#F97316',ic:'📤',ti:'Xuất hàng & ghi phiếu',tm:'Theo lịch giao',
+     de:'Xuất đúng SL, đúng lô, đúng hạn SD. Ghi phiếu xuất kho. Cập nhật CRM trừ tồn.'},
+  ];
+
+  // ── SOP 3: Báo cáo (schedule grid) ───────────────────────────────────
+  const sop3=`<div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:12px">
     ${[
-      ['🌅','8:00 SÁNG MỖI NGÀY','Sales','Trưởng nhóm Sales','#6366F1',
-       '<b>Nội dung báo cáo sáng (qua Zalo/trực tiếp):</b><br>① Hôm nay sẽ gặp/gọi những khách nào<br>② BG nào đang chờ phản hồi cần follow-up<br>③ Có vấn đề gì cần hỗ trợ từ Trưởng nhóm không',
-       'Gửi trễ hơn 8:30 → Trưởng nhóm nhắc nhở lần 1. Lặp lại 3 lần → ghi vào hồ sơ nhân viên.'],
-      ['🌅','8:15 SÁNG MỖI NGÀY','Thủ kho','Trưởng nhóm','#F97316',
-       '<b>Báo cáo tồn kho sáng:</b><br>① Danh sách hàng tồn kho < mức tối thiểu<br>② Hàng sắp hết hạn trong 30 ngày tới<br>③ Tình trạng đơn hàng đang giao trong ngày',null],
-      ['🌇','17:00 CHIỀU MỖI NGÀY','Sales','Trưởng nhóm Sales','#8B5CF6',
-       '<b>Báo cáo kết quả ngày (vào CRM + Zalo):</b><br>① Đã làm gì: gặp mặt, gọi điện, gửi BG, chốt đơn<br>② Kết quả cụ thể: BG được duyệt/từ chối, đơn hàng mới<br>③ Cập nhật CRM trước khi rời văn phòng',
+      ['🌅','8:00 sáng — Mỗi ngày','Sales','Trưởng nhóm Sales','#6366F1',
+       '<b>Báo cáo sáng (Zalo/trực tiếp):</b><br>① Hôm nay sẽ gặp/gọi những khách nào<br>② BG nào đang chờ phản hồi cần follow-up<br>③ Cần hỗ trợ gì từ Trưởng nhóm không',
+       'Gửi trễ hơn 8:30 → nhắc lần 1. Lặp lại 3 lần → ghi vào hồ sơ NV.'],
+      ['🌅','8:15 sáng — Mỗi ngày','Thủ kho','Trưởng nhóm','#F97316',
+       '<b>Báo cáo tồn kho sáng:</b><br>① Hàng tồn kho < mức tối thiểu<br>② Hàng sắp hết hạn trong 30 ngày<br>③ Tình trạng đơn hàng đang giao trong ngày',null],
+      ['🌇','17:00 chiều — Mỗi ngày','Sales','Trưởng nhóm Sales','#8B5CF6',
+       '<b>Báo cáo kết quả ngày (CRM + Zalo):</b><br>① Đã làm gì: gặp mặt, gọi điện, gửi BG, chốt đơn<br>② Kết quả: BG duyệt/từ chối, đơn hàng mới<br>③ Cập nhật CRM trước khi rời VP',
        'Bắt buộc cập nhật CRM cuối ngày. Không cập nhật = chưa hoàn thành công việc.'],
-      ['🌇','17:30 CHIỀU MỖI NGÀY','Trưởng nhóm','Chủ công ty','#EF4444',
-       '<b>Tóm tắt ngày cho Chủ (qua Zalo — ngắn gọn):</b><br>① Doanh số ngày hôm nay (đơn mới + thu tiền)<br>② Vấn đề phát sinh cần Chủ quyết định<br>③ Cần hỗ trợ nguồn lực gì không',null],
-      ['📅','THỨ HAI 8:30 MỖI TUẦN','Tất cả','Họp team (30 phút)','#10B981',
-       '<b>Agenda họp tuần (cố định 30 phút, không trễ):</b><br>① Review KPI tuần qua — ai đạt, ai cần cải thiện<br>② Khó khăn & giải pháp — giải quyết ngay tại chỗ<br>③ Kế hoạch tuần mới — assign nhiệm vụ cụ thể<br>④ Cập nhật sản phẩm mới/giá mới/chính sách mới',null],
-      ['📊','NGÀY 5 HÀNG THÁNG','Kế toán trưởng','Chủ công ty','#10B981',
-       '<b>Báo cáo tài chính tháng:</b><br>① Doanh thu vs Kế hoạch<br>② Chi phí theo từng danh mục<br>③ Lợi nhuận thực tế<br>④ Danh sách công nợ quá hạn<br>⑤ Tồn quỹ cuối tháng',null],
+      ['🌇','17:30 chiều — Mỗi ngày','Trưởng nhóm','Chủ công ty','#EF4444',
+       '<b>Tóm tắt ngày cho Chủ (Zalo, ngắn gọn):</b><br>① Doanh số ngày (đơn mới + thu tiền)<br>② Vấn đề cần Chủ quyết định<br>③ Cần hỗ trợ nguồn lực gì không',null],
+      ['📅','Thứ Hai 8:30 — Mỗi tuần','Tất cả','Họp team (30 phút)','#10B981',
+       '<b>Agenda họp tuần (cố định 30p, không trễ):</b><br>① Review KPI tuần qua — ai đạt, ai cần cải thiện<br>② Khó khăn & giải pháp<br>③ Kế hoạch tuần mới — assign nhiệm vụ<br>④ Cập nhật sản phẩm/giá/chính sách mới',null],
+      ['📊','Ngày 5 hàng tháng','Kế toán trưởng','Chủ công ty','#10B981',
+       '<b>Báo cáo tài chính tháng:</b><br>① Doanh thu vs Kế hoạch<br>② Chi phí theo danh mục<br>③ Lợi nhuận thực tế<br>④ Công nợ quá hạn<br>⑤ Tồn quỹ cuối tháng',null],
     ].map(([ico,time,from,to,col,details,warn])=>`
-      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:16px 18px;border-left:4px solid ${col}">
-        <div style="display:flex;align-items:center;gap:10px;margin-bottom:10px;flex-wrap:wrap">
+      <div style="background:var(--card);border:1px solid var(--border);border-radius:12px;padding:14px 16px;border-left:4px solid ${col}">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px">
           <span style="font-size:18px">${ico}</span>
-          <span style="font-weight:700;font-size:13px;color:${col}">${time}</span>
-          <span style="font-size:12px;color:var(--muted)">${from} → <strong style="color:var(--text)">${to}</strong></span>
+          <div>
+            <div style="font-size:12px;font-weight:700;color:${col}">${time}</div>
+            <div style="font-size:11px;color:var(--muted)">${from} → <strong style="color:var(--text)">${to}</strong></div>
+          </div>
         </div>
-        <div style="font-size:12px;color:var(--text);line-height:1.7">${details}</div>
-        ${warn?`<div style="margin-top:8px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:8px 12px;font-size:11px;color:#991B1B">🚨 ${warn}</div>`:''}
+        <div style="font-size:11px;color:var(--text);line-height:1.7">${details}</div>
+        ${warn?`<div style="margin-top:8px;background:#FEF2F2;border:1px solid #FECACA;border-radius:8px;padding:6px 10px;font-size:10px;color:#991B1B">🚨 ${warn}</div>`:''}
       </div>`).join('')}
   </div>`;
 
-  // SOP 4: Công nợ
-  const sop4=step(1,'Kế toán','#F59E0B','🔔','Phát hiện công nợ','Kế toán đối chiếu đơn hàng vs thanh toán mỗi tuần. Lập danh sách khách quá hạn và gửi cho Sales tương ứng.','Mỗi thứ Hai','Công nợ quá hạn phải được báo ngay trong ngày phát hiện')
-    +step(2,'Sales phụ trách','#F59E0B','📱','15 ngày — Nhắc qua Zalo/điện thoại','Gửi tin nhắn nhẹ nhàng: "Anh/chị ơi, hóa đơn tháng X đến kỳ thanh toán rồi ạ. Mình hỗ trợ gì được không?" Ghi vào follow-up CRM.','Ngày thứ 15','Giọng thân thiện, KHÔNG đề cập số tiền trong tin nhắn lần đầu')
-    +step(3,'Sales + Trưởng nhóm','#EF4444','📞','30 ngày — Gọi điện chính thức + gửi sao kê','Sales gọi điện xác nhận kỳ hạn thanh toán. Gửi email/Zalo kèm sao kê công nợ chính thức. Hỏi nguyên nhân trì hoãn và đề xuất phương án trả dần nếu cần.','Ngày thứ 30',null)
-    +step(4,'Chủ công ty','#DC2626','🚨','45 ngày — Leo thang lên Chủ xử lý','Chủ trực tiếp liên hệ người quyết định tài chính của bên khách. Xem xét tạm ngưng giao hàng đến khi thanh toán. Báo Kế toán lập hồ sơ pháp lý nếu cần.','Ngày thứ 45','Đặc biệt: BV công được cộng thêm 30 ngày (= 75 ngày) do quy trình phê duyệt thanh toán chậm')
-    +`<div style="background:#F0FDF4;border:1px solid #6EE7B7;border-radius:10px;padding:14px 16px;margin-top:4px">
-        <div style="font-size:12px;font-weight:700;color:#065F46;margin-bottom:8px">📌 Phân biệt theo loại khách hàng</div>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;font-size:12px">
-          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #A7F3D0">
-            <div style="font-weight:700;color:#065F46;margin-bottom:4px">🏥 BV Công</div>
-            <div style="color:var(--muted);line-height:1.6">Ngày 15: Nhắc<br>Ngày 45: Gọi<br>Ngày 75: Lên Chủ</div>
-          </div>
-          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #A7F3D0">
-            <div style="font-weight:700;color:#065F46;margin-bottom:4px">🏨 PK Tư nhân</div>
-            <div style="color:var(--muted);line-height:1.6">Ngày 15: Nhắc<br>Ngày 30: Gọi<br>Ngày 45: Lên Chủ</div>
-          </div>
-          <div style="background:#fff;border-radius:8px;padding:10px 12px;border:1px solid #A7F3D0">
-            <div style="font-weight:700;color:#065F46;margin-bottom:4px">💊 NT & PXN</div>
-            <div style="color:var(--muted);line-height:1.6">Ngày 15: Nhắc<br>Ngày 30: Gọi<br>Ngày 45: Lên Chủ</div>
-          </div>
-        </div>
-      </div>`;
+  // ── SOP 4: Công nợ (escalation pipeline) ─────────────────────────────
+  const s4=[
+    {n:1,wh:'Kế toán',wc:'#F59E0B',ic:'🔔',ti:'Phát hiện công nợ',tm:'Mỗi thứ Hai',
+     de:'Kế toán đối chiếu đơn hàng vs thanh toán mỗi tuần. Lập danh sách khách quá hạn và gửi cho Sales tương ứng.',
+     no:'Công nợ quá hạn phải được báo ngay trong ngày phát hiện'},
+    {n:2,wh:'Sales',wc:'#F59E0B',ic:'📱',ti:'Ngày 15 — Nhắc Zalo',tm:'Ngày thứ 15',
+     de:'Gửi tin nhắn nhẹ nhàng: "Anh/chị ơi, hóa đơn tháng X đến kỳ thanh toán rồi ạ. Mình hỗ trợ gì được không?" Ghi vào follow-up CRM.',
+     no:'Giọng thân thiện, KHÔNG đề cập số tiền trong tin nhắn lần đầu'},
+    {n:3,wh:'Sales + Trưởng nhóm',wc:'#EF4444',ic:'📞',ti:'Ngày 30 — Gọi + sao kê',tm:'Ngày thứ 30',
+     de:'Sales gọi điện xác nhận kỳ hạn thanh toán. Gửi email/Zalo kèm sao kê công nợ chính thức. Đề xuất trả dần nếu cần.'},
+    {n:4,wh:'Chủ công ty',wc:'#DC2626',ic:'🚨',ti:'Ngày 45 — Leo thang Chủ',tm:'Ngày thứ 45',
+     de:'Chủ trực tiếp liên hệ người quyết định tài chính. Xem xét tạm ngưng giao hàng. Báo Kế toán lập hồ sơ pháp lý nếu cần.',
+     no:'BV công được cộng thêm 30 ngày (= 75 ngày) do quy trình phê duyệt chậm'},
+  ];
+  const s4extra=`<div style="margin-top:14px;background:#F0FDF4;border:1px solid #6EE7B7;border-radius:10px;padding:14px 16px">
+    <div style="font-size:12px;font-weight:700;color:#065F46;margin-bottom:10px">📌 Phân biệt theo loại khách hàng</div>
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:8px">
+      ${[['🏥 BV Công','Ngày 15: Nhắc','Ngày 45: Gọi','Ngày 75: Lên Chủ'],
+         ['🏨 PK Tư nhân','Ngày 15: Nhắc','Ngày 30: Gọi','Ngày 45: Lên Chủ'],
+         ['💊 NT & PXN','Ngày 15: Nhắc','Ngày 30: Gọi','Ngày 45: Lên Chủ']].map(([t,...rows])=>`
+        <div style="background:#fff;border-radius:8px;padding:10px;border:1px solid #A7F3D0;font-size:11px">
+          <div style="font-weight:700;color:#065F46;margin-bottom:6px">${t}</div>
+          ${rows.map(r=>`<div style="color:var(--muted);line-height:1.8">${r}</div>`).join('')}
+        </div>`).join('')}
+    </div>
+  </div>`;
 
   return`<div id="sop-print-area">
     <div style="text-align:center;margin-bottom:24px">
       <div style="font-size:20px;font-weight:700;color:var(--primary-dark)">QUY TRÌNH LÀM VIỆC — SOP</div>
       <div style="font-size:13px;color:var(--muted);margin-top:4px">Sơn Hương Medical Equipment · Tất cả nhân viên bắt buộc nắm rõ và thực hiện đúng</div>
     </div>
-    ${sopCard('QUY TRÌNH 1: BÁN HÀNG — Từ khách tiềm năng đến thu tiền','🛒','#6366F1',sop1.replace(/<div style="margin-left:18px.*?<\/div>/g,'').replace(/<div style="margin-left:18px[^>]*>[^<]*<\/div>/g,''))}
-    ${sopCard('QUY TRÌNH 2: NHẬP KHO','📦','#F97316','<div style="font-size:13px;font-weight:700;color:var(--muted);margin-bottom:12px;text-transform:uppercase;letter-spacing:.5px">Quy trình nhập kho</div>'+sop2N.replace(/<div style="margin-left:18px.*?<\/div>/g,'')+'<div style="font-size:13px;font-weight:700;color:var(--muted);margin:18px 0 12px;text-transform:uppercase;letter-spacing:.5px;border-top:1px solid var(--border);padding-top:18px">Quy trình xuất kho</div>'+sop2X.replace(/<div style="margin-left:18px.*?<\/div>/g,''))}
+    ${sopCard('QUY TRÌNH 1: BÁN HÀNG — Từ khách tiềm năng đến thu tiền','🛒','#6366F1',strip('#6366F1',s1))}
+    ${sopCard('QUY TRÌNH 2: QUẢN LÝ KHO','📦','#F97316',strip('#F97316',s2n,'⬇️ NHẬP KHO')+'<div style="border-top:1px dashed var(--border);margin:14px 0"></div>'+strip('#F97316',s2x,'⬆️ XUẤT KHO'))}
     ${sopCard('QUY TRÌNH 3: BÁO CÁO — Ai báo cáo gì, lúc mấy giờ','📊','#10B981',sop3)}
-    ${sopCard('QUY TRÌNH 4: XỬ LÝ CÔNG NỢ — Bậc thang leo thang','💰','#EF4444',sop4.replace(/<div style="margin-left:18px.*?<\/div>/g,''))}
+    ${sopCard('QUY TRÌNH 4: XỬ LÝ CÔNG NỢ — Bậc thang leo thang','💰','#EF4444',strip('#F59E0B',s4)+s4extra)}
   </div>`;
 }
 
