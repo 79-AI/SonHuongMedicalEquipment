@@ -339,6 +339,119 @@ textarea.form-control{resize:vertical;min-height:72px}
 .img-opt img{width:100%;height:100%;object-fit:cover;display:block}
 .img-check{position:absolute;top:4px;right:4px;width:18px;height:18px;border-radius:50%;background:var(--primary);color:#fff;display:none;align-items:center;justify-content:center;font-size:10px;font-weight:700}
 .img-opt.sel .img-check{display:flex}
+/* ── BOT BÁO CÁO (Telegram-style) ── */
+.bot-layout{display:grid;grid-template-columns:380px 1fr;gap:18px;height:calc(100vh - 120px)}
+.bot-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.bot-header{padding:14px 18px;background:linear-gradient(135deg,#2AABEE,#229ED9);color:#fff;display:flex;align-items:center;gap:12px;flex-shrink:0}
+.bot-avatar{width:42px;height:42px;border-radius:50%;background:rgba(255,255,255,.2);display:flex;align-items:center;justify-content:center;font-size:22px;flex-shrink:0}
+.bot-info{flex:1}
+.bot-name{font-weight:700;font-size:15px}
+.bot-status{font-size:11px;opacity:.85;display:flex;align-items:center;gap:5px}
+.bot-status::before{content:'';width:6px;height:6px;background:#4ADE80;border-radius:50%;display:inline-block}
+.bot-emp-select{padding:10px 14px;border-bottom:1px solid var(--border);background:var(--bg);flex-shrink:0}
+.bot-emp-select select{width:100%;padding:8px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;font-weight:600;background:var(--card);outline:none;color:var(--text)}
+.bot-emp-select select:focus{border-color:#2AABEE}
+.bot-msgs{flex:1;overflow-y:auto;padding:14px;display:flex;flex-direction:column;gap:10px;background:#EFEAE4;scroll-behavior:smooth}
+.bot-msg{max-width:82%;font-size:13px;line-height:1.5}
+.bot-msg.bot-side{align-self:flex-start}
+.bot-msg.user-side{align-self:flex-end}
+.bot-bubble{padding:9px 13px;border-radius:16px;word-break:break-word;position:relative;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.bot-msg.bot-side .bot-bubble{background:#fff;border-top-left-radius:4px;color:#111}
+.bot-msg.user-side .bot-bubble{background:#DCF8C6;border-bottom-right-radius:4px;color:#111}
+.bot-time{font-size:10px;color:rgba(0,0,0,.4);text-align:right;margin-top:3px;padding-right:2px}
+.bot-msg.user-side .bot-time{color:rgba(0,0,0,.4)}
+.bot-quick-btns{display:flex;flex-wrap:wrap;gap:6px;margin-top:7px}
+.bot-qbtn{padding:6px 13px;background:#fff;border:1.5px solid #2AABEE;border-radius:18px;font-size:12px;font-weight:600;color:#2AABEE;cursor:pointer;transition:all .15s;white-space:nowrap}
+.bot-qbtn:hover{background:#2AABEE;color:#fff}
+.bot-typing-wrap{align-self:flex-start;background:#fff;border-radius:16px;border-top-left-radius:4px;padding:10px 14px;box-shadow:0 1px 2px rgba(0,0,0,.12)}
+.bot-dot{width:8px;height:8px;border-radius:50%;background:#aaa;display:inline-block;animation:botType 1.2s infinite}
+.bot-dot:nth-child(2){animation-delay:.2s}.bot-dot:nth-child(3){animation-delay:.4s}
+@keyframes botType{0%,80%,100%{transform:translateY(0);opacity:.4}40%{transform:translateY(-5px);opacity:1}}
+.bot-input-bar{padding:10px 12px;border-top:1px solid var(--border);display:flex;gap:8px;background:var(--card);flex-shrink:0}
+.bot-inp{flex:1;padding:9px 14px;border:1px solid var(--border);border-radius:22px;font-size:13px;outline:none;background:var(--bg)}
+.bot-inp:focus{border-color:#2AABEE;background:#fff}
+.bot-send-btn{width:38px;height:38px;border-radius:50%;background:#2AABEE;color:#fff;border:none;cursor:pointer;font-size:16px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:background .15s}
+.bot-send-btn:hover{background:#229ED9}
+/* Right panel - report preview */
+.rpt-preview-panel{background:var(--card);border:1px solid var(--border);border-radius:16px;display:flex;flex-direction:column;overflow:hidden}
+.rpt-preview-header{padding:14px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.rpt-preview-body{flex:1;overflow-y:auto;padding:18px}
+.rpt-submitted-list{display:flex;flex-direction:column;gap:10px;margin-bottom:18px}
+.rpt-sub-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border)}
+.rpt-sub-item.done{border-color:var(--green);background:var(--green-lt)}
+.rpt-sub-item.pending{border-color:var(--amber);background:var(--amber-lt)}
+.mini-bar-wrap{display:flex;flex-direction:column;gap:6px;margin:12px 0}
+.mini-bar-row{display:flex;align-items:center;gap:8px;font-size:12px}
+.mini-bar-label{width:90px;font-weight:600;color:var(--text);text-align:right;flex-shrink:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mini-bar-track{flex:1;height:18px;background:var(--border);border-radius:9px;overflow:hidden;position:relative}
+.mini-bar-fill{height:100%;border-radius:9px;background:linear-gradient(90deg,#F97316,#EA580C);transition:width .6s ease;display:flex;align-items:center;padding-left:6px}
+.mini-bar-val{font-size:10px;font-weight:700;color:#fff;white-space:nowrap}
+/* Email modal */
+.email-modal-bg{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:700;align-items:center;justify-content:center;padding:16px}
+.email-modal-bg.open{display:flex}
+.email-modal{background:#fff;border-radius:16px;width:100%;max-width:680px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 12px 48px rgba(0,0,0,.25)}
+.email-modal-head{padding:16px 22px;border-bottom:1px solid #e5e7eb;display:flex;align-items:center;justify-content:space-between;flex-shrink:0}
+.email-modal-body{flex:1;overflow-y:auto}
+.email-modal-foot{padding:12px 22px;border-top:1px solid #e5e7eb;display:flex;gap:10px;justify-content:flex-end;flex-shrink:0}
+@media(max-width:900px){.bot-layout{grid-template-columns:1fr;height:auto}.bot-panel{height:520px}}
+/* ── PLANNING & DAILY REPORT ── */
+.emp-tab-bar{display:flex;gap:4px;padding:6px;background:var(--bg);border-radius:10px;margin-bottom:18px;border:1px solid var(--border)}
+.emp-tab-btn{flex:1;padding:8px 14px;border:none;border-radius:7px;font-size:13px;font-weight:600;cursor:pointer;background:none;color:var(--muted);transition:all .15s;text-align:center}
+.emp-tab-btn.active{background:var(--card);color:var(--primary);box-shadow:0 1px 4px rgba(0,0,0,.1)}
+.plan-date-bar{display:flex;align-items:center;gap:10px;margin-bottom:16px;flex-wrap:wrap}
+.plan-date-bar input[type=date]{padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;background:var(--card);color:var(--text);outline:none}
+.plan-date-bar input[type=date]:focus{border-color:var(--primary)}
+.plan-emp-section{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.plan-emp-header{display:flex;align-items:center;gap:12px;padding:14px 18px;background:var(--bg);border-bottom:1px solid var(--border);cursor:pointer;user-select:none}
+.plan-emp-header:hover{background:var(--primary-light)}
+.plan-emp-name{font-weight:700;font-size:14px;flex:1}
+.plan-emp-pos{font-size:11px;color:var(--muted)}
+.plan-progress-wrap{display:flex;align-items:center;gap:8px;margin-left:auto}
+.plan-prog-text{font-size:11px;font-weight:600;color:var(--primary-dark);white-space:nowrap}
+.task-list{padding:12px 18px;display:flex;flex-direction:column;gap:8px}
+.task-item{display:flex;align-items:center;gap:10px;padding:10px 14px;background:var(--bg);border-radius:10px;border:1px solid var(--border);transition:all .15s}
+.task-item:hover{border-color:var(--primary-border);background:var(--primary-light)}
+.task-item.done{opacity:.6}
+.task-item.done .task-title{text-decoration:line-through;color:var(--muted)}
+.task-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;cursor:pointer;flex-shrink:0;transition:all .15s;font-size:11px}
+.task-check:hover{border-color:var(--primary);background:var(--primary-light)}
+.task-check.done{background:var(--green);border-color:var(--green);color:#fff}
+.task-check.inprog{background:var(--amber);border-color:var(--amber);color:#fff}
+.task-title{font-size:13px;font-weight:600;flex:1}
+.task-type-badge{padding:2px 8px;border-radius:10px;font-size:10px;font-weight:700}
+.task-type-sales{background:#EFF6FF;color:#1E40AF}
+.task-type-kho{background:#F0FDF4;color:#166534}
+.task-type-admin{background:#F5F3FF;color:#5B21B6}
+.task-type-cong-no{background:#FEF3C7;color:#92400E}
+.task-type-khac{background:#F3F4F6;color:#374151}
+.task-priority-high{color:var(--red);font-size:14px}
+.task-priority-med{color:var(--amber);font-size:14px}
+.task-priority-low{color:var(--muted);font-size:14px}
+.task-notes{font-size:11px;color:var(--muted);margin-top:2px}
+.add-task-bar{padding:10px 18px 14px;border-top:1px dashed var(--border)}
+.add-task-inp{display:flex;gap:8px;align-items:center;flex-wrap:wrap}
+.add-task-inp input{flex:1;min-width:160px;padding:7px 12px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--card)}
+.add-task-inp input:focus{border-color:var(--primary)}
+.add-task-inp select{padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:12px;background:var(--card);outline:none}
+/* Report */
+.rpt-emp-card{background:var(--card);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden}
+.rpt-emp-head{display:flex;align-items:center;gap:12px;padding:14px 18px;border-bottom:1px solid var(--border)}
+.rpt-submitted{background:var(--green-lt);color:#065F46;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.rpt-pending{background:var(--amber-lt);color:#92400E;padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+.rpt-form{padding:16px 18px;display:grid;grid-template-columns:repeat(3,1fr);gap:12px}
+.rpt-field{display:flex;flex-direction:column;gap:4px}
+.rpt-field label{font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase}
+.rpt-field input,.rpt-field textarea,.rpt-field select{padding:7px 10px;border:1px solid var(--border);border-radius:8px;font-size:13px;outline:none;background:var(--bg);width:100%}
+.rpt-field input:focus,.rpt-field textarea:focus{border-color:var(--primary);background:#fff}
+.rpt-field.full{grid-column:1/-1}
+.rpt-summary-table{width:100%;border-collapse:collapse;margin-top:16px}
+.rpt-summary-table th{padding:9px 14px;text-align:left;font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;background:var(--bg);border-bottom:1px solid var(--border)}
+.rpt-summary-table td{padding:10px 14px;font-size:13px;border-bottom:1px solid var(--border);vertical-align:middle}
+.rpt-summary-table tr:last-child td{border-bottom:none}
+.rpt-summary-table tr:hover td{background:var(--primary-light)}
+.rpt-num{font-size:18px;font-weight:700;color:var(--primary-dark)}
+.rpt-overview-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:16px}
+@media(max-width:768px){.rpt-form{grid-template-columns:1fr}.rpt-overview-stats{grid-template-columns:repeat(2,1fr)}}
 /* ── THEMES ── */
 body.theme-blue{--primary:#2563EB;--primary-dark:#1D4ED8;--primary-darker:#1E40AF;--primary-light:#EFF6FF;--primary-border:#BFDBFE}
 body.theme-green{--primary:#059669;--primary-dark:#047857;--primary-darker:#065F46;--primary-light:#ECFDF5;--primary-border:#A7F3D0}
@@ -400,6 +513,8 @@ body.density-spacious table thead th,body.density-spacious table tbody td{paddin
 .chat-empty-dm{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted)}
 @media(max-width:768px){.chat-sidebar{width:140px}.chat-dms{display:none}}
 </style>
+<!-- EmailJS SDK -->
+<script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
 </head>
 <body>
 <div class="overlay" id="overlay" onclick="closeSB()"></div>
@@ -439,6 +554,7 @@ body.density-spacious table thead th,body.density-spacious table tbody td{paddin
     <div class="nav-item" data-page="settings" onclick="nav(this)"><span class="ni">⚙️</span> Cài đặt</div>
     <div class="nav-sec">Nội bộ</div>
     <div class="nav-item" data-page="chat" onclick="nav(this)"><span class="ni">💬</span> Chat nội bộ</div>
+    <div class="nav-item" data-page="botreport" onclick="nav(this)"><span class="ni">🤖</span> Bot Báo Cáo</div>
   </nav>
 </aside>
 <main class="main" id="main">
@@ -482,6 +598,7 @@ body.density-spacious table thead th,body.density-spacious table tbody td{paddin
   <div id="contracts" class="page"></div>
   <div id="warranty" class="page"></div>
   <div id="chat" class="page"></div>
+  <div id="botreport" class="page"></div>
 </main>
 
 <!-- Customer Modal -->
@@ -964,6 +1081,13 @@ function load(){
   if(!DB.tenders||!DB.tenders.length)DB.tenders=seedTenders();
   if(!DB.contracts||!DB.contracts.length)DB.contracts=seedContracts();
   if(!DB.warranties||!DB.warranties.length)DB.warranties=seedWarranties();
+  if(!DB.dailyPlans)DB.dailyPlans=[];
+  if(!DB.dailyReports)DB.dailyReports=[];
+  if(!DB.settings.emailRecipients)DB.settings.emailRecipients=['sangpham9114@gmail.com','taipham@theantadventures.com'];
+  if(!DB.settings.emailjsServiceId)DB.settings.emailjsServiceId='';
+  if(!DB.settings.emailjsTemplateId)DB.settings.emailjsTemplateId='';
+  if(!DB.settings.emailjsPublicKey)DB.settings.emailjsPublicKey='';
+  if(!DB.settings.autoSendReport)DB.settings.autoSendReport=false;
   if(DB.hrPin)HR_PIN=DB.hrPin;
   // ── Migrate v3: remove any broken Wikimedia URLs stored in localStorage ──
   let _imgPatched=false;
@@ -1234,8 +1358,8 @@ function toggleSB(){
 function closeSB(){sbOn=false;document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('on');}
 
 // ── Nav ──
-const PM={dashboard:{t:'Dashboard',s:''},customers:{t:'Danh sách khách hàng',s:'CRM'},regions:{t:'Khách hàng theo khu vực',s:'Phân bố địa lý'},products:{t:'Sản phẩm & Vật tư',s:'Danh mục'},quotes:{t:'Báo giá',s:''},orders:{t:'Đơn hàng',s:''},inventory:{t:'Kho hàng',s:'Nhập / Xuất / Tồn'},followup:{t:'Follow-up',s:'Lịch liên hệ'},debt:{t:'Công nợ',s:'Thanh toán'},kpi:{t:'KPI Nhân viên Sales',s:'Hiệu suất bán hàng'},library:{t:'Thư viện kiến thức',s:'Kỹ năng · Chốt đơn · Tình huống · Chiến thuật'},accounting:{t:'Kế toán',s:'Thu Chi · P&L · Ngân sách · Dòng tiền'},employees:{t:'Nhân viên',s:'Hồ sơ · Lương bổng · Thành tích'},company:{t:'Hồ sơ Công ty',s:'Tầm nhìn · Chiến lược · Văn hóa'},settings:{t:'Cài đặt',s:'Hệ thống · Bảo mật · Dữ liệu · Em Tèo'},suppliers:{t:'Nhà cung cấp',s:'Vendor · Giá nhập · Đánh giá'},tenders:{t:'Đấu thầu',s:'Gói thầu · Hồ sơ · Kết quả'},contracts:{t:'Hợp đồng',s:'Hiệu lực · Hết hạn · Gia hạn'},warranty:{t:'Bảo hành & Hậu mãi',s:'Thiết bị · Bảo trì · Hết hạn'},chat:{t:'Chat Nội Bộ',s:'Nhắn tin nội bộ · Demo UI'}};
-const PFN={dashboard:rDash,customers:rCust,regions:rRegions,products:rProd,quotes:rQuotes,orders:rOrders,inventory:rInv,followup:rFU,debt:rDebt,kpi:rKPI,library:rLibrary,accounting:rAccounting,employees:rEmployees,company:rCompany,settings:rSettings,suppliers:rSuppliers,tenders:rTenders,contracts:rContracts,warranty:rWarranty,chat:rChat};
+const PM={dashboard:{t:'Dashboard',s:''},customers:{t:'Danh sách khách hàng',s:'CRM'},regions:{t:'Khách hàng theo khu vực',s:'Phân bố địa lý'},products:{t:'Sản phẩm & Vật tư',s:'Danh mục'},quotes:{t:'Báo giá',s:''},orders:{t:'Đơn hàng',s:''},inventory:{t:'Kho hàng',s:'Nhập / Xuất / Tồn'},followup:{t:'Follow-up',s:'Lịch liên hệ'},debt:{t:'Công nợ',s:'Thanh toán'},kpi:{t:'KPI Nhân viên Sales',s:'Hiệu suất bán hàng'},library:{t:'Thư viện kiến thức',s:'Kỹ năng · Chốt đơn · Tình huống · Chiến thuật'},accounting:{t:'Kế toán',s:'Thu Chi · P&L · Ngân sách · Dòng tiền'},employees:{t:'Nhân viên',s:'Hồ sơ · Lương bổng · Thành tích'},company:{t:'Hồ sơ Công ty',s:'Tầm nhìn · Chiến lược · Văn hóa'},settings:{t:'Cài đặt',s:'Hệ thống · Bảo mật · Dữ liệu · Em Tèo'},suppliers:{t:'Nhà cung cấp',s:'Vendor · Giá nhập · Đánh giá'},tenders:{t:'Đấu thầu',s:'Gói thầu · Hồ sơ · Kết quả'},contracts:{t:'Hợp đồng',s:'Hiệu lực · Hết hạn · Gia hạn'},warranty:{t:'Bảo hành & Hậu mãi',s:'Thiết bị · Bảo trì · Hết hạn'},chat:{t:'Chat Nội Bộ',s:'Nhắn tin nội bộ · Demo UI'},botreport:{t:'🤖 Bot Báo Cáo',s:'Nhân viên chat · Tổng hợp tự động · Email đẹp'}};
+const PFN={dashboard:rDash,customers:rCust,regions:rRegions,products:rProd,quotes:rQuotes,orders:rOrders,inventory:rInv,followup:rFU,debt:rDebt,kpi:rKPI,library:rLibrary,accounting:rAccounting,employees:rEmployees,company:rCompany,settings:rSettings,suppliers:rSuppliers,tenders:rTenders,contracts:rContracts,warranty:rWarranty,chat:rChat,botreport:rBotReport};
 
 function nav(el){
   const p=el.dataset.page;
@@ -3020,7 +3144,11 @@ function changePin(){
 
 // ═══════ EMPLOYEES ═══════
 let empF={s:'',dept:''};
-function rEmployees(){
+let empTab='list';
+function rEmployees(tab){
+  if(tab)empTab=tab;
+  if(empTab==='planning'){rEmpPlanning();return;}
+  if(empTab==='report'){rEmpReport();return;}
   document.getElementById('pg-actions').innerHTML=`<button class="btn btn-primary" onclick="openEmpM()">＋ Thêm nhân viên</button>`;
   const depts=[...new Set(DB.employees.map(e=>e.dept))].sort();
   const list=DB.employees.filter(e=>
@@ -3076,6 +3204,11 @@ function rEmployees(){
   }).join('')||`<div style="text-align:center;padding:48px;color:var(--muted)">Không tìm thấy nhân viên</div>`;
 
   document.getElementById('employees').innerHTML=`
+  <div class="emp-tab-bar">
+    <button class="emp-tab-btn active" onclick="rEmployees('list')">👥 Danh sách</button>
+    <button class="emp-tab-btn" onclick="rEmployees('planning')">📋 Kế hoạch ngày</button>
+    <button class="emp-tab-btn" onclick="rEmployees('report')">📊 Báo cáo ngày</button>
+  </div>
   <div class="stats" style="grid-template-columns:repeat(4,1fr);margin-bottom:18px">
     <div class="stat-card"><div class="stat-icon">👥</div><div class="stat-label">Đang làm việc</div><div class="stat-value">${active}</div><div class="stat-delta">/ ${DB.employees.length} tổng</div></div>
     <div class="stat-card"><div class="stat-icon">🏢</div><div class="stat-label">Phòng ban</div><div class="stat-value">${deptCount}</div><div class="stat-delta">${[...new Set(DB.employees.filter(e=>e.status==='active').map(e=>e.dept))].join(', ').slice(0,30)}</div></div>
@@ -3136,6 +3269,741 @@ function saveEmp(){
   save();closeM('m-emp');salRevealed={};rEmployees();
 }
 function delEmp(id){const e=DB.employees.find(x=>x.id===id);cfm('Xóa nhân viên','Xóa hồ sơ '+e.name+'?',()=>{DB.employees=DB.employees.filter(x=>x.id!==id);save();toast('Đã xóa','info');rEmployees();});}
+
+// ═══════ PLANNING (Kế hoạch ngày) ═══════
+let planDate=td();
+function rEmpPlanning(){
+  document.getElementById('pg-actions').innerHTML=`<button class="btn btn-primary" onclick="rEmployees('list')">← Danh sách NV</button>`;
+  const activeEmps=DB.employees.filter(e=>e.status==='active');
+  const sections=activeEmps.map(e=>{
+    const tasks=(DB.dailyPlans||[]).filter(t=>t.empId===e.id&&t.date===planDate);
+    const done=tasks.filter(t=>t.status==='done').length;
+    const total=tasks.length;
+    const pct=total?Math.round(done/total*100):0;
+    const av=e.name.split(' ').slice(-2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const typeColors={sales:'task-type-sales',kho:'task-type-kho',admin:'task-type-admin','cong-no':'task-type-cong-no',khac:'task-type-khac'};
+    const typeLabels={sales:'Sales',kho:'Kho',admin:'Admin','cong-no':'Công nợ',khac:'Khác'};
+    const priIcons={high:'🔴',med:'🟡',low:'⚪'};
+    const taskRows=tasks.map(t=>`
+      <div class="task-item ${t.status==='done'?'done':''}" id="task-${t.id}">
+        <div class="task-check ${t.status==='done'?'done':t.status==='inprog'?'inprog':''}" onclick="cycleTask('${t.id}','${e.id}')">
+          ${t.status==='done'?'✓':t.status==='inprog'?'→':''}
+        </div>
+        <div style="flex:1;min-width:0">
+          <div class="task-title">${esc(t.title)}</div>
+          ${t.notes?`<div class="task-notes">${esc(t.notes)}</div>`:''}
+        </div>
+        <span class="${typeColors[t.type]||'task-type-khac'} task-type-badge">${typeLabels[t.type]||'Khác'}</span>
+        <span title="${t.priority==='high'?'Ưu tiên cao':t.priority==='med'?'Trung bình':'Thấp'}">${priIcons[t.priority]||'⚪'}</span>
+        <button class="btn-icon btn-sm" onclick="delTask('${t.id}','${e.id}')" title="Xóa task">✕</button>
+      </div>`).join('')||`<div style="color:var(--muted);font-size:13px;padding:8px 0;text-align:center">Chưa có kế hoạch cho ngày này</div>`;
+    return`<div class="plan-emp-section">
+      <div class="plan-emp-header" onclick="togglePlanSection('ps-${e.id}')">
+        <div class="av">${av}</div>
+        <div>
+          <div class="plan-emp-name">${esc(e.name)}</div>
+          <div class="plan-emp-pos">${esc(e.pos)} · ${esc(e.dept)}</div>
+        </div>
+        <div class="plan-progress-wrap">
+          ${total?`<div class="prog" style="width:90px"><div class="prog-fill" style="width:${pct}%"></div></div>
+          <span class="plan-prog-text">${done}/${total} (${pct}%)</span>`:`<span style="font-size:12px;color:var(--muted)">Chưa có task</span>`}
+          <span style="margin-left:8px;color:var(--muted);font-size:14px" id="arr-${e.id}">▼</span>
+        </div>
+      </div>
+      <div id="ps-${e.id}">
+        <div class="task-list">${taskRows}</div>
+        <div class="add-task-bar">
+          <div class="add-task-inp">
+            <input type="text" id="nt-${e.id}" placeholder="Thêm task mới..." onkeydown="if(event.key==='Enter')addTask('${e.id}')">
+            <select id="ntt-${e.id}">
+              <option value="sales">📈 Sales</option>
+              <option value="kho">📦 Kho</option>
+              <option value="admin">📋 Admin</option>
+              <option value="cong-no">💰 Công nợ</option>
+              <option value="khac">📌 Khác</option>
+            </select>
+            <select id="ntp-${e.id}">
+              <option value="med">🟡 Trung bình</option>
+              <option value="high">🔴 Cao</option>
+              <option value="low">⚪ Thấp</option>
+            </select>
+            <button class="btn btn-sm btn-primary" onclick="addTask('${e.id}')">＋ Thêm</button>
+          </div>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+
+  const totalTasksToday=(DB.dailyPlans||[]).filter(t=>t.date===planDate).length;
+  const doneTasksToday=(DB.dailyPlans||[]).filter(t=>t.date===planDate&&t.status==='done').length;
+
+  document.getElementById('employees').innerHTML=`
+  <div class="emp-tab-bar">
+    <button class="emp-tab-btn" onclick="rEmployees('list')">👥 Danh sách</button>
+    <button class="emp-tab-btn active" onclick="rEmployees('planning')">📋 Kế hoạch ngày</button>
+    <button class="emp-tab-btn" onclick="rEmployees('report')">📊 Báo cáo ngày</button>
+  </div>
+  <div class="plan-date-bar">
+    <strong style="font-size:14px">📅 Kế hoạch ngày:</strong>
+    <input type="date" value="${planDate}" onchange="planDate=this.value;rEmpPlanning()">
+    <button class="btn btn-sm btn-ghost" onclick="planDate=td();rEmpPlanning()">Hôm nay</button>
+    <span style="font-size:12px;color:var(--muted);margin-left:auto">${doneTasksToday}/${totalTasksToday} task hoàn thành toàn team</span>
+  </div>
+  ${sections||'<div style="text-align:center;padding:48px;color:var(--muted)">Chưa có nhân viên đang làm việc</div>'}`;
+}
+
+function togglePlanSection(id){
+  const el=document.getElementById(id);
+  const empId=id.replace('ps-','');
+  const arr=document.getElementById('arr-'+empId);
+  if(el.style.display==='none'){el.style.display='';if(arr)arr.textContent='▼';}
+  else{el.style.display='none';if(arr)arr.textContent='▶';}
+}
+
+function addTask(empId){
+  const inp=document.getElementById('nt-'+empId);
+  const title=inp?inp.value.trim():'';
+  if(!title){toast('Nhập tên task','error');return;}
+  const type=document.getElementById('ntt-'+empId).value;
+  const priority=document.getElementById('ntp-'+empId).value;
+  if(!DB.dailyPlans)DB.dailyPlans=[];
+  DB.dailyPlans.push({id:gid(),empId,date:planDate,title,type,priority,status:'pending',notes:'',createdAt:new Date().toISOString()});
+  save();toast('Đã thêm task ✅');rEmpPlanning();
+}
+
+function cycleTask(taskId,empId){
+  const t=DB.dailyPlans.find(x=>x.id===taskId);
+  if(!t)return;
+  const cycle={pending:'inprog',inprog:'done',done:'pending'};
+  t.status=cycle[t.status]||'pending';
+  save();rEmpPlanning();
+}
+
+function delTask(taskId,empId){
+  DB.dailyPlans=DB.dailyPlans.filter(x=>x.id!==taskId);
+  save();toast('Đã xóa task','info');rEmpPlanning();
+}
+
+// ═══════ DAILY REPORT (Báo cáo ngày) ═══════
+let reportDate=td();
+function rEmpReport(){
+  document.getElementById('pg-actions').innerHTML=`
+    <button class="btn btn-ghost" onclick="printDailyReport()">🖨️ In báo cáo</button>
+    <button class="btn btn-primary" onclick="rEmployees('list')">← Danh sách NV</button>`;
+  const activeEmps=DB.employees.filter(e=>e.status==='active');
+  if(!DB.dailyReports)DB.dailyReports=[];
+
+  // Overview stats
+  const todayRpts=DB.dailyReports.filter(r=>r.date===reportDate);
+  const totalOrders=todayRpts.reduce((s,r)=>s+(+r.orders||0),0);
+  const totalQuotes=todayRpts.reduce((s,r)=>s+(+r.quotes||0),0);
+  const totalNew=todayRpts.reduce((s,r)=>s+(+r.newCustomers||0),0);
+  const submitted=todayRpts.length;
+
+  const empCards=activeEmps.map(e=>{
+    const rpt=DB.dailyReports.find(r=>r.empId===e.id&&r.date===reportDate);
+    const av=e.name.split(' ').slice(-2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const tasks=(DB.dailyPlans||[]).filter(t=>t.empId===e.id&&t.date===reportDate);
+    const doneTasks=tasks.filter(t=>t.status==='done').length;
+    if(rpt){
+      return`<div class="rpt-emp-card">
+        <div class="rpt-emp-head">
+          <div class="av">${av}</div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:14px">${esc(e.name)}</div>
+            <div style="font-size:12px;color:var(--muted)">${esc(e.pos)}</div>
+          </div>
+          <span class="rpt-submitted">✅ Đã báo cáo ${rpt.submittedAt?rpt.submittedAt.slice(11,16):''}</span>
+          <button class="btn btn-sm btn-ghost" style="margin-left:8px" onclick="deleteReport('${e.id}')">🗑️</button>
+        </div>
+        <div class="rpt-form">
+          <div class="rpt-field"><label>📦 Đơn hàng</label><div style="font-size:20px;font-weight:700;color:var(--primary-dark)">${rpt.orders||0}</div></div>
+          <div class="rpt-field"><label>📄 Báo giá</label><div style="font-size:20px;font-weight:700;color:var(--blue)">${rpt.quotes||0}</div></div>
+          <div class="rpt-field"><label>🏨 Khách mới</label><div style="font-size:20px;font-weight:700;color:var(--green)">${rpt.newCustomers||0}</div></div>
+          <div class="rpt-field"><label>✅ Task hoàn thành</label><div style="font-size:20px;font-weight:700;color:var(--amber)">${doneTasks}/${tasks.length}</div></div>
+          <div class="rpt-field"><label>💰 Nhắc công nợ</label><div style="font-size:20px;font-weight:700;color:var(--red)">${rpt.debtReminder||0}</div></div>
+          <div class="rpt-field"><label>⭐ Tự đánh giá</label><div style="font-size:20px;font-weight:700">${'⭐'.repeat(+rpt.selfScore||0)}</div></div>
+          ${rpt.highlight?`<div class="rpt-field full"><label>🏆 Kết quả nổi bật</label><div style="font-size:13px;background:var(--green-lt);padding:8px 12px;border-radius:8px;color:#065F46">${esc(rpt.highlight)}</div></div>`:''}
+          ${rpt.issue?`<div class="rpt-field full"><label>⚠️ Vấn đề / Cần hỗ trợ</label><div style="font-size:13px;background:var(--red-lt);padding:8px 12px;border-radius:8px;color:#991B1B">${esc(rpt.issue)}</div></div>`:''}
+          ${rpt.plan?`<div class="rpt-field full"><label>📋 Kế hoạch ngày mai</label><div style="font-size:13px;background:var(--blue-lt);padding:8px 12px;border-radius:8px;color:#1E40AF">${esc(rpt.plan)}</div></div>`:''}
+        </div>
+      </div>`;
+    } else {
+      return`<div class="rpt-emp-card">
+        <div class="rpt-emp-head">
+          <div class="av">${av}</div>
+          <div style="flex:1">
+            <div style="font-weight:700;font-size:14px">${esc(e.name)}</div>
+            <div style="font-size:12px;color:var(--muted)">${esc(e.pos)}</div>
+          </div>
+          <span class="rpt-pending">⏳ Chưa báo cáo</span>
+        </div>
+        <div class="rpt-form" id="rpt-form-${e.id}">
+          <div class="rpt-field"><label>📦 Số đơn hàng</label><input type="number" min="0" id="rf-orders-${e.id}" placeholder="0"></div>
+          <div class="rpt-field"><label>📄 Số báo giá</label><input type="number" min="0" id="rf-quotes-${e.id}" placeholder="0"></div>
+          <div class="rpt-field"><label>🏨 Khách hàng mới</label><input type="number" min="0" id="rf-new-${e.id}" placeholder="0"></div>
+          <div class="rpt-field"><label>💰 Nhắc công nợ (KH)</label><input type="number" min="0" id="rf-debt-${e.id}" placeholder="0"></div>
+          <div class="rpt-field"><label>⭐ Tự đánh giá (1-5)</label>
+            <select id="rf-score-${e.id}">
+              <option value="5">⭐⭐⭐⭐⭐ Xuất sắc</option>
+              <option value="4">⭐⭐⭐⭐ Tốt</option>
+              <option value="3" selected>⭐⭐⭐ Bình thường</option>
+              <option value="2">⭐⭐ Cần cải thiện</option>
+              <option value="1">⭐ Khó khăn</option>
+            </select>
+          </div>
+          <div class="rpt-field"><label>📅 Task hôm nay</label><div style="font-size:14px;font-weight:600;color:var(--muted);padding:7px 0">${doneTasks}/${tasks.length} hoàn thành</div></div>
+          <div class="rpt-field full"><label>🏆 Kết quả nổi bật hôm nay</label><textarea id="rf-hl-${e.id}" placeholder="VD: Chốt được đơn ABC 15tr, gặp BV XYZ..." rows="2"></textarea></div>
+          <div class="rpt-field full"><label>⚠️ Vấn đề / Cần hỗ trợ</label><textarea id="rf-issue-${e.id}" placeholder="VD: Khách A chưa trả nợ, cần hỗ trợ báo giá sản phẩm X..." rows="2"></textarea></div>
+          <div class="rpt-field full"><label>📋 Kế hoạch ngày mai</label><textarea id="rf-plan-${e.id}" placeholder="VD: Gặp PK Hoàn Mỹ, xử lý 3 báo giá tồn..." rows="2"></textarea></div>
+          <div class="rpt-field full" style="align-items:flex-end">
+            <button class="btn btn-primary" onclick="submitReport('${e.id}')">📤 Gửi báo cáo</button>
+          </div>
+        </div>
+      </div>`;
+    }
+  }).join('');
+
+  document.getElementById('employees').innerHTML=`
+  <div class="emp-tab-bar">
+    <button class="emp-tab-btn" onclick="rEmployees('list')">👥 Danh sách</button>
+    <button class="emp-tab-btn" onclick="rEmployees('planning')">📋 Kế hoạch ngày</button>
+    <button class="emp-tab-btn active" onclick="rEmployees('report')">📊 Báo cáo ngày</button>
+  </div>
+  <div class="plan-date-bar">
+    <strong style="font-size:14px">📊 Báo cáo ngày:</strong>
+    <input type="date" value="${reportDate}" onchange="reportDate=this.value;rEmpReport()">
+    <button class="btn btn-sm btn-ghost" onclick="reportDate=td();rEmpReport()">Hôm nay</button>
+  </div>
+  <div class="rpt-overview-stats">
+    <div class="stat-card"><div class="stat-icon">📤</div><div class="stat-label">Đã báo cáo</div><div class="stat-value">${submitted}/${activeEmps.length}</div><div class="stat-delta">${activeEmps.length-submitted>0?`⏳ Còn ${activeEmps.length-submitted} chưa gửi`:'✅ Đủ rồi!'}</div></div>
+    <div class="stat-card"><div class="stat-icon">🛒</div><div class="stat-label">Tổng đơn hàng</div><div class="stat-value">${totalOrders}</div><div class="stat-delta">toàn team hôm nay</div></div>
+    <div class="stat-card"><div class="stat-icon">📄</div><div class="stat-label">Tổng báo giá</div><div class="stat-value">${totalQuotes}</div><div class="stat-delta">toàn team hôm nay</div></div>
+    <div class="stat-card"><div class="stat-icon">🏨</div><div class="stat-label">Khách mới</div><div class="stat-value">${totalNew}</div><div class="stat-delta">toàn team hôm nay</div></div>
+  </div>
+  ${empCards||'<div style="text-align:center;padding:48px;color:var(--muted)">Chưa có nhân viên đang làm việc</div>'}`;
+}
+
+function submitReport(empId){
+  const e=DB.employees.find(x=>x.id===empId);
+  if(!e)return;
+  if(!DB.dailyReports)DB.dailyReports=[];
+  DB.dailyReports=DB.dailyReports.filter(r=>!(r.empId===empId&&r.date===reportDate));
+  const now=new Date().toISOString();
+  DB.dailyReports.push({
+    id:gid(),empId,date:reportDate,
+    orders:+document.getElementById('rf-orders-'+empId).value||0,
+    quotes:+document.getElementById('rf-quotes-'+empId).value||0,
+    newCustomers:+document.getElementById('rf-new-'+empId).value||0,
+    debtReminder:+document.getElementById('rf-debt-'+empId).value||0,
+    selfScore:document.getElementById('rf-score-'+empId).value,
+    highlight:document.getElementById('rf-hl-'+empId).value.trim(),
+    issue:document.getElementById('rf-issue-'+empId).value.trim(),
+    plan:document.getElementById('rf-plan-'+empId).value.trim(),
+    submittedAt:now
+  });
+  save();toast(`✅ ${e.name} đã gửi báo cáo!`);rEmpReport();
+}
+
+function deleteReport(empId){
+  cfm('Xóa báo cáo','Xóa báo cáo của nhân viên này?',()=>{
+    DB.dailyReports=DB.dailyReports.filter(r=>!(r.empId===empId&&r.date===reportDate));
+    save();toast('Đã xóa báo cáo','info');rEmpReport();
+  });
+}
+
+function printDailyReport(){
+  const activeEmps=DB.employees.filter(e=>e.status==='active');
+  const rpts=DB.dailyReports.filter(r=>r.date===reportDate);
+  const dateStr=new Date(reportDate+'T00:00:00').toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+  let html=`<html><head><meta charset="UTF-8"><title>Báo cáo ngày ${reportDate}</title>
+  <style>body{font-family:Arial,sans-serif;padding:20px;color:#111}h1{color:#F97316;font-size:22px;margin-bottom:4px}
+  .sub{color:#888;font-size:13px;margin-bottom:20px}
+  table{width:100%;border-collapse:collapse;margin-bottom:20px}
+  th{background:#FFF7ED;padding:9px 12px;text-align:left;font-size:12px;color:#92400E;border:1px solid #FED7AA}
+  td{padding:9px 12px;border:1px solid #e5e7eb;font-size:13px;vertical-align:top}
+  tr:nth-child(even)td{background:#FAFAFA}
+  .chip{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:700}
+  .done{background:#ECFDF5;color:#065F46}.pend{background:#FFFBEB;color:#92400E}
+  .section{background:#F97316;color:#fff;padding:8px 14px;border-radius:8px;margin:16px 0 8px;font-weight:700;font-size:14px}
+  </style></head><body>
+  <h1>📊 Báo cáo tổng hợp nhân viên</h1>
+  <div class="sub">${dateStr} · In lúc ${new Date().toLocaleTimeString('vi-VN')}</div>
+  <div class="section">📈 Tổng quan toàn team</div>
+  <table><tr><th>Chỉ số</th><th>Số liệu</th></tr>
+  <tr><td>Nhân viên đã báo cáo</td><td><strong>${rpts.length}/${activeEmps.length}</strong></td></tr>
+  <tr><td>Tổng đơn hàng</td><td><strong>${rpts.reduce((s,r)=>s+(+r.orders||0),0)}</strong></td></tr>
+  <tr><td>Tổng báo giá</td><td><strong>${rpts.reduce((s,r)=>s+(+r.quotes||0),0)}</strong></td></tr>
+  <tr><td>Khách hàng mới</td><td><strong>${rpts.reduce((s,r)=>s+(+r.newCustomers||0),0)}</strong></td></tr>
+  </table>
+  <div class="section">👥 Chi tiết từng nhân viên</div>
+  <table><tr><th>Nhân viên</th><th>Đơn hàng</th><th>Báo giá</th><th>KH mới</th><th>Nợ nhắc</th><th>Tự đánh giá</th><th>Trạng thái</th></tr>
+  ${activeEmps.map(e=>{const r=rpts.find(x=>x.empId===e.id);
+  if(r)return`<tr><td><strong>${esc(e.name)}</strong><br><span style="color:#888;font-size:11px">${esc(e.pos)}</span></td><td>${r.orders||0}</td><td>${r.quotes||0}</td><td>${r.newCustomers||0}</td><td>${r.debtReminder||0}</td><td>${'⭐'.repeat(+r.selfScore||0)}</td><td><span class="chip done">✅ Đã báo cáo</span></td></tr>`;
+  return`<tr><td><strong>${esc(e.name)}</strong><br><span style="color:#888;font-size:11px">${esc(e.pos)}</span></td><td>—</td><td>—</td><td>—</td><td>—</td><td>—</td><td><span class="chip pend">⏳ Chưa gửi</span></td></tr>`;
+  }).join('')}
+  </table>
+  ${rpts.filter(r=>r.highlight||r.issue||r.plan).map(r=>{const e=activeEmps.find(x=>x.id===r.empId);return`<div style="border:1px solid #e5e7eb;border-radius:10px;padding:14px;margin-bottom:10px"><strong>${e?e.name:'?'}</strong>${r.highlight?`<p>🏆 <strong>Kết quả:</strong> ${esc(r.highlight)}</p>`:''}${r.issue?`<p>⚠️ <strong>Vấn đề:</strong> ${esc(r.issue)}</p>`:''}${r.plan?`<p>📋 <strong>Ngày mai:</strong> ${esc(r.plan)}</p>`:''}</div>`;}).join('')}
+  </body></html>`;
+  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),500);
+}
+
+// ═══════ BOT BÁO CÁO ═══════
+let botState={step:0,empId:null,data:{},msgs:[],allReports:[]};
+const BOT_FLOW=[
+  {key:'orders',   q:'Hôm nay bạn xử lý được bao nhiêu 📦 đơn hàng?',       type:'number', quick:['0','1','2','3','5','10+']},
+  {key:'quotes',   q:'Bạn gửi / xử lý bao nhiêu 📄 báo giá hôm nay?',       type:'number', quick:['0','1','2','3','5']},
+  {key:'newCustomers',q:'Tiếp cận được bao nhiêu 🏨 khách hàng mới?',        type:'number', quick:['0','1','2','3']},
+  {key:'debtReminder',q:'Nhắc 💰 công nợ cho mấy khách hôm nay?',            type:'number', quick:['0','1','2','3']},
+  {key:'selfScore',q:'Tự đánh giá hôm nay của bạn? (1–5 ⭐)',                type:'score',  quick:['⭐ 1','⭐⭐ 2','⭐⭐⭐ 3','⭐⭐⭐⭐ 4','⭐⭐⭐⭐⭐ 5']},
+  {key:'highlight',q:'Kết quả nổi bật hôm nay là gì? 🏆\n(Nhập "bỏ qua" nếu không có)',type:'text', quick:['Bỏ qua']},
+  {key:'issue',    q:'Có vấn đề gì cần sếp biết không? ⚠️\n(Nhập "không" nếu ổn)',    type:'text', quick:['Không']},
+  {key:'plan',     q:'Kế hoạch ngày mai của bạn là gì? 📋\n(Gõ tóm tắt nhanh)',       type:'text', quick:['Bỏ qua']},
+];
+
+function rBotReport(){
+  if(!DB.dailyReports)DB.dailyReports=[];
+  document.getElementById('pg-actions').innerHTML='';
+  const activeEmps=DB.employees.filter(e=>e.status==='active');
+  const todayRpts=DB.dailyReports.filter(r=>r.date===td());
+  botState.allReports=todayRpts;
+
+  const submittedList=activeEmps.map(e=>{
+    const done=todayRpts.find(r=>r.empId===e.id);
+    const av=e.name.split(' ').slice(-2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    return`<div class="rpt-sub-item ${done?'done':'pending'}">
+      <div class="av av-sm">${av}</div>
+      <div style="flex:1;font-size:13px;font-weight:600">${esc(e.name)}</div>
+      <span style="font-size:12px">${done?'✅ Đã báo cáo':'⏳ Chờ'}</span>
+    </div>`;
+  }).join('');
+
+  // Mini bar chart data
+  const barData=activeEmps.map(e=>{
+    const r=todayRpts.find(x=>x.empId===e.id);
+    return{name:e.name.split(' ').slice(-1)[0],orders:r?(+r.orders||0):0};
+  });
+  const maxOrders=Math.max(1,...barData.map(d=>d.orders));
+  const bars=barData.map(d=>`<div class="mini-bar-row">
+    <div class="mini-bar-label">${esc(d.name)}</div>
+    <div class="mini-bar-track"><div class="mini-bar-fill" style="width:${Math.max(4,Math.round(d.orders/maxOrders*100))}%"><span class="mini-bar-val">${d.orders}</span></div></div>
+  </div>`).join('');
+
+  const totalOrders=todayRpts.reduce((s,r)=>s+(+r.orders||0),0);
+  const totalQuotes=todayRpts.reduce((s,r)=>s+(+r.quotes||0),0);
+  const totalNew=todayRpts.reduce((s,r)=>s+(+r.newCustomers||0),0);
+  const canGenerate=todayRpts.length>0;
+
+  document.getElementById('botreport').innerHTML=`
+  <div class="bot-layout">
+    <!-- LEFT: Chat panel -->
+    <div class="bot-panel">
+      <div class="bot-header">
+        <div class="bot-avatar">🤖</div>
+        <div class="bot-info">
+          <div class="bot-name">MedBot – Bot Báo Cáo</div>
+          <div class="bot-status">Đang hoạt động · Mô phỏng Telegram</div>
+        </div>
+      </div>
+      <div class="bot-emp-select">
+        <select id="bot-emp-sel" onchange="botSelectEmp(this.value)">
+          <option value="">— Chọn nhân viên để báo cáo —</option>
+          ${activeEmps.map(e=>{
+            const done=todayRpts.find(r=>r.empId===e.id);
+            return`<option value="${e.id}" ${done?'disabled':''} ${botState.empId===e.id?'selected':''}>${esc(e.name)} ${done?'✅':''}</option>`;
+          }).join('')}
+        </select>
+      </div>
+      <div class="bot-msgs" id="bot-msgs-wrap">
+        ${botState.msgs.length===0?`<div style="text-align:center;padding:32px 16px;color:#888;font-size:13px">
+          <div style="font-size:36px;margin-bottom:8px">🤖</div>
+          <div style="font-weight:700;margin-bottom:4px">MedBot sẵn sàng!</div>
+          <div>Chọn tên nhân viên ở trên để bắt đầu báo cáo</div>
+        </div>`:renderBotMsgs()}
+      </div>
+      <div class="bot-input-bar">
+        <input class="bot-inp" id="bot-inp" placeholder="Nhập câu trả lời..." onkeydown="if(event.key==='Enter')botSend()" ${botState.step===0||botState.empId===null?'disabled':''}>
+        <button class="bot-send-btn" onclick="botSend()" ${botState.step===0||botState.empId===null?'disabled':''}>➤</button>
+      </div>
+    </div>
+
+    <!-- RIGHT: Report preview -->
+    <div class="rpt-preview-panel">
+      <div class="rpt-preview-header">
+        <div>
+          <div style="font-size:15px;font-weight:700">📊 Tổng hợp hôm nay</div>
+          <div style="font-size:12px;color:var(--muted)">${new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit'})}</div>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm btn-ghost" onclick="rBotReport()">🔄</button>
+          <button class="btn btn-sm btn-ghost" onclick="showEmailPreview()" ${canGenerate?'':'disabled'} style="${canGenerate?'':'opacity:.5;cursor:not-allowed'}">👁 Preview</button>
+          <button class="btn btn-sm btn-primary" onclick="sendReportEmail(true)" ${canGenerate?'':'disabled'} style="${canGenerate?'background:var(--green)':'opacity:.5;cursor:not-allowed'}" title="${canGenerate?'Gửi đến: '+(DB.settings.emailRecipients||[]).join(', '):'Cần ít nhất 1 báo cáo'}">📧 Gửi Email</button>
+        </div>
+      </div>
+      <div class="rpt-preview-body">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:16px">
+          <div class="fin-stat"><div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px">📦 Đơn hàng</div><div class="rpt-num">${totalOrders}</div></div>
+          <div class="fin-stat green"><div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px">📄 Báo giá</div><div class="rpt-num" style="color:var(--green)">${totalQuotes}</div></div>
+          <div class="fin-stat blue"><div style="font-size:11px;font-weight:700;color:var(--muted);text-transform:uppercase;margin-bottom:4px">🏨 KH mới</div><div class="rpt-num" style="color:var(--blue)">${totalNew}</div></div>
+        </div>
+
+        <!-- Email recipients info -->
+        <div style="background:var(--blue-lt);border:1px solid #BFDBFE;border-radius:10px;padding:10px 14px;margin-bottom:14px;font-size:12px">
+          <div style="font-weight:700;color:#1E40AF;margin-bottom:6px">📧 Email báo cáo sẽ gửi đến:</div>
+          ${(DB.settings.emailRecipients||[]).map(em=>`<div style="color:#374151;display:flex;align-items:center;gap:6px;margin-bottom:3px">
+            <span style="color:#10B981">✓</span> ${esc(em)}
+          </div>`).join('')}
+          ${DB.settings.emailjsPublicKey?
+            `<div style="color:#065F46;font-size:11px;margin-top:6px;font-weight:600">✅ EmailJS đã cài đặt — gửi tự động</div>`:
+            `<div style="color:#92400E;font-size:11px;margin-top:6px">⚠️ Chưa cài EmailJS · <a href="#" onclick="nav(document.querySelector('[data-page=settings]'))" style="color:#F97316;font-weight:700">Cài đặt ngay</a></div>`
+          }
+        </div>
+        <div class="card" style="margin-bottom:14px">
+          <div class="card-header"><div class="card-title">📈 Đơn hàng theo nhân viên</div></div>
+          <div style="padding:12px 16px">${bars||'<div style="color:var(--muted);font-size:13px;text-align:center;padding:12px">Chưa có dữ liệu</div>'}</div>
+        </div>
+
+        <div class="card">
+          <div class="card-header"><div class="card-title">📋 Trạng thái báo cáo</div><span style="font-size:12px;color:var(--muted)">${todayRpts.length}/${activeEmps.length} người</span></div>
+          <div style="padding:12px 16px;display:flex;flex-direction:column;gap:8px">${submittedList}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Email preview modal -->
+  <div class="email-modal-bg" id="email-modal-bg" onclick="if(event.target===this)closeEmailModal()">
+    <div class="email-modal">
+      <div class="email-modal-head">
+        <div>
+          <div style="font-weight:700;font-size:15px">📧 Preview Email Báo Cáo</div>
+          <div style="font-size:12px;color:#888">Gửi cho sếp lúc 18:00 hàng ngày</div>
+        </div>
+        <button onclick="closeEmailModal()" style="background:none;border:none;font-size:22px;color:#888;cursor:pointer">✕</button>
+      </div>
+      <div class="email-modal-body" id="email-modal-body"></div>
+      <div class="email-modal-foot">
+        <button class="btn btn-ghost" onclick="closeEmailModal()">Đóng</button>
+        <button class="btn btn-ghost" onclick="copyEmailHtml()">📋 Copy HTML</button>
+        <button class="btn btn-primary" onclick="printEmailReport()">🖨️ In / Download PDF</button>
+      </div>
+    </div>
+  </div>`;
+  scrollBotBottom();
+}
+
+function botSelectEmp(empId){
+  if(!empId)return;
+  const e=DB.employees.find(x=>x.id===empId);
+  if(!e)return;
+  botState={step:1,empId,data:{},msgs:[]};
+  const av=e.name.split(' ').slice(-2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+  botPushMsg('bot',`Xin chào <strong>${esc(e.name)}</strong>! 👋\nMình là <strong>MedBot</strong> — trợ lý báo cáo cuối ngày.\nChỉ mất ~1 phút thôi, bắt đầu nhé! 🚀`);
+  setTimeout(()=>{
+    botPushMsg('bot',BOT_FLOW[0].q,BOT_FLOW[0].quick);
+    document.getElementById('bot-inp').disabled=false;
+    document.getElementById('bot-inp').focus();
+  },700);
+  renderFullBot();
+}
+
+function renderBotMsgs(){
+  return botState.msgs.map(m=>`
+    <div class="bot-msg ${m.role==='bot'?'bot-side':'user-side'}">
+      <div class="bot-bubble">${m.text.replace(/\n/g,'<br>')}</div>
+      ${m.quick?`<div class="bot-quick-btns">${m.quick.map(q=>`<button class="bot-qbtn" onclick="botQuickReply('${q}')">${q}</button>`).join('')}</div>`:''}
+      <div class="bot-time">${m.time}</div>
+    </div>`).join('');
+}
+
+function botPushMsg(role,text,quick=null){
+  const now=new Date().toLocaleTimeString('vi-VN',{hour:'2-digit',minute:'2-digit'});
+  botState.msgs.push({role,text,quick,time:now});
+}
+
+function renderFullBot(){
+  const wrap=document.getElementById('bot-msgs-wrap');
+  if(!wrap)return;
+  wrap.innerHTML=renderBotMsgs();
+  scrollBotBottom();
+}
+
+function scrollBotBottom(){
+  setTimeout(()=>{const w=document.getElementById('bot-msgs-wrap');if(w)w.scrollTop=w.scrollHeight;},50);
+}
+
+function showTyping(){
+  const wrap=document.getElementById('bot-msgs-wrap');
+  if(!wrap)return;
+  const el=document.createElement('div');
+  el.className='bot-msg bot-side';el.id='bot-typing';
+  el.innerHTML=`<div class="bot-typing-wrap"><span class="bot-dot"></span><span class="bot-dot"></span><span class="bot-dot"></span></div>`;
+  wrap.appendChild(el);scrollBotBottom();
+}
+function hideTyping(){const el=document.getElementById('bot-typing');if(el)el.remove();}
+
+function botQuickReply(val){
+  const inp=document.getElementById('bot-inp');
+  if(inp)inp.value=val;
+  botSend();
+}
+
+function botSend(){
+  const inp=document.getElementById('bot-inp');
+  const raw=(inp?inp.value.trim():'');
+  if(!raw||botState.step===0||!botState.empId)return;
+  inp.value='';
+  const step=botState.step-1;
+  const flow=BOT_FLOW[step];
+  let val=raw;
+  if(flow.type==='number'){val=parseInt(raw.replace(/[^0-9]/g,''))||0;}
+  if(flow.type==='score'){val=parseInt(raw.replace(/[^0-9]/g,''))||3;if(val<1)val=1;if(val>5)val=5;}
+  if(flow.type==='text'&&(raw.toLowerCase()==='bỏ qua'||raw.toLowerCase()==='bo qua'||raw.toLowerCase()==='không'||raw.toLowerCase()==='khong'))val='';
+  botState.data[flow.key]=val;
+
+  // User bubble
+  botPushMsg('user',esc(raw));
+  renderFullBot();
+  showTyping();
+
+  setTimeout(()=>{
+    hideTyping();
+    botState.step++;
+    if(botState.step-1<BOT_FLOW.length){
+      const next=BOT_FLOW[botState.step-1];
+      botPushMsg('bot',next.q,next.quick);
+      renderFullBot();
+    } else {
+      // Done — save report
+      botFinish();
+    }
+  },600+Math.random()*300);
+}
+
+function botFinish(){
+  const e=DB.employees.find(x=>x.id===botState.empId);
+  if(!DB.dailyReports)DB.dailyReports=[];
+  DB.dailyReports=DB.dailyReports.filter(r=>!(r.empId===botState.empId&&r.date===td()));
+  DB.dailyReports.push({
+    id:gid(),empId:botState.empId,date:td(),
+    orders:+botState.data.orders||0,
+    quotes:+botState.data.quotes||0,
+    newCustomers:+botState.data.newCustomers||0,
+    debtReminder:+botState.data.debtReminder||0,
+    selfScore:botState.data.selfScore||3,
+    highlight:botState.data.highlight||'',
+    issue:botState.data.issue||'',
+    plan:botState.data.plan||'',
+    submittedAt:new Date().toISOString()
+  });
+  save();
+  const score=+botState.data.selfScore||3;
+  const _activeCount=DB.employees.filter(x=>x.status==='active').length;
+  const _reportedCount=DB.dailyReports.filter(r=>r.date===td()).length;
+  const _allDone=_activeCount===_reportedCount;
+  const _remaining=_activeCount-_reportedCount;
+  botPushMsg('bot',`✅ <strong>Cảm ơn ${e?e.name:'bạn'}!</strong> Báo cáo đã được lưu.\n\n📊 Tóm tắt của bạn:\n• Đơn hàng: <strong>${botState.data.orders||0}</strong>\n• Báo giá: <strong>${botState.data.quotes||0}</strong>\n• Khách mới: <strong>${botState.data.newCustomers||0}</strong>\n• Tự đánh giá: <strong>${'⭐'.repeat(score)}</strong>\n\n${_allDone?'🎉 <strong>Toàn team đã báo cáo đủ!</strong>\n📧 Đang gửi email tổng hợp đến sếp...':`⏳ Còn <strong>${_remaining} người</strong> chưa báo cáo. Chờ các bạn khác nốt nhé 💪`}`);
+  botState.step=0;botState.empId=null;
+  // Auto-send email khi đủ người
+  if(_allDone&&DB.settings.autoSendReport){
+    setTimeout(()=>sendReportEmail(true),1500);
+  }
+  renderFullBot();
+  const inp=document.getElementById('bot-inp');if(inp)inp.disabled=true;
+  // Refresh right panel
+  setTimeout(rBotReport,800);
+}
+
+function showEmailPreview(){
+  const html=generateEmailHtml();
+  const modal=document.getElementById('email-modal-bg');
+  const body=document.getElementById('email-modal-body');
+  if(!modal||!body)return;
+  body.innerHTML=`<iframe id="email-iframe" style="width:100%;height:520px;border:none" srcdoc="${html.replace(/"/g,'&quot;')}"></iframe>`;
+  modal.classList.add('open');
+}
+function closeEmailModal(){document.getElementById('email-modal-bg').classList.remove('open');}
+
+function copyEmailHtml(){
+  const html=generateEmailHtml();
+  navigator.clipboard.writeText(html).then(()=>toast('Đã copy HTML ✅')).catch(()=>toast('Copy thất bại','error'));
+}
+function printEmailReport(){
+  const html=generateEmailHtml();
+  const w=window.open('','_blank');w.document.write(html);w.document.close();setTimeout(()=>w.print(),600);
+}
+
+// ── EMAIL SENDER ──
+function initEmailJS(){
+  const pk=DB.settings.emailjsPublicKey;
+  if(pk&&typeof emailjs!=='undefined'){
+    try{emailjs.init({publicKey:pk});return true;}catch(e){return false;}
+  }
+  return false;
+}
+
+async function sendReportEmail(showToast=true){
+  const html=generateEmailHtml();
+  const recipients=(DB.settings.emailRecipients||[]).filter(e=>e&&e.includes('@'));
+  const dateStr=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+  const activeEmps=DB.employees.filter(e=>e.status==='active');
+  const todayRpts=DB.dailyReports.filter(r=>r.date===td());
+  const totalOrders=todayRpts.reduce((s,r)=>s+(+r.orders||0),0);
+  const totalQuotes=todayRpts.reduce((s,r)=>s+(+r.quotes||0),0);
+  const totalNew=todayRpts.reduce((s,r)=>s+(+r.newCustomers||0),0);
+
+  // EmailJS configured → send real email
+  const ejsOk=DB.settings.emailjsServiceId&&DB.settings.emailjsTemplateId&&DB.settings.emailjsPublicKey;
+  if(ejsOk&&typeof emailjs!=='undefined'){
+    initEmailJS();
+    const subject=`📊 Báo cáo nhân viên – ${dateStr}`;
+    let sentCount=0,failCount=0;
+    if(showToast)toast('📧 Đang gửi email...','info');
+    for(const to of recipients){
+      try{
+        await emailjs.send(DB.settings.emailjsServiceId,DB.settings.emailjsTemplateId,{
+          to_email:to,
+          to_name:to.includes('sangpham')?'Sếp Sang':'Sếp Tai',
+          subject,
+          report_date:dateStr,
+          submitted:`${todayRpts.length}/${activeEmps.length}`,
+          total_orders:totalOrders,
+          total_quotes:totalQuotes,
+          total_new:totalNew,
+          html_body:html
+        });
+        sentCount++;
+      }catch(err){console.error('EmailJS error:',err);failCount++;}
+    }
+    if(showToast){
+      if(sentCount>0&&failCount===0)toast(`✅ Đã gửi email đến ${sentCount} người nhận!`);
+      else if(sentCount>0)toast(`⚠️ Gửi ${sentCount}/${recipients.length} thành công`,'info');
+      else toast('❌ Gửi email thất bại — kiểm tra lại EmailJS config','error');
+    }
+    return sentCount>0;
+  }
+
+  // Fallback → mailto (mở app email)
+  if(showToast)toast('⚠️ Chưa cài EmailJS — đang mở app email...','info');
+  const subject=encodeURIComponent(`📊 Báo cáo nhân viên – ${dateStr}`);
+  const body=encodeURIComponent(`Xem file HTML đính kèm hoặc copy từ CRM.\n\nTóm tắt:\n• Đã báo cáo: ${todayRpts.length}/${activeEmps.length}\n• Tổng đơn: ${totalOrders}\n• Tổng báo giá: ${totalQuotes}\n• Khách mới: ${totalNew}`);
+  const toList=recipients.join(',');
+  window.location.href=`mailto:${toList}?subject=${subject}&body=${body}`;
+  return false;
+}
+
+function generateEmailHtml(){
+  const activeEmps=DB.employees.filter(e=>e.status==='active');
+  const todayRpts=DB.dailyReports.filter(r=>r.date===td());
+  const dateStr=new Date().toLocaleDateString('vi-VN',{weekday:'long',day:'2-digit',month:'2-digit',year:'numeric'});
+  const totalOrders=todayRpts.reduce((s,r)=>s+(+r.orders||0),0);
+  const totalQuotes=todayRpts.reduce((s,r)=>s+(+r.quotes||0),0);
+  const totalNew=todayRpts.reduce((s,r)=>s+(+r.newCustomers||0),0);
+  const totalDebt=todayRpts.reduce((s,r)=>s+(+r.debtReminder||0),0);
+  const submitted=todayRpts.length;
+  const avgScore=submitted?Math.round(todayRpts.reduce((s,r)=>s+(+r.selfScore||3),0)/submitted):0;
+
+  const empRows=activeEmps.map(e=>{
+    const r=todayRpts.find(x=>x.empId===e.id);
+    const av=e.name.split(' ').slice(-2).map(w=>w[0]).join('').toUpperCase().slice(0,2);
+    const bg=r?'#fff':'#FFF8F0';
+    if(r)return`<tr style="background:${bg}"><td style="padding:12px 14px;border-bottom:1px solid #f0f0f0"><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:#FFF7ED;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#C2410C;flex-shrink:0">${av}</div><div><div style="font-weight:700;font-size:13px">${esc(e.name)}</div><div style="font-size:11px;color:#888">${esc(e.pos)}</div></div></div></td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;font-weight:700;font-size:16px;color:#F97316">${r.orders||0}</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;font-weight:700;font-size:16px;color:#3B82F6">${r.quotes||0}</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;font-weight:700;font-size:16px;color:#10B981">${r.newCustomers||0}</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0">${'⭐'.repeat(+r.selfScore||0)}</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="background:#ECFDF5;color:#065F46;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700">✅ Đã báo cáo</span></td></tr>`;
+    return`<tr style="background:${bg}"><td style="padding:12px 14px;border-bottom:1px solid #f0f0f0"><div style="display:flex;align-items:center;gap:10px"><div style="width:34px;height:34px;border-radius:50%;background:#FEF2F2;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#991B1B;flex-shrink:0">${av}</div><div><div style="font-weight:700;font-size:13px">${esc(e.name)}</div><div style="font-size:11px;color:#888">${esc(e.pos)}</div></div></div></td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;color:#ccc">—</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;color:#ccc">—</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;color:#ccc">—</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0;color:#ccc">—</td><td style="padding:12px 14px;text-align:center;border-bottom:1px solid #f0f0f0"><span style="background:#FFFBEB;color:#92400E;padding:3px 10px;border-radius:20px;font-size:11px;font-weight:700">⏳ Chưa gửi</span></td></tr>`;
+  }).join('');
+
+  // Bar chart CSS (pure HTML/CSS, no canvas)
+  const maxO=Math.max(1,...activeEmps.map(e=>{const r=todayRpts.find(x=>x.empId===e.id);return r?+r.orders||0:0;}));
+  const chartBars=activeEmps.map(e=>{
+    const r=todayRpts.find(x=>x.empId===e.id);
+    const val=r?+r.orders||0:0;
+    const pct=Math.round(val/maxO*100);
+    const name=e.name.split(' ').slice(-1)[0];
+    return`<td style="text-align:center;padding:0 6px;vertical-align:bottom;width:${Math.floor(100/activeEmps.length)}%">
+      <div style="font-size:12px;font-weight:700;color:#F97316;margin-bottom:4px">${val}</div>
+      <div style="height:${Math.max(4,Math.round(pct*0.8))}px;background:linear-gradient(180deg,#F97316,#EA580C);border-radius:4px 4px 0 0;min-height:4px"></div>
+      <div style="font-size:10px;color:#888;margin-top:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">${name}</div>
+    </td>`;
+  }).join('');
+
+  const highlights=todayRpts.filter(r=>r.highlight).map(r=>{const e=activeEmps.find(x=>x.empId===r.id)||activeEmps.find(x=>x.id===r.empId);return`<div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0"><div style="color:#F97316;font-size:18px;flex-shrink:0">🏆</div><div><div style="font-weight:700;font-size:13px;margin-bottom:2px">${e?esc(e.name):'?'}</div><div style="font-size:13px;color:#374151">${esc(r.highlight)}</div></div></div>`;}).join('');
+  const issues=todayRpts.filter(r=>r.issue).map(r=>{const e=activeEmps.find(x=>x.id===r.empId);return`<div style="display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #f0f0f0"><div style="color:#EF4444;font-size:18px;flex-shrink:0">⚠️</div><div><div style="font-weight:700;font-size:13px;margin-bottom:2px">${e?esc(e.name):'?'}</div><div style="font-size:13px;color:#374151">${esc(r.issue)}</div></div></div>`;}).join('');
+
+  return`<!DOCTYPE html><html lang="vi"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Báo cáo nhân viên ${dateStr}</title></head>
+<body style="margin:0;padding:0;background:#F4F4F4;font-family:Arial,Helvetica,sans-serif">
+<table width="100%" cellpadding="0" cellspacing="0" style="background:#F4F4F4;padding:24px 0">
+<tr><td align="center">
+<table width="620" cellpadding="0" cellspacing="0" style="background:#fff;border-radius:16px;overflow:hidden;box-shadow:0 4px 24px rgba(0,0,0,.10)">
+  <!-- HEADER -->
+  <tr><td style="background:linear-gradient(135deg,#F97316 0%,#C2410C 100%);padding:28px 32px">
+    <table width="100%"><tr>
+      <td><div style="color:#fff;font-size:22px;font-weight:700;margin-bottom:4px">📊 Báo cáo nhân viên</div>
+        <div style="color:rgba(255,255,255,.85);font-size:14px">${dateStr}</div></td>
+      <td align="right"><div style="background:rgba(255,255,255,.15);border-radius:12px;padding:12px 18px;text-align:center">
+        <div style="color:#fff;font-size:28px;font-weight:700">${submitted}/${activeEmps.length}</div>
+        <div style="color:rgba(255,255,255,.85);font-size:11px;text-transform:uppercase;letter-spacing:1px">Đã báo cáo</div>
+      </div></td>
+    </tr></table>
+  </td></tr>
+  <!-- KPI STATS -->
+  <tr><td style="padding:24px 32px 0">
+    <table width="100%" cellpadding="0" cellspacing="0"><tr>
+      <td width="25%" style="padding:0 6px 0 0"><div style="background:#FFF7ED;border-radius:12px;padding:16px;text-align:center;border-top:3px solid #F97316">
+        <div style="font-size:28px;font-weight:700;color:#F97316">${totalOrders}</div>
+        <div style="font-size:11px;color:#92400E;font-weight:700;text-transform:uppercase;margin-top:4px">📦 Đơn hàng</div>
+      </div></td>
+      <td width="25%" style="padding:0 6px"><div style="background:#EFF6FF;border-radius:12px;padding:16px;text-align:center;border-top:3px solid #3B82F6">
+        <div style="font-size:28px;font-weight:700;color:#3B82F6">${totalQuotes}</div>
+        <div style="font-size:11px;color:#1E40AF;font-weight:700;text-transform:uppercase;margin-top:4px">📄 Báo giá</div>
+      </div></td>
+      <td width="25%" style="padding:0 6px"><div style="background:#ECFDF5;border-radius:12px;padding:16px;text-align:center;border-top:3px solid #10B981">
+        <div style="font-size:28px;font-weight:700;color:#10B981">${totalNew}</div>
+        <div style="font-size:11px;color:#065F46;font-weight:700;text-transform:uppercase;margin-top:4px">🏨 KH mới</div>
+      </div></td>
+      <td width="25%" style="padding:0 0 0 6px"><div style="background:#F5F3FF;border-radius:12px;padding:16px;text-align:center;border-top:3px solid #7C3AED">
+        <div style="font-size:28px;font-weight:700;color:#7C3AED">${'⭐'.repeat(avgScore)}</div>
+        <div style="font-size:11px;color:#5B21B6;font-weight:700;text-transform:uppercase;margin-top:4px">Đánh giá TB</div>
+      </div></td>
+    </tr></table>
+  </td></tr>
+  <!-- BAR CHART -->
+  <tr><td style="padding:24px 32px 0">
+    <div style="font-size:14px;font-weight:700;color:#111;margin-bottom:16px;border-left:4px solid #F97316;padding-left:10px">📈 Đơn hàng theo nhân viên</div>
+    <div style="background:#F9FAFB;border-radius:12px;padding:16px">
+      <table width="100%" style="border-collapse:collapse">
+        <tr style="vertical-align:bottom;height:80px">${chartBars}</tr>
+      </table>
+    </div>
+  </td></tr>
+  <!-- EMPLOYEE TABLE -->
+  <tr><td style="padding:24px 32px 0">
+    <div style="font-size:14px;font-weight:700;color:#111;margin-bottom:12px;border-left:4px solid #F97316;padding-left:10px">👥 Chi tiết nhân viên</div>
+    <table width="100%" style="border-collapse:collapse;border-radius:12px;overflow:hidden;border:1px solid #f0f0f0">
+      <tr style="background:#F9FAFB"><th style="padding:10px 14px;text-align:left;font-size:11px;color:#888;font-weight:700;text-transform:uppercase">Nhân viên</th><th style="padding:10px 14px;text-align:center;font-size:11px;color:#888;font-weight:700">Đơn</th><th style="padding:10px 14px;text-align:center;font-size:11px;color:#888;font-weight:700">Báo giá</th><th style="padding:10px 14px;text-align:center;font-size:11px;color:#888;font-weight:700">KH mới</th><th style="padding:10px 14px;text-align:center;font-size:11px;color:#888;font-weight:700">Đánh giá</th><th style="padding:10px 14px;text-align:center;font-size:11px;color:#888;font-weight:700">Trạng thái</th></tr>
+      ${empRows}
+    </table>
+  </td></tr>
+  <!-- HIGHLIGHTS -->
+  ${highlights?`<tr><td style="padding:24px 32px 0">
+    <div style="font-size:14px;font-weight:700;color:#111;margin-bottom:12px;border-left:4px solid #10B981;padding-left:10px">🏆 Kết quả nổi bật</div>
+    <div style="background:#F0FDF4;border-radius:12px;padding:4px 16px">${highlights}</div>
+  </td></tr>`:''}
+  <!-- ISSUES -->
+  ${issues?`<tr><td style="padding:20px 32px 0">
+    <div style="font-size:14px;font-weight:700;color:#111;margin-bottom:12px;border-left:4px solid #EF4444;padding-left:10px">⚠️ Vấn đề cần xử lý</div>
+    <div style="background:#FEF2F2;border-radius:12px;padding:4px 16px">${issues}</div>
+  </td></tr>`:''}
+  <!-- FOOTER -->
+  <tr><td style="padding:28px 32px">
+    <div style="background:#F9FAFB;border-radius:12px;padding:16px 20px;text-align:center">
+      <div style="font-size:12px;color:#888">📧 Email tự động từ <strong>MedBot</strong> · Sơn Hương Medical Equipment</div>
+      <div style="font-size:11px;color:#aaa;margin-top:4px">Được tạo lúc ${new Date().toLocaleTimeString('vi-VN')} · ${dateStr}</div>
+    </div>
+  </td></tr>
+</table>
+</td></tr>
+</table>
+</body></html>`;
+}
 
 // ═══════ ACCOUNTING ═══════
 let finTab='transactions',finMonth='';
@@ -3953,7 +4821,7 @@ function delLib(id){
 let settTab='general';
 function rSettings(){
   document.getElementById('pg-actions').innerHTML='';
-  const tabs=[{v:'general',l:'⚙️ Chung'},{v:'security',l:'🔒 Bảo mật'},{v:'data',l:'🗄️ Dữ liệu'},{v:'chatbot',l:'🤖 Em Tèo'},{v:'appearance',l:'🎨 Giao diện'}];
+  const tabs=[{v:'general',l:'⚙️ Chung'},{v:'email',l:'📧 Email Báo Cáo'},{v:'security',l:'🔒 Bảo mật'},{v:'data',l:'🗄️ Dữ liệu'},{v:'chatbot',l:'🤖 Em Tèo'},{v:'appearance',l:'🎨 Giao diện'}];
   const tabBar=`<div class="tab-bar" style="margin-bottom:20px">${tabs.map(t=>`<button class="tab-btn${settTab===t.v?' active':''}" onclick="settTab='${t.v}';rSettings()">${t.l}</button>`).join('')}</div>`;
   let body='';
   if(settTab==='general'){
@@ -3978,6 +4846,83 @@ function rSettings(){
       <div class="set-row">
         <div><div class="set-label">Chatbot Em Tèo</div><div class="set-sub">Hiển thị nút chat tư vấn ở góc phải màn hình</div></div>
         <label class="toggle"><input type="checkbox" ${(DB.settings||{}).showTeo!==false?'checked':''} onchange="saveSetting('showTeo',this.checked);toggleTeoBtn()"><span class="toggle-slider"></span></label>
+      </div>
+    </div>`;
+  }else if(settTab==='email'){
+    const recips=(DB.settings.emailRecipients||[]).join('\n');
+    const ejsOk=DB.settings.emailjsPublicKey&&DB.settings.emailjsServiceId&&DB.settings.emailjsTemplateId;
+    body=`
+    <!-- Status banner -->
+    <div style="background:${ejsOk?'var(--green-lt)':'var(--amber-lt)'};border:1px solid ${ejsOk?'#A7F3D0':'#FCD34D'};border-radius:12px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;gap:12px">
+      <div style="font-size:24px">${ejsOk?'✅':'⚠️'}</div>
+      <div>
+        <div style="font-weight:700;font-size:14px;color:${ejsOk?'#065F46':'#92400E'}">${ejsOk?'EmailJS đã cài đặt — Gửi email tự động hoạt động!':'Chưa cài đặt EmailJS — Cần 5 phút để kích hoạt'}</div>
+        <div style="font-size:12px;color:${ejsOk?'#047857':'#B45309'};margin-top:2px">${ejsOk?'Email báo cáo sẽ tự gửi khi toàn team submit xong':'Hướng dẫn: emailjs.com → tạo account → copy 3 mã bên dưới'}</div>
+      </div>
+    </div>
+
+    <!-- Recipients -->
+    <div class="set-card">
+      <h3>📬 Người nhận báo cáo</h3>
+      <div class="form-group" style="margin-bottom:14px">
+        <label>Địa chỉ email nhận báo cáo (mỗi dòng 1 email)</label>
+        <textarea class="form-control" id="set-email-recips" rows="3" placeholder="sangpham9114@gmail.com&#10;taipham@theantadventures.com">${esc(recips)}</textarea>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Email sẽ được gửi đến tất cả địa chỉ này sau khi toàn team báo cáo</div>
+      </div>
+      <div class="set-row">
+        <div><div class="set-label">🤖 Tự động gửi khi đủ người báo cáo</div><div class="set-sub">Khi nhân viên cuối cùng submit → email tự gửi ngay</div></div>
+        <label class="toggle"><input type="checkbox" id="set-auto-send" ${DB.settings.autoSendReport?'checked':''}><span class="toggle-slider"></span></label>
+      </div>
+      <div style="margin-top:14px;display:flex;gap:10px">
+        <button class="btn btn-primary" onclick="saveEmailSettings()">💾 Lưu cài đặt</button>
+        <button class="btn btn-ghost" onclick="testSendEmail()" ${ejsOk?'':'disabled'} style="${ejsOk?'':'opacity:.5'}" title="${ejsOk?'':'Cần cài đặt EmailJS trước'}">📧 Gửi email test</button>
+      </div>
+    </div>
+
+    <!-- EmailJS Setup -->
+    <div class="set-card">
+      <h3>⚡ Cài đặt EmailJS <span style="font-size:12px;font-weight:400;color:var(--muted)">(miễn phí · 200 email/tháng)</span></h3>
+
+      <!-- Step guide -->
+      <div style="background:var(--blue-lt);border-radius:10px;padding:14px 16px;margin-bottom:18px;font-size:13px;color:#1E40AF">
+        <div style="font-weight:700;margin-bottom:8px">📋 Hướng dẫn setup (5 phút):</div>
+        <div style="display:flex;flex-direction:column;gap:6px">
+          <div style="display:flex;gap:8px"><span style="background:#3B82F6;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">1</span><span>Vào <a href="https://www.emailjs.com" target="_blank" style="color:#F97316;font-weight:700">emailjs.com</a> → Tạo tài khoản miễn phí</span></div>
+          <div style="display:flex;gap:8px"><span style="background:#3B82F6;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">2</span><span><strong>Email Services</strong> → Add New Service → Chọn Gmail → Connect</span></div>
+          <div style="display:flex;gap:8px"><span style="background:#3B82F6;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">3</span><span><strong>Email Templates</strong> → Create Template → Đặt tên "bao_cao_nv" → Trong body paste: <code style="background:#fff;padding:2px 6px;border-radius:4px;font-size:11px">{{{html_body}}}</code></span></div>
+          <div style="display:flex;gap:8px"><span style="background:#3B82F6;color:#fff;border-radius:50%;width:20px;height:20px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0">4</span><span>Copy <strong>Service ID, Template ID, Public Key</strong> vào 3 ô bên dưới</span></div>
+        </div>
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:14px">
+        <div class="form-group">
+          <label>Service ID <span style="color:var(--red)">*</span></label>
+          <input class="form-control" id="set-ejs-svc" value="${esc(DB.settings.emailjsServiceId||'')}" placeholder="service_xxxxxxx">
+          <div style="font-size:11px;color:var(--muted);margin-top:3px">Email Services → Service ID</div>
+        </div>
+        <div class="form-group">
+          <label>Template ID <span style="color:var(--red)">*</span></label>
+          <input class="form-control" id="set-ejs-tpl" value="${esc(DB.settings.emailjsTemplateId||'')}" placeholder="template_xxxxxxx">
+          <div style="font-size:11px;color:var(--muted);margin-top:3px">Email Templates → Template ID</div>
+        </div>
+        <div class="form-group full" style="grid-column:1/-1">
+          <label>Public Key <span style="color:var(--red)">*</span></label>
+          <input class="form-control" id="set-ejs-pk" value="${esc(DB.settings.emailjsPublicKey||'')}" placeholder="xxxxxxxxxxxxxxxxxxxxxx" type="password">
+          <div style="font-size:11px;color:var(--muted);margin-top:3px">Account → General → Public Key</div>
+        </div>
+      </div>
+      <button class="btn btn-primary" onclick="saveEmailSettings()">💾 Lưu & Kích hoạt</button>
+    </div>
+
+    <!-- Template guide -->
+    <div class="set-card">
+      <h3>📄 Template EmailJS cần cài</h3>
+      <div style="font-size:13px;color:var(--muted);margin-bottom:10px">Copy đoạn này vào phần <strong>Body</strong> của EmailJS Template:</div>
+      <div style="background:#1E293B;border-radius:10px;padding:14px 16px;font-family:monospace;font-size:12px;color:#94A3B8;position:relative">
+        <div style="color:#7DD3FC">To:</div><div style="color:#A3E635;margin-bottom:8px">{{to_email}}</div>
+        <div style="color:#7DD3FC">Subject:</div><div style="color:#A3E635;margin-bottom:8px">{{subject}}</div>
+        <div style="color:#7DD3FC">Body (HTML):</div><div style="color:#FDE68A">{{{html_body}}}</div>
+        <button onclick="navigator.clipboard.writeText('To: {{to_email}}\nSubject: {{subject}}\n\n{{{html_body}}}').then(()=>toast('Đã copy ✅'))" style="position:absolute;top:10px;right:10px;background:rgba(255,255,255,.1);border:none;color:#94A3B8;padding:4px 10px;border-radius:6px;cursor:pointer;font-size:11px">📋 Copy</button>
       </div>
     </div>`;
   }else if(settTab==='security'){
@@ -4111,6 +5056,34 @@ function saveSetPin(){
 function saveSetting(key,val){
   if(!DB.settings)DB.settings={};
   DB.settings[key]=val;save();
+}
+
+function saveEmailSettings(){
+  // Recipients
+  const raw=(document.getElementById('set-email-recips')||{}).value||'';
+  const recips=raw.split('\n').map(s=>s.trim()).filter(s=>s&&s.includes('@'));
+  if(recips.length===0){toast('Nhập ít nhất 1 email hợp lệ','error');return;}
+  DB.settings.emailRecipients=recips;
+  // Auto send toggle
+  const autoEl=document.getElementById('set-auto-send');
+  DB.settings.autoSendReport=autoEl?autoEl.checked:false;
+  // EmailJS keys
+  const svc=(document.getElementById('set-ejs-svc')||{}).value||'';
+  const tpl=(document.getElementById('set-ejs-tpl')||{}).value||'';
+  const pk=(document.getElementById('set-ejs-pk')||{}).value||'';
+  DB.settings.emailjsServiceId=svc.trim();
+  DB.settings.emailjsTemplateId=tpl.trim();
+  DB.settings.emailjsPublicKey=pk.trim();
+  save();
+  toast('✅ Đã lưu cài đặt email!');
+  setTimeout(rSettings,300);
+}
+
+async function testSendEmail(){
+  toast('📧 Đang gửi email test...','info');
+  const ok=await sendReportEmail(false);
+  if(ok)toast('✅ Email test gửi thành công! Kiểm tra hộp thư.');
+  else toast('❌ Gửi thất bại — kiểm tra lại Service ID / Template ID / Public Key','error');
 }
 function toggleTeoBtn(){
   const show=(DB.settings||{}).showTeo!==false;
