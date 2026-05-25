@@ -281,6 +281,66 @@ textarea.form-control{resize:vertical;min-height:72px}
 .teo-send:hover{background:var(--primary-dark)}
 #teo-badge{position:absolute;top:-3px;right:-3px;background:var(--red);color:#fff;font-size:9px;font-weight:700;width:17px;height:17px;border-radius:50%;display:none;align-items:center;justify-content:center;border:2px solid #fff}
 @media(max-width:768px){#teo-win{width:calc(100vw - 32px);right:16px;bottom:82px;height:470px}#teo-btn{bottom:16px;right:16px}}
+/* ── THEMES ── */
+body.theme-blue{--primary:#2563EB;--primary-dark:#1D4ED8;--primary-darker:#1E40AF;--primary-light:#EFF6FF;--primary-border:#BFDBFE}
+body.theme-green{--primary:#059669;--primary-dark:#047857;--primary-darker:#065F46;--primary-light:#ECFDF5;--primary-border:#A7F3D0}
+body.theme-purple{--primary:#7C3AED;--primary-dark:#6D28D9;--primary-darker:#5B21B6;--primary-light:#F5F3FF;--primary-border:#DDD6FE}
+body.theme-teal{--primary:#0891B2;--primary-dark:#0E7490;--primary-darker:#155E75;--primary-light:#ECFEFF;--primary-border:#A5F3FC}
+body.theme-dark{--primary:#F97316;--primary-dark:#EA580C;--primary-darker:#C2410C;--primary-light:#431407;--primary-border:#9A3412;--bg:#111827;--card:#1F2937;--text:#F9FAFB;--muted:#9CA3AF;--border:#374151;--shadow:0 1px 4px rgba(0,0,0,.4)}
+body.theme-dark tbody tr:hover{background:#374151}
+body.density-compact .card-header{padding:10px 14px}
+body.density-compact .fu-item{padding:9px 14px}
+body.density-compact .main{padding:16px}
+body.density-compact table thead th,body.density-compact table tbody td{padding:7px 10px}
+body.density-spacious .card-header{padding:18px 22px}
+body.density-spacious .fu-item{padding:16px 22px}
+body.density-spacious .main{padding:32px}
+body.density-spacious table thead th,body.density-spacious table tbody td{padding:14px 18px}
+/* ── INTERNAL CHAT ── */
+#chat.active{display:flex!important;flex-direction:row;overflow:hidden;padding:0!important;height:calc(100vh - 116px)}
+.chat-sidebar{width:196px;flex-shrink:0;background:var(--card);border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;border-radius:14px 0 0 14px}
+.chat-sidebar-head{padding:13px 16px;font-weight:700;font-size:13px;color:var(--primary);border-bottom:1px solid var(--border);flex-shrink:0}
+.chat-channels{flex:1;overflow-y:auto;padding:6px 0}
+.chat-ch{padding:7px 14px;cursor:pointer;font-size:13px;color:var(--text);transition:.15s;display:flex;align-items:center;gap:6px}
+.chat-ch:hover{background:var(--primary-light)}
+.chat-ch.active{background:var(--primary);color:#fff;font-weight:600}
+.chat-ch-badge{margin-left:auto;background:var(--red);color:#fff;font-size:9px;font-weight:700;min-width:16px;height:16px;border-radius:8px;display:flex;align-items:center;justify-content:center;padding:0 4px}
+.chat-ch.active .chat-ch-badge{background:rgba(255,255,255,.3)}
+.chat-dms{border-top:1px solid var(--border);padding:6px 0}
+.chat-dm-head{padding:5px 14px;font-size:10px;font-weight:700;color:var(--muted);text-transform:uppercase;letter-spacing:.5px}
+.chat-dm{padding:6px 14px;cursor:pointer;font-size:13px;color:var(--text);display:flex;align-items:center;gap:7px;transition:.15s}
+.chat-dm:hover{background:var(--primary-light)}
+.chat-dm.active{background:var(--primary);color:#fff}
+.chat-dm-av{width:22px;height:22px;border-radius:50%;color:#fff;font-size:9px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.chat-online{width:7px;height:7px;border-radius:50%;background:var(--green);flex-shrink:0;margin-left:auto}
+.chat-main{flex:1;display:flex;flex-direction:column;overflow:hidden;min-width:0;background:var(--card);border-radius:0 14px 14px 0;border:1px solid var(--border);border-left:none}
+.chat-header{padding:12px 18px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.chat-header-name{font-weight:700;font-size:15px}
+.chat-header-desc{font-size:11px;color:var(--muted);margin-left:auto}
+.chat-demo-banner{background:linear-gradient(135deg,#FFFBEB,#FEF3C7);border-bottom:1px solid #FDE68A;padding:7px 18px;font-size:12px;color:#92400E;display:flex;align-items:center;gap:6px;flex-shrink:0}
+.chat-msgs{flex:1;overflow-y:auto;padding:14px 18px;display:flex;flex-direction:column;gap:1px}
+.chat-msg{display:flex;gap:10px;padding:4px 6px;border-radius:8px;position:relative}
+.chat-msg:hover{background:var(--primary-light)}
+.chat-msg-av{width:34px;height:34px;border-radius:8px;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+.chat-msg-body{flex:1;min-width:0}
+.chat-msg-meta{display:flex;align-items:center;gap:8px;margin-bottom:2px}
+.chat-msg-name{font-weight:700;font-size:13px}
+.chat-msg-time{font-size:11px;color:var(--muted)}
+.chat-msg-text{font-size:13px;line-height:1.6;color:var(--text);word-break:break-word}
+.chat-msg-reactions{display:flex;gap:4px;margin-top:4px;flex-wrap:wrap}
+.chat-reaction{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:2px 7px;font-size:12px;cursor:pointer;transition:.15s;display:inline-flex;align-items:center;gap:3px}
+.chat-reaction:hover,.chat-reaction.active{border-color:var(--primary);background:var(--primary-light)}
+.chat-typing{font-size:12px;color:var(--muted);padding:4px 18px;font-style:italic;min-height:22px;flex-shrink:0}
+.chat-foot{padding:10px 18px;border-top:1px solid var(--border);flex-shrink:0}
+.chat-input-wrap{display:flex;align-items:center;gap:8px;background:var(--bg);border:1.5px solid var(--border);border-radius:10px;padding:7px 12px;transition:.15s}
+.chat-input-wrap:focus-within{border-color:var(--primary)}
+.chat-input{flex:1;border:none;background:transparent;font-size:13px;outline:none;color:var(--text)}
+.chat-send-btn{width:30px;height:30px;border-radius:7px;background:var(--primary);color:#fff;border:none;cursor:pointer;font-size:13px;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:.15s}
+.chat-send-btn:hover{background:var(--primary-dark)}
+.chat-emoji-btn{background:none;border:none;cursor:pointer;font-size:17px;padding:2px;color:var(--muted);transition:.15s}
+.chat-emoji-btn:hover{color:var(--primary)}
+.chat-empty-dm{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;color:var(--muted)}
+@media(max-width:768px){.chat-sidebar{width:140px}.chat-dms{display:none}}
 </style>
 </head>
 <body>
@@ -314,6 +374,8 @@ textarea.form-control{resize:vertical;min-height:72px}
     <div class="nav-item" data-page="employees" onclick="nav(this)"><span class="ni">👥</span> Nhân viên <span class="badge" id="badge-emp">0</span></div>
     <div class="nav-item" data-page="company" onclick="nav(this)"><span class="ni">🏢</span> Công ty</div>
     <div class="nav-item" data-page="settings" onclick="nav(this)"><span class="ni">⚙️</span> Cài đặt</div>
+    <div class="nav-sec">Nội bộ</div>
+    <div class="nav-item" data-page="chat" onclick="nav(this)"><span class="ni">💬</span> Chat nội bộ</div>
   </nav>
 </aside>
 <main class="main" id="main">
@@ -343,6 +405,7 @@ textarea.form-control{resize:vertical;min-height:72px}
   <div id="employees" class="page"></div>
   <div id="company" class="page"></div>
   <div id="settings" class="page"></div>
+  <div id="chat" class="page"></div>
 </main>
 
 <!-- Customer Modal -->
@@ -631,7 +694,7 @@ textarea.form-control{resize:vertical;min-height:72px}
 
 <script>
 const SK='medcrm_v4';
-let DB={customers:[],products:[],quotes:[],orders:[],inventory:[],followups:[],payments:[],employees:[],finance:[],library:[],company:null};
+let DB={customers:[],products:[],quotes:[],orders:[],inventory:[],followups:[],payments:[],employees:[],finance:[],library:[],company:null,messages:{},settings:{}};
 let HR_PIN='admin';
 
 function save(){localStorage.setItem(SK,JSON.stringify(DB));badges();}
@@ -644,6 +707,8 @@ function load(){
   if(!DB.company)DB.company=seedCompany();
   if(!DB.employees)DB.employees=[];
   if(!DB.finance)DB.finance=[];
+  if(!DB.messages)DB.messages={};
+  if(!DB.settings)DB.settings={};
   if(DB.hrPin)HR_PIN=DB.hrPin;
 }
 
@@ -910,8 +975,8 @@ function toggleSB(){
 function closeSB(){sbOn=false;document.getElementById('sidebar').classList.remove('open');document.getElementById('overlay').classList.remove('on');}
 
 // ── Nav ──
-const PM={dashboard:{t:'Dashboard',s:''},customers:{t:'Danh sách khách hàng',s:'CRM'},regions:{t:'Khách hàng theo khu vực',s:'Phân bố địa lý'},products:{t:'Sản phẩm & Vật tư',s:'Danh mục'},quotes:{t:'Báo giá',s:''},orders:{t:'Đơn hàng',s:''},inventory:{t:'Kho hàng',s:'Nhập / Xuất / Tồn'},followup:{t:'Follow-up',s:'Lịch liên hệ'},debt:{t:'Công nợ',s:'Thanh toán'},kpi:{t:'KPI Nhân viên Sales',s:'Hiệu suất bán hàng'},library:{t:'Thư viện kiến thức',s:'Kỹ năng · Chốt đơn · Tình huống · Chiến thuật'},accounting:{t:'Kế toán',s:'Thu Chi · P&L · Ngân sách · Dòng tiền'},employees:{t:'Nhân viên',s:'Hồ sơ · Lương bổng · Thành tích'},company:{t:'Hồ sơ Công ty',s:'Tầm nhìn · Chiến lược · Văn hóa'},settings:{t:'Cài đặt',s:'Hệ thống · Bảo mật · Dữ liệu · Em Tèo'}};
-const PFN={dashboard:rDash,customers:rCust,regions:rRegions,products:rProd,quotes:rQuotes,orders:rOrders,inventory:rInv,followup:rFU,debt:rDebt,kpi:rKPI,library:rLibrary,accounting:rAccounting,employees:rEmployees,company:rCompany,settings:rSettings};
+const PM={dashboard:{t:'Dashboard',s:''},customers:{t:'Danh sách khách hàng',s:'CRM'},regions:{t:'Khách hàng theo khu vực',s:'Phân bố địa lý'},products:{t:'Sản phẩm & Vật tư',s:'Danh mục'},quotes:{t:'Báo giá',s:''},orders:{t:'Đơn hàng',s:''},inventory:{t:'Kho hàng',s:'Nhập / Xuất / Tồn'},followup:{t:'Follow-up',s:'Lịch liên hệ'},debt:{t:'Công nợ',s:'Thanh toán'},kpi:{t:'KPI Nhân viên Sales',s:'Hiệu suất bán hàng'},library:{t:'Thư viện kiến thức',s:'Kỹ năng · Chốt đơn · Tình huống · Chiến thuật'},accounting:{t:'Kế toán',s:'Thu Chi · P&L · Ngân sách · Dòng tiền'},employees:{t:'Nhân viên',s:'Hồ sơ · Lương bổng · Thành tích'},company:{t:'Hồ sơ Công ty',s:'Tầm nhìn · Chiến lược · Văn hóa'},settings:{t:'Cài đặt',s:'Hệ thống · Bảo mật · Dữ liệu · Em Tèo'},chat:{t:'Chat Nội Bộ',s:'Nhắn tin nội bộ · Demo UI'}};
+const PFN={dashboard:rDash,customers:rCust,regions:rRegions,products:rProd,quotes:rQuotes,orders:rOrders,inventory:rInv,followup:rFU,debt:rDebt,kpi:rKPI,library:rLibrary,accounting:rAccounting,employees:rEmployees,company:rCompany,settings:rSettings,chat:rChat};
 
 function nav(el){
   const p=el.dataset.page;
@@ -3546,7 +3611,7 @@ function delLib(id){
 let settTab='general';
 function rSettings(){
   document.getElementById('pg-actions').innerHTML='';
-  const tabs=[{v:'general',l:'⚙️ Chung'},{v:'security',l:'🔒 Bảo mật'},{v:'data',l:'🗄️ Dữ liệu'},{v:'chatbot',l:'🤖 Em Tèo'}];
+  const tabs=[{v:'general',l:'⚙️ Chung'},{v:'security',l:'🔒 Bảo mật'},{v:'data',l:'🗄️ Dữ liệu'},{v:'chatbot',l:'🤖 Em Tèo'},{v:'appearance',l:'🎨 Giao diện'}];
   const tabBar=`<div class="tab-bar" style="margin-bottom:20px">${tabs.map(t=>`<button class="tab-btn${settTab===t.v?' active':''}" onclick="settTab='${t.v}';rSettings()">${t.l}</button>`).join('')}</div>`;
   let body='';
   if(settTab==='general'){
@@ -3624,7 +3689,7 @@ function rSettings(){
         <button class="btn btn-ghost btn-sm" onclick="cfm('Reset dữ liệu demo','Xoá dữ liệu hiện tại và nạp lại bộ dữ liệu demo?',()=>{localStorage.removeItem(SK);location.reload();})">🔄 Reset demo</button>
       </div>
     </div>`;
-  }else{
+  }else if(settTab==='chatbot'){
     body=`
     <div class="set-card">
       <h3>🤖 Giới thiệu Em Tèo</h3>
@@ -3647,6 +3712,34 @@ function rSettings(){
       </div>
       <div style="margin-top:18px;text-align:center">
         <button class="btn btn-primary" onclick="if((DB.settings||{}).showTeo===false){saveSetting('showTeo',true);toggleTeoBtn();}document.querySelector('[data-page=dashboard]').click();setTimeout(toggleTeo,200)">💬 Mở chat với Em Tèo ngay</button>
+      </div>
+    </div>`;
+  }else if(settTab==='appearance'){
+    const ct=(DB.settings||{}).theme||'orange';
+    const cd=(DB.settings||{}).density||'comfortable';
+    const themeList=[['orange','Cam (Mặc định)','#F97316','Màu cam năng động — mặc định'],['blue','Xanh dương','#2563EB','Chuyên nghiệp, tin cậy'],['green','Xanh lá','#059669','Tươi mát, y tế'],['purple','Tím hiện đại','#7C3AED','Sáng tạo, hiện đại'],['teal','Teal y tế','#0891B2','Sạch sẽ, lâm sàng'],['dark','Dark Mode','#374151','Nền tối, giảm mỏi mắt']];
+    const densityList=[['compact','🗜️ Compact','Thu gọn — hiển thị nhiều hơn'],['comfortable','✅ Comfortable','Cân bằng — mặc định'],['spacious','🌿 Spacious','Thoáng hơn — dễ đọc']];
+    body=`
+    <div class="set-card">
+      <h3>🎨 Màu chủ đề</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Chọn màu chủ đề áp dụng cho toàn bộ giao diện CRM</p>
+      <div style="display:flex;flex-wrap:wrap;gap:10px">
+        ${themeList.map(([k,name,color,desc])=>`<div onclick="saveTheme('${k}')" style="cursor:pointer;padding:12px 16px;border-radius:12px;border:2px solid ${ct===k?'var(--primary)':'var(--border)'};background:${ct===k?'var(--primary-light)':'var(--bg)'};display:flex;align-items:center;gap:10px;min-width:170px;transition:.2s">
+          <div style="width:26px;height:26px;border-radius:50%;background:${color};flex-shrink:0"></div>
+          <div style="flex:1"><div style="font-weight:600;font-size:13px">${name}</div><div style="font-size:11px;color:var(--muted)">${desc}</div></div>
+          ${ct===k?'<span style="color:var(--primary);font-size:16px">✓</span>':''}
+        </div>`).join('')}
+      </div>
+    </div>
+    <div class="set-card">
+      <h3>📐 Mật độ hiển thị</h3>
+      <p style="font-size:13px;color:var(--muted);margin-bottom:16px">Điều chỉnh khoảng cách và kích thước phần tử trong bảng</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap">
+        ${densityList.map(([k,label,desc])=>`<div onclick="saveDensity('${k}')" style="cursor:pointer;padding:14px 20px;border-radius:12px;border:2px solid ${cd===k?'var(--primary)':'var(--border)'};background:${cd===k?'var(--primary-light)':'var(--bg)'};flex:1;min-width:150px;transition:.2s">
+          <div style="font-weight:700;font-size:14px;margin-bottom:4px">${label}</div>
+          <div style="font-size:12px;color:var(--muted)">${desc}</div>
+          ${cd===k?'<div style="margin-top:8px;color:var(--primary);font-size:12px;font-weight:600">✓ Đang dùng</div>':''}
+        </div>`).join('')}
       </div>
     </div>`;
   }
@@ -3825,6 +3918,182 @@ function teoRespond(msg){
   }
 }
 
+// ═══════ THEME & APPEARANCE ═══════
+const THEMES={orange:{name:'Cam',color:'#F97316',cls:''},blue:{name:'Xanh dương',color:'#2563EB',cls:'theme-blue'},green:{name:'Xanh lá',color:'#059669',cls:'theme-green'},purple:{name:'Tím',color:'#7C3AED',cls:'theme-purple'},teal:{name:'Teal',color:'#0891B2',cls:'theme-teal'},dark:{name:'Dark',color:'#374151',cls:'theme-dark'}};
+function applyTheme(k){
+  const key=k||(DB.settings&&DB.settings.theme)||'orange';
+  ['theme-blue','theme-green','theme-purple','theme-teal','theme-dark'].forEach(c=>document.body.classList.remove(c));
+  if(THEMES[key]&&THEMES[key].cls)document.body.classList.add(THEMES[key].cls);
+}
+function applyDensity(k){
+  const key=k||(DB.settings&&DB.settings.density)||'comfortable';
+  document.body.classList.remove('density-compact','density-spacious');
+  if(key==='compact')document.body.classList.add('density-compact');
+  else if(key==='spacious')document.body.classList.add('density-spacious');
+}
+function saveTheme(k){if(!DB.settings)DB.settings={};DB.settings.theme=k;save();applyTheme(k);rSettings();}
+function saveDensity(k){if(!DB.settings)DB.settings={};DB.settings.density=k;save();applyDensity(k);rSettings();}
+
+// ═══════ CHAT NỘI BỘ (DEMO) ═══════
+const CHAT_CH=[
+  {id:'chung',name:'chung',desc:'Tin nhắn chung của cả công ty',unread:2},
+  {id:'kinh-doanh',name:'kinh-doanh',desc:'Team sales · Báo giá · Chốt đơn',unread:0},
+  {id:'kho',name:'kho',desc:'Nhập xuất · Tồn kho · Hết hàng',unread:1},
+  {id:'ke-toan',name:'ke-toan',desc:'Thu chi · Công nợ · Thanh toán',unread:0},
+  {id:'thong-bao',name:'thông-báo',desc:'Thông báo từ ban lãnh đạo',unread:0}
+];
+const CHAT_USERS={
+  me:{name:'Nguyễn Quản Lý',color:'#F97316'},
+  tu:{name:'Trần Văn Tú',color:'#2563EB'},
+  huong:{name:'Lê Thị Hương',color:'#059669'},
+  kho:{name:'Nguyễn Minh Khoa',color:'#7C3AED'},
+  ke:{name:'Phạm Thị Kế',color:'#0891B2'}
+};
+let chatCh='chung',chatDM=null;
+function seedChatMsgs(){
+  const now=Date.now();
+  const d=(h,m)=>now-h*3600000-m*60000;
+  return {
+    chung:[
+      {id:1,uid:'huong',text:'Chào cả nhà! Sáng thứ Hai rồi, hôm nay cố lên nha! 💪',time:d(48,0),reactions:{}},
+      {id:2,uid:'tu',text:'Mọi người ơi, BV Bình Dân hỏi về kit xét nghiệm COVID rapid test. Mình có hàng không nhỉ?',time:d(47,30),reactions:{}},
+      {id:3,uid:'kho',text:'Còn 200 hộp trong kho anh Tú ơi. Hạn dùng tháng 8/2026. Mình gởi báo giá nhé.',time:d(47,15),reactions:{'👍':['tu']}},
+      {id:4,uid:'tu',text:'Ok cảm ơn anh Khoa! Để em gởi báo giá cho BV luôn 🎯',time:d(47,0),reactions:{}},
+      {id:5,uid:'me',text:'Team mình tháng này đang dẫn đầu doanh thu trong quý rồi nhé! Giữ vững phong độ 🏆',time:d(24,0),reactions:{'🔥':['tu','huong','kho'],'👏':['ke']}},
+      {id:6,uid:'huong',text:'Hôm qua em chốt được PK Nhi Đồng, 15 triệu đơn hàng găng tay & khẩu trang 😊',time:d(8,0),reactions:{'🎉':['tu','me']}},
+      {id:7,uid:'ke',text:'Em nhắc anh chị là cuối tháng cần thu công nợ từ 5 khách trước ngày 30 nhé. Xem trong phần Công nợ.',time:d(2,0),reactions:{}},
+      {id:8,uid:'tu',text:'Copy chị Kế 👍 Em sẽ follow up hôm nay',time:d(1,45),reactions:{}}
+    ],
+    'kinh-doanh':[
+      {id:1,uid:'me',text:'📌 Mục tiêu tháng 5: Doanh thu 800 triệu. Hiện đang ở 620 triệu. Team cần thêm 180 triệu trong 2 tuần còn lại!',time:d(72,0),reactions:{'💪':['tu','huong']}},
+      {id:2,uid:'tu',text:'Em đang theo BV Chợ Rẫy — gói vật tư phòng mổ 120 triệu. Họ đang so sánh giá với 2 bên khác.',time:d(50,0),reactions:{}},
+      {id:3,uid:'huong',text:'BV Chợ Rẫy cần chứng chỉ CE và ISO không anh Tú? Mình có đủ hồ sơ đó.',time:d(49,45),reactions:{}},
+      {id:4,uid:'tu',text:'Cần chị ơi! Chị gởi file vào đây đi để em download.',time:d(49,30),reactions:{}},
+      {id:5,uid:'huong',text:'Em vừa update báo giá cho PK Tân Bình rồi. Chờ phản hồi cuối tuần.',time:d(24,0),reactions:{}}
+    ],
+    kho:[
+      {id:1,uid:'kho',text:'⚠️ CẢNH BÁO: Kim luồn tĩnh mạch size 22G còn 50 hộp. Dưới ngưỡng tối thiểu. Cần đặt hàng gấp!',time:d(30,0),reactions:{'⚠️':['me']}},
+      {id:2,uid:'me',text:'Liên hệ nhà cung cấp ngay nhé anh Khoa. Đặt tối thiểu 300 hộp.',time:d(29,45),reactions:{'👍':['kho']}},
+      {id:3,uid:'kho',text:'Sáng nay nhập thêm: 500 hộp găng tay nitrile size M, 200 hộp khẩu trang y tế 3 lớp. Đã cập nhật tồn kho.',time:d(6,0),reactions:{}},
+      {id:4,uid:'ke',text:'Anh Khoa ơi, xuất hóa đơn lô hàng vừa nhập chưa? Kế toán cần trước 5h chiều.',time:d(4,0),reactions:{}},
+      {id:5,uid:'kho',text:'Xong rồi chị Kế ơi. Em đã gởi bill qua email. ✅',time:d(3,30),reactions:{'✅':['ke']}}
+    ],
+    'ke-toan':[
+      {id:1,uid:'ke',text:'📊 Báo cáo tuần: Thu 245 triệu, Chi 87 triệu. Công nợ chưa thu: 380 triệu từ 8 khách.',time:d(48,0),reactions:{}},
+      {id:2,uid:'me',text:'Khách nào nợ nhiều nhất chị Kế?',time:d(47,45),reactions:{}},
+      {id:3,uid:'ke',text:'BV Thống Nhất: 95 triệu (quá hạn 15 ngày). PK Hoàng Gia: 62 triệu (quá hạn 7 ngày). Đã gởi reminder email.',time:d(47,30),reactions:{}},
+      {id:4,uid:'tu',text:'BV Thống Nhất em biết. Để em gọi trực tiếp cho chị phụ trách tài vụ.',time:d(47,15),reactions:{'👍':['ke']}}
+    ],
+    'thong-bao':[
+      {id:1,uid:'me',text:'📢 THÔNG BÁO: Họp team định kỳ tháng 5 — Thứ 6 tuần này, 3h30 chiều, phòng họp tầng 2. Tất cả thành viên tham dự.',time:d(24,0),reactions:{'👍':['tu','huong','kho','ke']}},
+      {id:2,uid:'me',text:'🎉 Chúc mừng chị Hương đạt KPI tháng 4 xuất sắc! Thưởng 3 triệu sẽ được cộng vào lương tháng 5.',time:d(12,0),reactions:{'🎉':['tu','kho','ke'],'❤️':['huong']}},
+      {id:3,uid:'me',text:'📋 Nhắc nhở: Cập nhật báo cáo công việc cuối ngày trên hệ thống trước 5h30 mỗi ngày.',time:d(1,0),reactions:{}}
+    ]
+  };
+}
+function rChat(){
+  document.getElementById('pg-actions').innerHTML='<span style="font-size:11px;color:#92400E;background:#FEF3C7;padding:4px 10px;border-radius:6px;font-weight:600;border:1px solid #FDE68A">🔧 Demo UI</span>';
+  if(!DB.messages||Object.keys(DB.messages).length===0){DB.messages=seedChatMsgs();save();}
+  const chObj=CHAT_CH.find(c=>c.id===chatCh)||CHAT_CH[0];
+  const emps=(DB.employees||[]).slice(0,5);
+  const dmHtml=emps.map(e=>{
+    const key=Object.keys(CHAT_USERS).find(k=>CHAT_USERS[k].name.includes(e.name.split(' ').pop()))||'tu';
+    const u=CHAT_USERS[key];
+    const av=e.name.split(' ').slice(-2).map(w=>w[0]).join('');
+    const active=chatDM===e.id;
+    return `<div class="chat-dm${active?' active':''}" onclick="chatCh='';chatDM='${e.id}';rChat()">
+      <div class="chat-dm-av" style="background:${u?u.color:'#888'}">${av}</div>
+      <span style="flex:1;font-size:12px">${e.name.split(' ').pop()}</span>
+      <div class="chat-online"></div>
+    </div>`;
+  }).join('');
+  const msgs=chatDM?[]:(DB.messages[chatCh]||[]);
+  const msgsHtml=msgs.map(m=>{
+    const u=CHAT_USERS[m.uid]||{name:'User',color:'#888'};
+    const av=u.name.split(' ').slice(-2).map(w=>w[0]).join('');
+    const t=new Date(m.time);
+    const ts=`${String(t.getHours()).padStart(2,'0')}:${String(t.getMinutes()).padStart(2,'0')}`;
+    const reacts=Object.entries(m.reactions||{}).map(([em,users])=>`<span class="chat-reaction${users.includes('me')?' active':''}" onclick="chatReact('${chatCh}',${m.id},'${em}')">${em} ${users.length}</span>`).join('');
+    return `<div class="chat-msg">
+      <div class="chat-msg-av" style="background:${u.color}">${av}</div>
+      <div class="chat-msg-body">
+        <div class="chat-msg-meta">
+          <span class="chat-msg-name">${u.name}</span>
+          <span class="chat-msg-time">${ts}</span>
+          ${m.uid==='me'?'<span style="font-size:10px;background:var(--primary-light);color:var(--primary);padding:1px 6px;border-radius:4px;font-weight:600">Bạn</span>':''}
+        </div>
+        <div class="chat-msg-text">${esc(m.text).replace(/\n/g,'<br>')}</div>
+        ${reacts?`<div class="chat-msg-reactions">${reacts}</div>`:''}
+      </div>
+    </div>`;
+  }).join('');
+  const chName=chatDM?'Tin nhắn riêng':`# ${chObj.name}`;
+  const html=`<div class="chat-sidebar">
+    <div class="chat-sidebar-head">💬 MED-Chat</div>
+    <div class="chat-channels">
+      ${CHAT_CH.map(c=>`<div class="chat-ch${chatCh===c.id&&!chatDM?' active':''}" onclick="chatCh='${c.id}';chatDM=null;rChat()">
+        <span style="font-size:11px;opacity:.6">#</span><span>${c.name}</span>${c.unread?`<span class="chat-ch-badge">${c.unread}</span>`:''}
+      </div>`).join('')}
+    </div>
+    ${emps.length?`<div class="chat-dms"><div class="chat-dm-head">Tin nhắn riêng</div>${dmHtml}</div>`:''}
+  </div>
+  <div class="chat-main">
+    <div class="chat-header">
+      <span style="font-size:18px">${chatDM?'👤':'#'}</span>
+      <span class="chat-header-name">${chName}</span>
+      <span class="chat-header-desc">${chatDM?'Demo DM':chObj.desc}</span>
+    </div>
+    <div class="chat-demo-banner">🔧 <strong>Demo UI</strong> — Dữ liệu mẫu để xem trước giao diện. Backend thực (Firebase / WebSocket) sẽ được tích hợp sau bởi dev team.</div>
+    ${chatDM?`<div class="chat-empty-dm"><div style="font-size:48px;margin-bottom:12px">💬</div><div style="font-weight:700;font-size:16px;margin-bottom:8px">Tin nhắn riêng</div><div style="font-size:13px">Tính năng này sẽ hoạt động sau khi kết nối backend</div></div>`
+    :`<div class="chat-msgs" id="chat-msgs-area">${msgsHtml||'<div style="text-align:center;color:var(--muted);padding:32px">Chưa có tin nhắn nào</div>'}</div>`}
+    <div class="chat-typing" id="chat-typing"></div>
+    <div class="chat-foot">
+      <div class="chat-input-wrap">
+        <button class="chat-emoji-btn" onclick="chatPickEmoji()">😊</button>
+        <input class="chat-input" id="chat-inp" placeholder="Nhắn tin vào ${chName}..." onkeydown="if(event.key==='Enter'&&!event.shiftKey){event.preventDefault();sendChat();}">
+        <button class="chat-send-btn" onclick="sendChat()">➤</button>
+      </div>
+    </div>
+  </div>`;
+  document.getElementById('chat').innerHTML=html;
+  setTimeout(()=>{const a=document.getElementById('chat-msgs-area');if(a)a.scrollTop=a.scrollHeight;},60);
+}
+function sendChat(){
+  const inp=document.getElementById('chat-inp');
+  const msg=(inp.value||'').trim();if(!msg||chatDM)return;
+  if(!DB.messages[chatCh])DB.messages[chatCh]=[];
+  DB.messages[chatCh].push({id:Date.now(),uid:'me',text:msg,time:Date.now(),reactions:{}});
+  const chObj=CHAT_CH.find(c=>c.id===chatCh);if(chObj)chObj.unread=0;
+  save();inp.value='';rChat();
+  const typing=document.getElementById('chat-typing');
+  const bots=['tu','huong','kho','ke'];
+  const bot=bots[Math.floor(Math.random()*bots.length)];
+  const bu=CHAT_USERS[bot];
+  if(typing)typing.textContent=bu.name+' đang nhập...';
+  setTimeout(()=>{
+    if(typing)typing.textContent='';
+    const reps=['Ok anh/chị! 👍','Cảm ơn! Em xử lý ngay.','Copy! Em cập nhật liền.','Nhận thông tin rồi ạ ✅','Để em kiểm tra lại rồi báo anh/chị nhé.','Done! ✅'];
+    DB.messages[chatCh].push({id:Date.now()+1,uid:bot,text:reps[Math.floor(Math.random()*reps.length)],time:Date.now()+1000,reactions:{}});
+    save();rChat();
+  },1200+Math.random()*1000);
+}
+function chatReact(chId,msgId,emoji){
+  if(!DB.messages[chId])return;
+  const msg=DB.messages[chId].find(m=>m.id===msgId);if(!msg)return;
+  if(!msg.reactions)msg.reactions={};
+  if(!msg.reactions[emoji])msg.reactions[emoji]=[];
+  const idx=msg.reactions[emoji].indexOf('me');
+  if(idx>=0)msg.reactions[emoji].splice(idx,1);else msg.reactions[emoji].push('me');
+  if(!msg.reactions[emoji].length)delete msg.reactions[emoji];
+  save();rChat();
+}
+function chatPickEmoji(){
+  const inp=document.getElementById('chat-inp');if(!inp)return;
+  const emojis=['👍','❤️','🎉','🔥','✅','⚠️','💪','😊','📌','🎯'];
+  inp.value+=(inp.value?' ':'')+emojis[Math.floor(Math.random()*emojis.length)];
+  inp.focus();
+}
+
 // ═══════ BACKUP / RESTORE ═══════
 function backupData(){
   const blob=new Blob([JSON.stringify(DB,null,2)],{type:'application/json'});
@@ -3853,6 +4122,7 @@ function restoreData(input){
 
 // ═══════ INIT ═══════
 load();badges();rDash();
+applyTheme();applyDensity();
 toggleTeoBtn();
 const _n=new Date();const _ds=['Chủ Nhật','Thứ Hai','Thứ Ba','Thứ Tư','Thứ Năm','Thứ Sáu','Thứ Bảy'];
 document.getElementById('pg-sub').textContent=`${_ds[_n.getDay()]}, ${_n.getDate()} tháng ${_n.getMonth()+1} năm ${_n.getFullYear()}`;
