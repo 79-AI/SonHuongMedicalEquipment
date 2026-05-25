@@ -613,6 +613,20 @@ body.density-spacious table thead th,body.density-spacious table tbody td{paddin
   </div>
 </div>
 
+<!-- Document Preview Modal -->
+<div class="modal-bg" id="m-doc-preview" style="z-index:3100">
+  <div class="modal" style="max-width:860px;width:96vw;max-height:93vh;display:flex;flex-direction:column;padding:0;overflow:hidden">
+    <div class="modal-head" style="flex-shrink:0;display:flex;align-items:center;justify-content:space-between;gap:10px">
+      <div class="modal-title" id="mdoc-title" style="font-size:14px">Tài liệu</div>
+      <div style="display:flex;gap:8px;align-items:center">
+        <button class="btn btn-primary" style="font-size:12px;padding:6px 14px" onclick="printCurrentDoc()">🖨️ In / Lưu PDF</button>
+        <button class="modal-close" onclick="closeM('m-doc-preview')">✕</button>
+      </div>
+    </div>
+    <div id="mdoc-body" style="flex:1;overflow-y:auto;padding:20px 24px;background:#f1f5f9"></div>
+  </div>
+</div>
+
 <!-- Image Search Modal -->
 <div class="modal-bg" id="m-img">
   <div class="modal modal-lg">
@@ -4347,7 +4361,7 @@ function rTenders(){
       <td><span class="${ts.cls}">${ts.label}</span></td>
       <td style="font-size:12px${daysLeft!==null&&daysLeft<7&&(t.status==='preparing'||t.status==='submitted')?';color:var(--red);font-weight:700':''}">${t.deadline?fmtD(t.deadline):'—'}${daysLeft!==null&&daysLeft>0&&daysLeft<=30&&t.status!=='won'&&t.status!=='lost'?` <span style="font-size:10px;color:var(--amber)">(còn ${daysLeft}n)</span>`:''}</td>
       <td style="font-size:12px">${esc(t.owner||'—')}</td>
-      <td><button class="btn-icon btn-sm" onclick="openTenderM('${t.id}')">✏️</button> <button class="btn-icon btn-sm" onclick="delTender('${t.id}')">🗑️</button></td>
+      <td style="white-space:nowrap"><button class="btn-icon btn-sm" title="Sửa" onclick="openTenderM('${t.id}')">✏️</button> <button class="btn-icon btn-sm" title="📋 Bảng kê khai giá" onclick="openDocPreview('Bảng kê khai giá — ${t.code}',genTenderPrice('${t.id}'))">📋</button> <button class="btn-icon btn-sm" title="📝 Mô tả kỹ thuật" onclick="openDocPreview('Mô tả kỹ thuật — ${t.code}',genTenderSpec('${t.id}'))">📝</button> <button class="btn-icon btn-sm" onclick="delTender('${t.id}')">🗑️</button></td>
     </tr>`;
   }).join('')||'<tr class="empty-row"><td colspan="7">Chưa có gói thầu</td></tr>';
   const pipeHtml=['preparing','submitted','waiting','won','lost'].map(k=>{
@@ -4410,7 +4424,7 @@ function rContracts(){
       <td style="font-weight:700">${fmtBig(c.value)}</td>
       <td><span class="${cs.cls}">${cs.label}</span>${daysLeft!==null&&daysLeft>0&&daysLeft<=30?` <span style="font-size:10px;color:var(--red);font-weight:700">(còn ${daysLeft}n)</span>`:''}</td>
       <td style="font-size:12px">${c.endDate?fmtD(c.endDate):'—'}</td>
-      <td><button class="btn-icon btn-sm" onclick="openContractM('${c.id}')">✏️</button> <button class="btn-icon btn-sm" onclick="delContract('${c.id}')">🗑️</button></td>
+      <td style="white-space:nowrap"><button class="btn-icon btn-sm" title="Sửa" onclick="openContractM('${c.id}')">✏️</button> <button class="btn-icon btn-sm" title="📋 Hợp đồng" onclick="openDocPreview('Hợp đồng — ${c.code}',genContract('${c.id}'))">📋</button> <button class="btn-icon btn-sm" title="✅ Biên bản nghiệm thu" onclick="openDocPreview('Biên bản nghiệm thu — ${c.code}',genAcceptance('${c.id}'))">✅</button> <button class="btn-icon btn-sm" onclick="delContract('${c.id}')">🗑️</button></td>
     </tr>`;
   }).join('')||'<tr class="empty-row"><td colspan="7">Chưa có hợp đồng</td></tr>';
   document.getElementById('contracts').innerHTML=`
@@ -4463,7 +4477,7 @@ function rWarranty(){
       <td style="font-size:12px">${w.warrantyEnd?fmtD(w.warrantyEnd):'—'}${daysLeft!==null&&daysLeft>0&&daysLeft<=90?` <span style="font-size:10px;color:var(--amber)">(${daysLeft}n)</span>`:''}</td>
       <td><span class="${ws.cls}">${ws.label}</span></td>
       <td style="font-size:12px">${w.nextMaint?fmtD(w.nextMaint):'—'}</td>
-      <td><button class="btn-icon btn-sm" onclick="openWarrantyM('${w.id}')">✏️</button> <button class="btn-icon btn-sm" onclick="delWarranty('${w.id}')">🗑️</button></td>
+      <td style="white-space:nowrap"><button class="btn-icon btn-sm" title="Sửa" onclick="openWarrantyM('${w.id}')">✏️</button> <button class="btn-icon btn-sm" title="🛡️ Phiếu bảo hành" onclick="openDocPreview('Phiếu bảo hành — ${w.code}',genWarrantyCard('${w.id}'))">🛡️</button> <button class="btn-icon btn-sm" title="🔧 Phiếu bảo trì" onclick="openDocPreview('Phiếu bảo trì — ${w.code}',genMaintRecord('${w.id}'))">🔧</button> <button class="btn-icon btn-sm" onclick="delWarranty('${w.id}')">🗑️</button></td>
     </tr>`;
   }).join('')||'<tr class="empty-row"><td colspan="8">Chưa có thiết bị nào</td></tr>';
   document.getElementById('warranty').innerHTML=`
@@ -4493,6 +4507,297 @@ function saveWarranty(){
   save();toast('Đã lưu ✅');closeM('m-warranty');rWarranty();
 }
 function delWarranty(id){cfm('Xóa','Xóa thiết bị này?',()=>{DB.warranties=DB.warranties.filter(x=>x.id!==id);save();rWarranty();});}
+
+// ═══════ DOCUMENT GENERATION MODULE ═══════
+const DOC_CSS=`
+.doc-wrap{background:#fff;max-width:740px;margin:0 auto;padding:28px 34px;box-shadow:0 2px 18px rgba(0,0,0,.12);font-family:"Times New Roman",Times,serif;font-size:13px;color:#111;line-height:1.65}
+.doc-head-grid{display:grid;grid-template-columns:1fr auto;gap:10px;margin-bottom:14px;align-items:start}
+.doc-republic{text-align:center}
+.doc-republic strong{font-size:13px;display:block}
+.doc-republic u{font-size:13px;display:block;font-weight:600}
+.doc-republic em{font-size:11px;color:#555;display:block;margin-top:2px}
+.doc-title{text-align:center;font-size:15px;font-weight:700;text-transform:uppercase;margin:14px 0 4px}
+.doc-sub{text-align:center;font-size:12.5px;margin-bottom:16px;font-style:italic}
+.doc-info{margin:10px 0;padding:10px 14px;background:#f8f9fa;border:1px solid #ddd;border-radius:6px;font-size:12.5px}
+.doc-info b{color:#1e40af}
+.doc-tbl{width:100%;border-collapse:collapse;margin:12px 0;font-size:12px}
+.doc-tbl th,.doc-tbl td{border:1px solid #555;padding:5px 8px;vertical-align:middle}
+.doc-tbl th{background:#f0f0f0;text-align:center;font-weight:700}
+.doc-tbl td.r{text-align:right}
+.doc-tbl td.c{text-align:center}
+.doc-tbl tfoot td{font-weight:700;background:#fffbe6}
+.ef{background:#fffbe6;border-bottom:1.5px dashed #f59e0b;min-width:80px;display:inline-block;padding:0 3px;cursor:text;outline:none}
+.ef:focus{background:#fef3c7}
+.ec{background:#fffbe6!important;cursor:text;outline:none}
+.ec:focus{background:#fef3c7!important}
+.doc-warn{background:#fffbe6;border:1px solid #fcd34d;border-radius:4px;padding:6px 10px;font-size:11.5px;color:#92400e;margin:8px 0}
+.doc-clause{margin:10px 0;font-size:13px}
+.doc-clause-h{font-weight:700;margin-bottom:4px}
+.doc-sig{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:40px;text-align:center;font-size:12.5px}
+.doc-sig-box strong{display:block;margin-bottom:2px}
+.doc-sig-box em{font-size:11px;color:#555;display:block;margin-bottom:56px}
+.doc-note{font-size:11px;color:#666;border-top:1px dashed #ccc;padding-top:8px;margin-top:16px;font-style:italic}
+.doc-card{background:#fff;border:2px solid #1e40af;border-radius:10px;padding:20px 24px;max-width:480px;margin:0 auto;font-family:Arial,sans-serif}
+.doc-card-title{text-align:center;font-size:16px;font-weight:700;color:#1e40af;border-bottom:2px solid #1e40af;padding-bottom:10px;margin-bottom:14px}
+.doc-card-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px dotted #ddd;font-size:13px}
+.doc-card-row b{color:#1e40af;font-size:12px;min-width:120px}
+@media print{body{background:#fff!important}.doc-wrap,.doc-card{box-shadow:none!important;padding:0}}
+`;
+
+function _injectDocStyle(){if(!document.getElementById('_doc-css')){const s=document.createElement('style');s.id='_doc-css';s.textContent=DOC_CSS;document.head.appendChild(s);}}
+function openDocPreview(title,html){_injectDocStyle();document.getElementById('mdoc-title').textContent=title;document.getElementById('mdoc-body').innerHTML=html;openM('m-doc-preview');}
+function printCurrentDoc(){
+  const body=document.getElementById('mdoc-body').innerHTML;
+  const w=window.open('','_blank','width=900,height=720');
+  w.document.write(`<!DOCTYPE html><html><head><meta charset="utf-8"><title>In tài liệu</title><style>${DOC_CSS}body{background:#f1f5f9;padding:20px}</style></head><body>${body}</body></html>`);
+  w.document.close();w.focus();setTimeout(()=>w.print(),500);
+}
+function _todayStr(){const d=new Date();return`${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;}
+function _fmtVND(n){return n?new Intl.NumberFormat('vi-VN').format(+n||0)+' đ':'0 đ';}
+function _co(){return DB.company||{};}
+
+// ─── TENDER: Bảng kê khai giá dự thầu ────────────────────────────────────────
+function genTenderPrice(id){
+  const t=DB.tenders.find(x=>x.id===id)||{};
+  const co=_co();
+  const items=Array.isArray(t.items)?t.items.filter(Boolean):[];
+  const itemRows=items.length?items.map((item,i)=>`
+    <tr>
+      <td class="c">${i+1}</td>
+      <td>${esc(item)}</td>
+      <td class="c ec" contenteditable="true">cái</td>
+      <td class="c ec" contenteditable="true">1</td>
+      <td class="r ec" contenteditable="true">0</td>
+      <td class="r ec" contenteditable="true">0</td>
+      <td class="c ec" contenteditable="true">VN</td>
+      <td class="ec" contenteditable="true"></td>
+    </tr>`).join(''):`<tr><td colspan="8" style="text-align:center;color:#888;padding:12px;font-style:italic">Chưa có danh mục hàng. Thêm trong ✏️ Sửa gói thầu.</td></tr>`;
+  return`<div class="doc-wrap">
+  <div class="doc-head-grid">
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b><br>MST: <span class="ef" contenteditable="true">01234567890</span><br>ĐT: <span class="ef" contenteditable="true">028 xxxx xxxx</span><br>Địa chỉ: <span class="ef" contenteditable="true">TP. Hồ Chí Minh</span></div>
+    <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${_todayStr()}</em></div>
+  </div>
+  <div class="doc-title">BẢNG KÊ KHAI GIÁ DỰ THẦU</div>
+  <div class="doc-sub">Gói thầu: <b>${esc(t.name||'—')}</b> &nbsp;|&nbsp; Mã: ${esc(t.code||'—')} &nbsp;|&nbsp; Bên mời thầu: ${esc(t.hospital||'—')}</div>
+  <div class="doc-info"><b>Đơn vị dự thầu:</b> ${esc(co.name||'Công ty TNHH Sơn Hương Medical Equipment')}<br>Đại diện: <span class="ef" contenteditable="true">Nguyễn Văn A</span> &nbsp; Chức vụ: <span class="ef" contenteditable="true">Giám đốc</span></div>
+  <div class="doc-warn">💡 Các ô màu vàng có thể click để điền trực tiếp trước khi in</div>
+  <table class="doc-tbl">
+    <thead><tr><th style="width:34px">STT</th><th>Tên hàng hóa</th><th style="width:56px">ĐVT</th><th style="width:46px">SL</th><th style="width:108px">Đơn giá (đ)</th><th style="width:108px">Thành tiền (đ)</th><th style="width:64px">Xuất xứ</th><th style="width:72px">Ghi chú</th></tr></thead>
+    <tbody>${itemRows}</tbody>
+    <tfoot>
+      <tr><td colspan="5" class="r">Tổng cộng (chưa VAT):</td><td class="r ec" contenteditable="true">${_fmtVND(Math.round((t.value||0)/1.1))}</td><td colspan="2"></td></tr>
+      <tr><td colspan="5" class="r">Thuế VAT (10%):</td><td class="r ec" contenteditable="true">${_fmtVND(Math.round((t.value||0)-(t.value||0)/1.1))}</td><td colspan="2"></td></tr>
+      <tr><td colspan="5" class="r" style="font-size:13px"><b>TỔNG GIÁ DỰ THẦU:</b></td><td class="r" style="font-size:13px;color:#b45309"><b>${_fmtVND(t.value||0)}</b></td><td colspan="2"></td></tr>
+    </tfoot>
+  </table>
+  <div style="font-size:12.5px;margin:6px 0">Bằng chữ: <span class="ef" contenteditable="true" style="min-width:280px">[ghi số tiền bằng chữ]</span></div>
+  <div style="font-size:12.5px">Hiệu lực báo giá: <span class="ef" contenteditable="true">30 ngày</span> kể từ ngày nộp thầu.</div>
+  <div class="doc-sig">
+    <div class="doc-sig-box"><strong>ĐẠI DIỆN BÊN MỜI THẦU</strong><em>${esc(t.hospital||'')}</em><span class="ef" contenteditable="true">[Ký tên, đóng dấu]</span></div>
+    <div class="doc-sig-box"><strong>ĐẠI DIỆN ĐƠN VỊ DỰ THẦU</strong><em>${esc(co.shortName||'Sơn Hương Medical')}</em><span class="ef" contenteditable="true">[Ký tên, đóng dấu]</span></div>
+  </div>
+  <div class="doc-note">(*) Giá đã bao gồm chi phí vận chuyển, lắp đặt (nếu có) và bảo hành theo quy định. Mọi thay đổi về giá phải được hai bên thống nhất bằng văn bản.</div>
+</div>`;}
+
+// ─── TENDER: Mô tả kỹ thuật ───────────────────────────────────────────────────
+function genTenderSpec(id){
+  const t=DB.tenders.find(x=>x.id===id)||{};
+  const co=_co();
+  const items=Array.isArray(t.items)?t.items.filter(Boolean):[];
+  const itemBlocks=items.length?items.map((item,i)=>`
+    <div style="margin-bottom:18px">
+      <div style="font-weight:700;font-size:13px;margin-bottom:6px;background:#e8eaf6;padding:6px 10px;border-radius:4px">${i+1}. ${esc(item)}</div>
+      <table class="doc-tbl" style="font-size:12px">
+        <thead><tr><th style="width:34px">STT</th><th style="width:40%">Tiêu chí kỹ thuật</th><th>Yêu cầu (Bên mời thầu)</th><th>Thông số đề xuất (Dự thầu)</th></tr></thead>
+        <tbody>
+          ${['Hãng sản xuất / Xuất xứ','Model / Mã sản phẩm','Tiêu chuẩn kỹ thuật (CE/ISO/FDA)','Quy cách đóng gói','Hạn sử dụng','Điều kiện bảo quản','Bảo hành (tháng)'].map((spec,j)=>`
+          <tr><td class="c">${j+1}</td><td>${spec}</td><td class="ec" contenteditable="true"></td><td class="ec" contenteditable="true"></td></tr>`).join('')}
+        </tbody>
+      </table>
+    </div>`).join(''):`<div style="text-align:center;color:#888;padding:20px;font-style:italic">Chưa có danh mục — Thêm trong ✏️ Sửa gói thầu.</div>`;
+  return`<div class="doc-wrap">
+  <div class="doc-head-grid">
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b></div>
+    <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${_todayStr()}</em></div>
+  </div>
+  <div class="doc-title">BẢNG MÔ TẢ KỸ THUẬT SẢN PHẨM DỰ THẦU</div>
+  <div class="doc-sub">Gói thầu: <b>${esc(t.name||'—')}</b> &nbsp;|&nbsp; Bên mời thầu: ${esc(t.hospital||'—')}</div>
+  <div class="doc-warn">💡 Điền thông số kỹ thuật vào các ô màu vàng trước khi in</div>
+  ${itemBlocks}
+  <div class="doc-sig" style="margin-top:30px">
+    <div class="doc-sig-box"><strong>ĐẠI DIỆN BÊN MỜI THẦU</strong><em>${esc(t.hospital||'')}</em><span class="ef" contenteditable="true">[Ký tên, đóng dấu]</span></div>
+    <div class="doc-sig-box"><strong>ĐẠI DIỆN ĐƠN VỊ DỰ THẦU</strong><em>${esc(co.shortName||'Sơn Hương Medical')}</em><span class="ef" contenteditable="true">[Ký tên, đóng dấu]</span></div>
+  </div>
+  <div class="doc-note">(*) Thông số kỹ thuật được cam kết đúng theo sản phẩm thực tế. Đơn vị dự thầu chịu trách nhiệm về tính chính xác của các thông số kê khai.</div>
+</div>`;}
+
+// ─── CONTRACT: Hợp đồng mua bán ──────────────────────────────────────────────
+function genContract(id){
+  const c=DB.contracts.find(x=>x.id===id)||{};
+  const co=_co();
+  const isSupplier=c.type==='supplier';
+  const benA=isSupplier?{title:'BÊN MUA (BÊN A)',name:esc(co.name||'Sơn Hương Medical Equipment Co., Ltd'),role:'Giám đốc'}:{title:'BÊN MUA (BÊN A)',name:`<span class="ef" contenteditable="true">${esc(c.party||'Tên đối tác')}</span>`,role:'Giám đốc'};
+  const benB=isSupplier?{title:'BÊN BÁN (BÊN B)',name:`<span class="ef" contenteditable="true">${esc(c.party||'Tên nhà cung cấp')}</span>`,role:'Giám đốc'}:{title:'BÊN BÁN (BÊN B)',name:esc(co.name||'Sơn Hương Medical Equipment Co., Ltd'),role:'Giám đốc'};
+  return`<div class="doc-wrap">
+  <div class="doc-head-grid">
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b><br>MST: <span class="ef" contenteditable="true">01234567890</span></div>
+    <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${c.signDate?fmtD(c.signDate):_todayStr()}</em></div>
+  </div>
+  <div class="doc-title">HỢP ĐỒNG MUA BÁN VẬT TƯ Y TẾ</div>
+  <div class="doc-sub">Số: <b>${esc(c.code||'HĐ-...')}</b></div>
+  <div style="font-size:13px;margin:12px 0">Căn cứ Bộ Luật Dân sự nước CHXHCN Việt Nam; Luật Thương mại; và nhu cầu thực tế của hai bên — hôm nay, hai bên cùng ký kết hợp đồng với các điều khoản sau:</div>
+  <div class="doc-info" style="margin-bottom:10px">
+    <b>${benA.title}:</b> ${benA.name}<br>
+    Đại diện: <span class="ef" contenteditable="true">Nguyễn Văn A</span> &nbsp; Chức vụ: ${benA.role}<br>
+    MST: <span class="ef" contenteditable="true">...</span> &nbsp; ĐT: <span class="ef" contenteditable="true">...</span>
+  </div>
+  <div class="doc-info">
+    <b>${benB.title}:</b> ${benB.name}<br>
+    Đại diện: <span class="ef" contenteditable="true">Trần Thị B</span> &nbsp; Chức vụ: ${benB.role}<br>
+    MST: <span class="ef" contenteditable="true">...</span> &nbsp; ĐT: <span class="ef" contenteditable="true">...</span>
+  </div>
+  <div class="doc-clause"><div class="doc-clause-h">Điều 1. Đối tượng hợp đồng</div>
+    Bên B cung cấp cho Bên A vật tư y tế theo nội dung: <span class="ef" contenteditable="true" style="min-width:200px">${esc(c.name||'Mô tả hàng hóa')}</span>.<br>
+    Chi tiết chủng loại, số lượng, đơn giá theo Phụ lục đính kèm (nếu có).
+  </div>
+  <div class="doc-clause"><div class="doc-clause-h">Điều 2. Giá trị và thanh toán</div>
+    Tổng giá trị hợp đồng: <b style="color:#b45309">${_fmtVND(c.value||0)}</b> (đã bao gồm VAT 10%).<br>
+    Phương thức thanh toán: <span class="ef" contenteditable="true">Chuyển khoản ngân hàng</span>.<br>
+    Thời hạn thanh toán: <span class="ef" contenteditable="true">30 ngày</span> kể từ ngày nhận hàng và hóa đơn GTGT.
+  </div>
+  <div class="doc-clause"><div class="doc-clause-h">Điều 3. Thời hạn hợp đồng</div>
+    Hợp đồng có hiệu lực từ ${c.startDate?fmtD(c.startDate):'<span class="ef" contenteditable="true">ngày ký</span>'}
+    đến ${c.endDate?fmtD(c.endDate):'<span class="ef" contenteditable="true">...</span>'}.
+  </div>
+  <div class="doc-clause"><div class="doc-clause-h">Điều 4. Giao nhận hàng</div>
+    Địa điểm giao hàng: <span class="ef" contenteditable="true">Theo địa chỉ Bên A</span>.<br>
+    Thời gian giao hàng: <span class="ef" contenteditable="true">Trong vòng 7–15 ngày</span> kể từ ngày đặt hàng.<br>
+    Chi phí vận chuyển: <span class="ef" contenteditable="true">Bên B chịu (trong nội thành TP.HCM)</span>.
+  </div>
+  <div class="doc-clause"><div class="doc-clause-h">Điều 5. Bảo hành & chất lượng</div>
+    Bên B cam kết hàng hóa đúng chất lượng, có đầy đủ giấy phép lưu hành, CO-CQ theo quy định.<br>
+    Bảo hành: <span class="ef" contenteditable="true">12 tháng</span>. Đổi/trả hàng lỗi trong vòng <span class="ef" contenteditable="true">7 ngày</span> kể từ ngày giao.
+  </div>
+  <div class="doc-clause"><div class="doc-clause-h">Điều 6. Điều khoản chung</div>
+    Hai bên cam kết thực hiện đúng các điều khoản trong hợp đồng. Mọi tranh chấp (nếu có) sẽ được giải quyết bằng thương lượng. Nếu không đạt được, sẽ đưa ra Tòa án nhân dân TP.HCM phán quyết.
+  </div>
+  <div style="font-size:12.5px;margin-top:10px">Hợp đồng được lập thành <b>02 (hai) bản</b> có giá trị như nhau, mỗi bên giữ 01 bản.</div>
+  <div class="doc-sig">
+    <div class="doc-sig-box"><strong>${benA.title}</strong><em>(Ký tên, đóng dấu)</em><span class="ef" contenteditable="true">[Chữ ký]</span></div>
+    <div class="doc-sig-box"><strong>${benB.title}</strong><em>(Ký tên, đóng dấu)</em><span class="ef" contenteditable="true">[Chữ ký]</span></div>
+  </div>
+  ${c.notes?`<div class="doc-note">Ghi chú: ${esc(c.notes)}</div>`:''}
+</div>`;}
+
+// ─── CONTRACT: Biên bản nghiệm thu ────────────────────────────────────────────
+function genAcceptance(id){
+  const c=DB.contracts.find(x=>x.id===id)||{};
+  const co=_co();
+  return`<div class="doc-wrap">
+  <div class="doc-head-grid">
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b></div>
+    <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${_todayStr()}</em></div>
+  </div>
+  <div class="doc-title">BIÊN BẢN NGHIỆM THU HÀNG HÓA</div>
+  <div class="doc-sub">Căn cứ Hợp đồng số: <b>${esc(c.code||'HĐ-...')}</b></div>
+  <div class="doc-info">
+    <b>Bên giao hàng (Bên B):</b> ${c.type==='supplier'?`<span class="ef" contenteditable="true">${esc(c.party||'Nhà cung cấp')}</span>`:esc(co.name||'Sơn Hương Medical')}<br>
+    Đại diện: <span class="ef" contenteditable="true">Nguyễn Văn A</span>
+    &nbsp;&nbsp;|&nbsp;&nbsp;
+    <b>Bên nhận hàng (Bên A):</b> ${c.type==='supplier'?esc(co.name||'Sơn Hương Medical'):`<span class="ef" contenteditable="true">${esc(c.party||'Khách hàng')}</span>`}<br>
+    Đại diện: <span class="ef" contenteditable="true">Trần Thị B</span>
+  </div>
+  <div class="doc-warn">💡 Điền số lượng thực tế nhận, tình trạng vào các ô màu vàng</div>
+  <table class="doc-tbl">
+    <thead><tr><th style="width:34px">STT</th><th>Tên hàng hóa</th><th style="width:56px">ĐVT</th><th style="width:70px">SL theo HĐ</th><th style="width:70px">SL thực giao</th><th style="width:80px">Tình trạng</th><th style="width:80px">Ghi chú</th></tr></thead>
+    <tbody>
+      <tr><td class="c">1</td><td class="ec" contenteditable="true">${esc(c.name||'Hàng hóa theo hợp đồng')}</td><td class="c ec" contenteditable="true">cái</td><td class="c ec" contenteditable="true">0</td><td class="c ec" contenteditable="true">0</td><td class="c ec" contenteditable="true">Đạt</td><td class="ec" contenteditable="true"></td></tr>
+      <tr><td class="c">2</td><td class="ec" contenteditable="true"></td><td class="c ec" contenteditable="true">cái</td><td class="c ec" contenteditable="true">0</td><td class="c ec" contenteditable="true">0</td><td class="c ec" contenteditable="true">Đạt</td><td class="ec" contenteditable="true"></td></tr>
+      <tr><td class="c">3</td><td class="ec" contenteditable="true"></td><td class="c ec" contenteditable="true">cái</td><td class="c ec" contenteditable="true">0</td><td class="c ec" contenteditable="true">0</td><td class="c ec" contenteditable="true">Đạt</td><td class="ec" contenteditable="true"></td></tr>
+    </tbody>
+  </table>
+  <div style="font-size:13px;margin:12px 0">
+    <div class="doc-clause-h">Kết luận nghiệm thu:</div>
+    <label style="margin-right:16px"><input type="radio" name="nt_result" checked> ✅ Đạt yêu cầu — Hai bên đồng ý nghiệm thu toàn bộ lô hàng</label>
+    <label><input type="radio" name="nt_result"> ❌ Không đạt — Lý do: <span class="ef" contenteditable="true">...</span></label>
+  </div>
+  <div style="font-size:12.5px;margin:8px 0">Tổng giá trị hàng hóa nghiệm thu: <b>${_fmtVND(c.value||0)}</b></div>
+  <div class="doc-sig">
+    <div class="doc-sig-box"><strong>ĐẠI DIỆN BÊN GIAO</strong><em>(Ký tên, đóng dấu)</em><span class="ef" contenteditable="true">[Chữ ký]</span></div>
+    <div class="doc-sig-box"><strong>ĐẠI DIỆN BÊN NHẬN</strong><em>(Ký tên, đóng dấu)</em><span class="ef" contenteditable="true">[Chữ ký]</span></div>
+  </div>
+  <div class="doc-note">Biên bản này được lập thành 02 bản có giá trị như nhau. Sau khi nghiệm thu, Bên A tiến hành thanh toán theo điều khoản hợp đồng đã ký.</div>
+</div>`;}
+
+// ─── WARRANTY: Phiếu bảo hành ─────────────────────────────────────────────────
+function genWarrantyCard(id){
+  const w=DB.warranties.find(x=>x.id===id)||{};
+  const co=_co();
+  const ws=WARRANTY_STATUS[w.status]||WARRANTY_STATUS.active;
+  return`<div style="background:#f1f5f9;padding:16px;display:flex;justify-content:center">
+  <div class="doc-card" style="width:100%;max-width:520px">
+    <div style="text-align:center;margin-bottom:16px">
+      <div style="font-size:22px">🏥</div>
+      <div style="font-size:16px;font-weight:700;color:#1e40af;margin-top:4px">${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</div>
+      <div style="font-size:11px;color:#64748b">MST: <span class="ef" contenteditable="true">01234567890</span> &nbsp; ĐT: <span class="ef" contenteditable="true">028 xxxx xxxx</span></div>
+    </div>
+    <div style="text-align:center;font-size:15px;font-weight:700;text-transform:uppercase;background:#1e40af;color:#fff;padding:8px;border-radius:6px;margin-bottom:16px">PHIẾU BẢO HÀNH THIẾT BỊ</div>
+    ${[
+      ['Mã bảo hành',esc(w.code||'—')],
+      ['Tên thiết bị',esc(w.product||'—')],
+      ['Số Serial / Model',esc(w.serial||'—')],
+      ['Khách hàng',esc(w.customer||'—')],
+      ['Ngày lắp đặt',w.installDate?fmtD(w.installDate):'—'],
+      ['Ngày hết bảo hành',w.warrantyEnd?`<b style="color:${w.status==='expired'?'#dc2626':w.status==='expiring'?'#d97706':'#16a34a'}">${fmtD(w.warrantyEnd)}</b>`:'—'],
+      ['Trạng thái',`<span class="${w.status==='active'?'ts-won':w.status==='expiring'?'ts-wait':'ts-lost'}">${ws.label}</span>`],
+      ['Bảo trì tiếp theo',w.nextMaint?fmtD(w.nextMaint):'<span class="ef" contenteditable="true">...</span>'],
+    ].map(([k,v])=>`<div class="doc-card-row"><b>${k}:</b><span>${v}</span></div>`).join('')}
+    ${w.notes?`<div style="margin-top:12px;font-size:12px;color:#555;border-top:1px dashed #ddd;padding-top:8px"><b>Ghi chú:</b> ${esc(w.notes)}</div>`:''}
+    <div style="margin-top:16px;font-size:11px;color:#666;border-top:1px solid #e5e7eb;padding-top:10px">
+      <b>Điều kiện bảo hành:</b> Áp dụng cho lỗi kỹ thuật trong điều kiện sử dụng bình thường. Không bảo hành các hư hỏng do tác động bên ngoài, thiên tai, hoặc sử dụng sai mục đích.
+    </div>
+    <div class="doc-sig" style="margin-top:24px;font-size:11px">
+      <div class="doc-sig-box"><strong>ĐẠI DIỆN CÔNG TY</strong><em style="margin-bottom:36px">(Ký tên, đóng dấu)</em><span class="ef" contenteditable="true">...</span></div>
+      <div class="doc-sig-box"><strong>KHÁCH HÀNG XÁC NHẬN</strong><em style="margin-bottom:36px">(Ký và ghi rõ họ tên)</em><span class="ef" contenteditable="true">...</span></div>
+    </div>
+  </div>
+</div>`;}
+
+// ─── WARRANTY: Phiếu bảo trì ──────────────────────────────────────────────────
+function genMaintRecord(id){
+  const w=DB.warranties.find(x=>x.id===id)||{};
+  const co=_co();
+  return`<div class="doc-wrap">
+  <div class="doc-head-grid">
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b></div>
+    <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${_todayStr()}</em></div>
+  </div>
+  <div class="doc-title">PHIẾU BẢO TRÌ ĐỊNH KỲ</div>
+  <div class="doc-info" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;font-size:12.5px">
+    <div><b>Thiết bị:</b> ${esc(w.product||'—')}</div>
+    <div><b>Mã BH:</b> ${esc(w.code||'—')}</div>
+    <div><b>Serial:</b> ${esc(w.serial||'—')}</div>
+    <div><b>Khách hàng:</b> ${esc(w.customer||'—')}</div>
+    <div><b>Ngày bảo trì:</b> <span class="ef" contenteditable="true">${_todayStr()}</span></div>
+    <div><b>Kỹ thuật viên:</b> <span class="ef" contenteditable="true">Nguyễn Văn A</span></div>
+  </div>
+  <div class="doc-warn">💡 Điền kết quả kiểm tra và ghi chú vào các ô màu vàng</div>
+  <table class="doc-tbl" style="font-size:12px">
+    <thead><tr><th style="width:34px">STT</th><th>Hạng mục kiểm tra</th><th style="width:80px">Kết quả</th><th style="width:110px">Ghi chú</th></tr></thead>
+    <tbody>
+      ${['Kiểm tra nguồn điện / pin','Vệ sinh thân máy và bộ phận tiếp xúc','Kiểm tra các chức năng chính','Kiểm tra phụ kiện đi kèm','Kiểm tra màn hình / cảnh báo','Chạy thử và hiệu chỉnh','Cập nhật firmware (nếu có)','Kiểm tra an toàn điện'].map((item,i)=>`
+      <tr><td class="c">${i+1}</td><td>${item}</td><td class="c ec" contenteditable="true">✅ Đạt</td><td class="ec" contenteditable="true"></td></tr>`).join('')}
+    </tbody>
+  </table>
+  <div style="margin:10px 0;font-size:13px"><b>Nhận xét tổng thể:</b><br><span class="ef" contenteditable="true" style="min-width:400px;display:block;min-height:40px;padding:4px">Thiết bị hoạt động bình thường, không có lỗi phát sinh.</span></div>
+  <div style="font-size:13px"><b>Kiến nghị:</b><br><span class="ef" contenteditable="true" style="min-width:400px;display:block;min-height:30px;padding:4px">Không có kiến nghị đặc biệt.</span></div>
+  <div style="font-size:12.5px;margin:10px 0"><b>Lần bảo trì tiếp theo:</b> <span class="ef" contenteditable="true">${w.nextMaint?fmtD(w.nextMaint):'...'}</span></div>
+  <div class="doc-sig">
+    <div class="doc-sig-box"><strong>KỸ THUẬT VIÊN</strong><em>(Ký tên)</em><span class="ef" contenteditable="true">...</span></div>
+    <div class="doc-sig-box"><strong>KHÁCH HÀNG XÁC NHẬN</strong><em>(Ký và ghi rõ họ tên)</em><span class="ef" contenteditable="true">...</span></div>
+  </div>
+  ${w.notes?`<div class="doc-note">Ghi chú thêm: ${esc(w.notes)}</div>`:''}
+</div>`;}
 
 // ═══════ PRODUCT IMAGE LIBRARY ═══════
 let _selImg='';
