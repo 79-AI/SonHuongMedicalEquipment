@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>MED-CRM | Sơn Hương Medical Equipment</title>
+<title>MED-CRM | Y Tế Sơn Hương</title>
 <style>
 :root {
   --primary:#F97316; --primary-dark:#EA580C; --primary-darker:#C2410C;
@@ -521,7 +521,7 @@ body.density-spacious table thead th,body.density-spacious table tbody td{paddin
 <aside class="sidebar" id="sidebar">
   <div class="logo">
     <div class="logo-icon">🏥</div>
-    <div><div class="logo-text">MED-CRM</div><div class="logo-sub">Sơn Hương Medical</div></div>
+    <div><div class="logo-text">MED-CRM</div><div class="logo-sub">Y Tế Sơn Hương</div></div>
     <button class="sidebar-close" onclick="closeSB()">✕</button>
   </div>
   <nav class="nav">
@@ -1069,15 +1069,40 @@ function load(){
   try{const d=localStorage.getItem(SK);if(d)DB=JSON.parse(d);}catch(e){}
   if(!DB.customers||!DB.customers.length)seed();
   if(!DB.employees||!DB.employees.length)DB.employees=seedEmployees();
+  else if(DB.employees.length>0&&DB.employees[0].name==='Nguyễn Văn Thắng'){DB.employees=seedEmployees();try{localStorage.setItem(SK,JSON.stringify(DB));}catch(e){}}
   if(!DB.finance||!DB.finance.length)DB.finance=seedFinance();
   if(!DB.library||!DB.library.length)DB.library=seedLibrary();
-  if(!DB.company)DB.company=seedCompany();
+  // ── Company migration: merge seed data if key fields missing/outdated ──
+  let _companyMigrated=false;
+  if(!DB.company){DB.company=seedCompany();_companyMigrated=true;}
+  else{
+    const fresh=seedCompany();
+    // Force-update if company is old (missing real fields or has placeholder values)
+    if(!DB.company.mst||DB.company.mst==='01234567890'||!DB.company.email||!DB.company.website||DB.company.name==='CÔNG TY TNHH Y TẾ SƠN HƯƠNG'||!DB.company.founded||DB.company.founded==='2010'){
+      // Merge: preserve any manually-edited okrs/values/rules; overwrite core identity fields
+      DB.company=Object.assign({},fresh,{
+        okrs: DB.company.okrs&&DB.company.okrs.length?DB.company.okrs:fresh.okrs,
+        values: DB.company.values&&DB.company.values.length?DB.company.values:fresh.values,
+        rules: DB.company.rules&&DB.company.rules.length?DB.company.rules:fresh.rules,
+      });
+      _companyMigrated=true;
+    } else {
+      // Add new fields if missing (non-destructive)
+      ['mst','email','website','hotline','hotline2','hotline3','director','directorTitle',
+       'partners','certifications','facebook','youtube','zalo','address2','nameEn','shortName',
+       'tagline','incorporated','strategy'].forEach(k=>{if(!DB.company[k])DB.company[k]=fresh[k];});
+    }
+  }
   if(!DB.employees)DB.employees=[];
   if(!DB.finance)DB.finance=[];
   if(!DB.messages)DB.messages={};
   if(!DB.settings)DB.settings={};
   if(!DB.kpiTargets)DB.kpiTargets={};
-  if(!DB.suppliers||!DB.suppliers.length)DB.suppliers=seedSuppliers();
+  let _supplierMigrated=false;
+  if(!DB.suppliers||!DB.suppliers.length){DB.suppliers=seedSuppliers();_supplierMigrated=true;}
+  else if(DB.suppliers.length>0&&DB.suppliers[0].name==='Công ty TNHH Thiết bị Y tế Phúc Minh'){DB.suppliers=seedSuppliers();_supplierMigrated=true;}
+  // ── Persist migration changes to localStorage immediately ──
+  if(_companyMigrated||_supplierMigrated){try{localStorage.setItem(SK,JSON.stringify(DB));}catch(e){}}
   if(!DB.tenders||!DB.tenders.length)DB.tenders=seedTenders();
   if(!DB.contracts||!DB.contracts.length)DB.contracts=seedContracts();
   if(!DB.warranties||!DB.warranties.length)DB.warranties=seedWarranties();
@@ -1097,48 +1122,66 @@ function load(){
 
 function seedCompany(){
   return {
-    name:'Sơn Hương Medical Equipment Co., Ltd',
-    shortName:'Sơn Hương Medical',
-    founded:'2010',
-    tagline:'Đồng hành cùng sức khỏe cộng đồng',
-    vision:'Trở thành đơn vị phân phối vật tư y tế hàng đầu miền Nam — uy tín, tốc độ và chuyên nghiệp. Đến năm 2030, mở rộng ra toàn quốc với doanh thu vượt 50 tỷ/năm.',
-    mission:'Cung cấp vật tư y tế chất lượng cao, đúng sản phẩm, đúng giá, giao đúng hẹn — giúp các cơ sở y tế hoạt động hiệu quả, an toàn và tiết kiệm chi phí.',
+    name:'CÔNG TY TNHH THIẾT BỊ Y TẾ SƠN HƯƠNG',
+    nameEn:'Son Huong Medical Equipment Company Limited',
+    shortName:'Y Tế Sơn Hương',
+    founded:'1991',
+    incorporated:'2007',
+    tagline:'Làm việc trung thực - Hợp tác chân thành - Phát triển bền vững',
+    mst:'0304873870',
+    director:'Nguyễn Thùy Dung',
+    directorTitle:'Giám Đốc',
+    address:'349/175 Lê Đại Hành, Phường Phú Thọ, TP. Hồ Chí Minh',
+    address2:'351/126 Lê Đại Hành, Phường Phú Thọ, TP. Hồ Chí Minh',
+    phone:'(028) 7300 5454',
+    hotline:'094 735 5454',
+    hotline2:'0906 351 126',
+    hotline3:'0966 537 333',
+    email:'kinhdoanh@ytesonhuong.com',
+    website:'www.ytesonhuong.com',
+    facebook:'www.facebook.com/ytesonhuong',
+    youtube:'https://www.youtube.com/YTeSonHuong',
+    zalo:'https://zalo.me/1679366669294348624',
+    vision:'Phấn đấu trở thành người phục vụ tận tụy trong lĩnh vực cung cấp sản phẩm, thiết bị chăm sóc sức khoẻ cá nhân mọi gia đình tại khu vực Đồng Bằng Sông Cửu Long và là một trong những nhà cung cấp vật tư y tế hàng đầu cho các bệnh viện, phòng khám tại khu vực Nam Trung Bộ và ĐBSCL.',
+    mission:'Cung cấp sản phẩm, dịch vụ chất lượng tốt với giá thành hợp lý. Là cầu nối tin cậy giữa nhà sản xuất và người tiêu dùng. Là đối tác tin cậy và bền vững của các nhãn hàng vật tư y tế uy tín trong và ngoài nước.',
+    partners:['DKSH','Vimedimex','Omron Healthcare','Microlife','Rossmax','Accuchek (Roche)','Durex','Greetmed','Jobst'],
+    certifications:['CE','FDA','ISO'],
     values:[
-      {icon:'⚡',title:'Tốc độ',desc:'Phản hồi trong 2 giờ. Giao hàng đúng lịch. Không để khách hàng chờ lâu khi cần vật tư gấp.'},
-      {icon:'💰',title:'Giá cạnh tranh',desc:'Luôn báo giá tốt nhất thị trường. Chiết khấu minh bạch, không phụ phí ẩn.'},
-      {icon:'🤝',title:'Quan hệ bền vững',desc:'Xây dựng niềm tin lâu dài với từng khách hàng. Biết tên, biết nhu cầu, biết mùa vụ mua hàng của họ.'},
-      {icon:'📦',title:'Đa dạng sản phẩm',desc:'Một đầu mối cho tất cả nhu cầu vật tư y tế — từ kim tiêm đến kit xét nghiệm đến thiết bị chuyên dụng.'},
+      {icon:'🏆',title:'Trung thực',desc:'Hàng chính hãng, xuất xứ rõ ràng, đạt tiêu chuẩn CE/FDA/ISO. Không bán hàng giả, hàng kém chất lượng.'},
+      {icon:'⚡',title:'Tốc độ giao hàng',desc:'Giao hàng siêu nhanh. Hỗ trợ kỹ thuật trọn đời. Phản hồi trong 2 giờ — không để khách hàng chờ lâu khi cần vật tư gấp.'},
+      {icon:'🤝',title:'Hợp tác chân thành',desc:'Xây dựng niềm tin lâu dài với từng khách hàng và đối tác. Là đại lý chính thức uy tín của các nhãn hàng quốc tế.'},
+      {icon:'🔒',title:'Bảo hành chính hãng',desc:'100% sản phẩm bảo hành chính hãng. Đại lý chính thức DKSH, Vimedimex, Omron, Microlife, Rossmax, Accuchek, Durex, Greetmed, Jobst.'},
     ],
     rules:[
       'Phản hồi khách hàng trong vòng 2 giờ làm việc — dù chưa có câu trả lời cũng phải xác nhận đã nhận được yêu cầu',
       'Cập nhật CRM ngay sau mỗi cuộc gọi, gặp mặt hoặc gửi báo giá — không để cuối ngày mới nhập',
       'Không hứa ngày giao hàng khi chưa kiểm tra tồn kho thực tế',
+      'Chỉ bán hàng chính hãng, có CO-CQ đầy đủ, đạt tiêu chuẩn CE/FDA/ISO',
       'Báo cáo vấn đề kho hàng, hết hàng hoặc hàng lỗi ngay trong ngày phát hiện',
-      'Không cạnh tranh nội bộ — chia sẻ khách hàng tiềm năng với đồng nghiệp khi phù hợp',
       'Giữ bí mật thông tin giá, chiết khấu và danh sách khách hàng — đây là tài sản công ty',
     ],
     strategy:{
-      overview:'Tập trung chiếm lĩnh thị trường miền Nam (TP.HCM + 5 tỉnh lân cận) trong 2026, sau đó mở rộng ra miền Trung từ 2027.',
-      targets:['Bệnh viện công tuyến tỉnh/huyện (đấu thầu)','Phòng khám tư nhân cao cấp','Chuỗi nhà thuốc (Long Châu, An Khang, Pharmacity)','Phòng xét nghiệm độc lập'],
-      products:'Ưu tiên vật tư tiêu hao (doanh thu ổn định, lặp lại) + Kit xét nghiệm (tăng trưởng mạnh) + Thiết bị y tế (giá trị đơn lớn, xây uy tín).',
-      competitive:'Cạnh tranh bằng: (1) Giao hàng nhanh nhất khu vực, (2) Giá tốt + chiết khấu linh hoạt, (3) Chăm sóc cá nhân hóa từng khách hàng, (4) Danh mục đủ rộng để là một đầu mối duy nhất.',
-      revenueTarget:'Trên 15 tỷ/năm 2026',
+      overview:'Tập trung chiếm lĩnh thị trường ĐBSCL và TP.HCM, phục vụ bệnh viện, phòng khám, doanh nghiệp và cá nhân. Mở rộng danh mục sản phẩm cao cấp theo tiêu chuẩn quốc tế (CE/FDA/ISO).',
+      targets:['Bệnh viện công/tư tuyến tỉnh/huyện (đấu thầu)','Phòng khám tư nhân — thiết bị và vật tư tiêu hao','Doanh nghiệp — túi cứu thương, vật tư sơ cấp cứu','Gia đình — thiết bị theo dõi sức khỏe, y tế gia đình','Phòng xét nghiệm độc lập — hóa chất & kit xét nghiệm'],
+      products:'Ưu tiên: Huyết áp/Đường huyết (Omron, Microlife, Rossmax) + Vật tư tiêu hao (doanh thu ổn định, lặp lại) + Y tế gia đình + Sơ cấp cứu doanh nghiệp + Phục hồi chức năng.',
+      competitive:'Cạnh tranh bằng: (1) Hơn 30 năm kinh nghiệm thị trường, (2) Đại lý chính thức nhiều nhãn hàng quốc tế uy tín, (3) Giao hàng siêu nhanh + bảo hành chính hãng trọn đời, (4) Hỗ trợ kỹ thuật miễn phí.',
+      revenueTarget:'Tăng trưởng bền vững khu vực ĐBSCL & TP.HCM',
     },
     okrs:[
-      {id:'ok1',obj:'Tăng trưởng doanh thu vượt 15 tỷ/năm',quarter:'2026',krs:[
-        {kr:'Đạt doanh thu ≥ 1.25 tỷ/tháng (trung bình)',progress:60},
+      {id:'ok1',obj:'Mở rộng khách hàng khu vực ĐBSCL và TP.HCM',quarter:'2026',krs:[
         {kr:'Thêm 20 khách hàng BV/PK mới trong năm',progress:35},
         {kr:'Tỉ lệ chốt báo giá ≥ 65%',progress:50},
+        {kr:'Duy trì 100% đơn hàng có CO-CQ chính hãng',progress:90},
       ]},
-      {id:'ok2',obj:'Nâng cao chất lượng vận hành',quarter:'2026',krs:[
+      {id:'ok2',obj:'Nâng cao chất lượng dịch vụ',quarter:'2026',krs:[
         {kr:'Giao hàng đúng hẹn ≥ 95% đơn hàng',progress:88},
-        {kr:'Tồn kho 0 đơn bị hoãn vì thiếu hàng chủ lực',progress:75},
+        {kr:'Tỉ lệ hài lòng khách hàng ≥ 95%',progress:75},
         {kr:'Công nợ quá 60 ngày < 10% tổng dư nợ',progress:65},
       ]},
-      {id:'ok3',obj:'Phát triển đội ngũ',quarter:'2026',krs:[
-        {kr:'100% nhân viên sales dùng CRM hàng ngày',progress:80},
-        {kr:'Mỗi sales có ≥ 15 KH active trong pipeline',progress:55},
-        {kr:'Không có nhân viên chủ chốt nghỉ việc trong năm',progress:100},
+      {id:'ok3',obj:'Phát triển danh mục & đại lý',quarter:'2026',krs:[
+        {kr:'Mở rộng danh mục Phục Hồi Chức Năng thêm 10 SKU',progress:40},
+        {kr:'Ký mới ≥ 2 hợp đồng đại lý nhãn hàng quốc tế',progress:50},
+        {kr:'Ra mắt catalogue sản phẩm điện tử đầy đủ',progress:80},
       ]},
     ],
     updatedAt:new Date().toISOString().slice(0,10),
@@ -1174,45 +1217,54 @@ function seed(){
     {id:'c17',code:'KH017',name:'BV Đa Khoa Tiền Giang',type:'BV',region:'Tiền Giang',dist:'Mỹ Tho',addr:'2 Hùng Vương, TP. Mỹ Tho',contact:'DS. Nguyễn Thị Thanh Xuân',phone:'0273 3872 999',email:'muasamvtyt@bvtg.vn',src:'Triển lãm',interest:'Kim tiêm, Băng gạc, Bơm tiêm, Hóa chất khử khuẩn',notes:'Quan tâm đấu thầu năm 2026',createdAt:d(-48)},
   ];
   DB.products=[
-    // Vật tư tiêu hao (15 sản phẩm)
-    {id:'p1',code:'SP001',name:'Kim tiêm 5ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:45000,price:65000,stock:250,minStock:50,exp:d(180),sup:'Công ty Bình Thuận',notes:'',image:''},
-    {id:'p2',code:'SP002',name:'Găng tay vô trùng cỡ L',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:85000,price:120000,stock:180,minStock:60,exp:d(365),sup:'Công ty Bình Thuận',notes:'',image:''},
-    {id:'pa1',code:'SP003',name:'Bơm tiêm 10ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:52000,price:75000,stock:320,minStock:80,exp:d(360),sup:'Công ty Bình Thuận',notes:'',image:''},
-    {id:'pa2',code:'SP004',name:'Bơm tiêm 20ml',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:68000,price:98000,stock:180,minStock:50,exp:d(360),sup:'Công ty Bình Thuận',notes:''},
-    {id:'pa3',code:'SP005',name:'Bơm tiêm insulin 1ml',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:38000,price:58000,stock:150,minStock:40,exp:d(300),sup:'Công ty Bình Thuận',notes:'Kim 29G, đầu nhọn an toàn'},
-    {id:'pa4',code:'SP006',name:'Kim luồn tĩnh mạch 20G',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:120000,price:175000,stock:85,minStock:30,exp:d(270),sup:'BD Vietnam',notes:'Màu hồng, vô trùng EO'},
-    {id:'pa5',code:'SP007',name:'Dây truyền dịch vô trùng',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:28000,price:42000,stock:420,minStock:100,exp:d(300),sup:'Công ty Bình Thuận',notes:'Có lọc 15 micron'},
-    {id:'pa6',code:'SP008',name:'Găng tay khám bệnh cỡ M',cat:'Vật tư tiêu hao',unit:'Hộp 100c',cost:72000,price:105000,stock:240,minStock:80,exp:d(365),sup:'Thái Lan Latex Co.',notes:'Không bột, không mủ cao su'},
-    {id:'pa7',code:'SP009',name:'Khẩu trang y tế 3 lớp',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:38000,price:58000,stock:380,minStock:100,exp:d(730),sup:'Khải Hoàn Med',notes:'Đạt tiêu chuẩn TCVN 8389'},
-    {id:'pa8',code:'SP010',name:'Khẩu trang N95 (3M 8210)',cat:'Vật tư tiêu hao',unit:'Hộp 20c',cost:145000,price:210000,stock:60,minStock:20,exp:d(365),sup:'3M Vietnam',notes:'Lọc ≥95% bụi mịn PM2.5, NIOSH'},
-    {id:'pa9',code:'SP011',name:'Bông y tế cuộn 500g',cat:'Vật tư tiêu hao',unit:'Cuộn',cost:78000,price:115000,stock:95,minStock:25,exp:d(365),sup:'Công ty Bình Thuận',notes:'Bông tẩm cồn tinh khiết',image:''},
-    {id:'pa10',code:'SP012',name:'Băng keo y tế 1.25cm',cat:'Vật tư tiêu hao',unit:'Cuộn',cost:22000,price:35000,stock:200,minStock:50,exp:d(730),sup:'Khải Hoàn Med',notes:'Vải dệt không gây dị ứng',image:''},
-    {id:'p6',code:'SP013',name:'Băng gạc vô trùng 10x10',cat:'Vật tư tiêu hao',unit:'Hộp 50c',cost:35000,price:55000,stock:3,minStock:20,exp:d(300),sup:'Công ty Bình Thuận',notes:'',image:''},
-    {id:'pa11',code:'SP014',name:'Ống hút đờm 14Fr vô trùng',cat:'Vật tư tiêu hao',unit:'Hộp 10c',cost:95000,price:140000,stock:45,minStock:15,exp:d(180),sup:'BD Vietnam',notes:'Silicone mềm, có van điều chỉnh'},
-    {id:'pa12',code:'SP015',name:'Chỉ phẫu thuật Vicryl 2-0',cat:'Vật tư tiêu hao',unit:'Hộp 12 sợi',cost:85000,price:125000,stock:30,minStock:10,exp:d(365),sup:'Ethicon VN',notes:'Tự tiêu, kim taper 26mm'},
-    // Thiết bị y tế (8 sản phẩm)
-    {id:'p3',code:'SP016',name:'Máy đo SpO2 fingertip',cat:'Thiết bị y tế',unit:'Cái',cost:350000,price:550000,stock:25,minStock:5,exp:'',sup:'Medcare VN',notes:'Đo SpO2 + nhịp tim, pin AA',image:''},
-    {id:'p4',code:'SP017',name:'Nhiệt kế hồng ngoại trán',cat:'Thiết bị y tế',unit:'Cái',cost:80000,price:130000,stock:40,minStock:10,exp:'',sup:'Medcare VN',notes:'Kết quả trong 1 giây',image:''},
-    {id:'pb1',code:'SP018',name:'Máy đo huyết áp Omron HEM-7156',cat:'Thiết bị y tế',unit:'Cái',cost:850000,price:1250000,stock:18,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Bắp tay, tự động, nhớ 60 lần đo',image:''},
-    {id:'pb2',code:'SP019',name:'Ống nghe Littmann Classic III',cat:'Thiết bị y tế',unit:'Cái',cost:1950000,price:2800000,stock:8,minStock:3,exp:'',sup:'3M Vietnam',notes:'Đầu nghe kép, thép không gỉ',image:''},
-    {id:'pb3',code:'SP020',name:'Đèn soi tai mũi họng Heine',cat:'Thiết bị y tế',unit:'Bộ',cost:580000,price:850000,stock:12,minStock:3,exp:'',sup:'Heine Optotechnik VN',notes:'Gồm đầu soi tai + mũi họng'},
-    {id:'pb4',code:'SP021',name:'Máy xông khí dung Omron NE-C803',cat:'Thiết bị y tế',unit:'Cái',cost:450000,price:650000,stock:15,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Phun hạt 3–5 micron, yên tĩnh'},
-    {id:'pb5',code:'SP022',name:'Bộ tiểu phẫu cơ bản',cat:'Thiết bị y tế',unit:'Bộ',cost:1250000,price:1800000,stock:10,minStock:3,exp:'',sup:'Công ty Bảo Ngọc',notes:'Kẹp, dao, kéo, nhíp inox 316L, hộp đựng'},
-    {id:'pb6',code:'SP023',name:'Máy hút áp lực âm WS-500',cat:'Thiết bị y tế',unit:'Cái',cost:2800000,price:3900000,stock:5,minStock:2,exp:'',sup:'Medcare VN',notes:'Công suất 500mmHg, bình 1000ml'},
-    // Hóa chất (5 sản phẩm)
-    {id:'p7',code:'SP024',name:'Hóa chất khử khuẩn Anios NPC 32',cat:'Hóa chất',unit:'Can 5L',cost:320000,price:480000,stock:12,minStock:5,exp:d(200),sup:'Anios VN',notes:'Khử khuẩn mức cao, không cồn',image:''},
-    {id:'pc1',code:'SP025',name:'Cồn y tế 70° isopropyl',cat:'Hóa chất',unit:'Can 5L',cost:120000,price:180000,stock:35,minStock:10,exp:d(730),sup:'Đức Giang Hóa Chất',notes:'Sát khuẩn dụng cụ và da',image:''},
-    {id:'pc2',code:'SP026',name:'Povidone Iodine 10% (Betadine)',cat:'Hóa chất',unit:'Lọ 90ml',cost:62000,price:95000,stock:80,minStock:20,exp:d(365),sup:'Egis VN',notes:'Sát khuẩn vết thương và da',image:''},
-    {id:'pc3',code:'SP027',name:'Nước oxy già 3% (H2O2)',cat:'Hóa chất',unit:'Chai 500ml',cost:28000,price:45000,stock:55,minStock:15,exp:d(365),sup:'Đức Giang Hóa Chất',notes:'Làm sạch vết thương'},
-    {id:'pc4',code:'SP028',name:'Dung dịch rửa tay nhanh Anios',cat:'Hóa chất',unit:'Chai 500ml',cost:48000,price:75000,stock:42,minStock:12,exp:d(730),sup:'Anios VN',notes:'Ethanol 70% + Aloe vera, không cần nước'},
-    // Kit xét nghiệm (7 sản phẩm)
-    {id:'p5',code:'SP029',name:'Kit xét nghiệm HBsAg nhanh',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:280000,price:420000,stock:8,minStock:15,exp:d(120),sup:'Roche VN',notes:'Viêm gan B bề mặt, độ nhạy 99.5%',image:''},
-    {id:'pd1',code:'SP030',name:'Kit HIV Rapid Test (combo)',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:380000,price:580000,stock:22,minStock:10,exp:d(150),sup:'Abbott VN',notes:'Kháng thể HIV 1+2, kết quả 15 phút',image:''},
-    {id:'pd2',code:'SP031',name:'Kit HCV Rapid Test',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:410000,price:620000,stock:18,minStock:10,exp:d(150),sup:'Abbott VN',notes:'Viêm gan C, độ nhạy 99.7%'},
-    {id:'pd3',code:'SP032',name:'Kit COVID-19 Antigen nhanh',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:250000,price:380000,stock:30,minStock:15,exp:d(180),sup:'SD Biosensor VN',notes:'Kháng nguyên SARS-CoV-2, kết quả 15 phút'},
-    {id:'pd4',code:'SP033',name:'Kit thai kỳ HCG nhanh',cat:'Kit xét nghiệm',unit:'Hộp 30 test',cost:62000,price:95000,stock:65,minStock:20,exp:d(365),sup:'Omega Diagnostics',notes:'Phát hiện từ 4 ngày trước trễ kinh'},
-    {id:'pd5',code:'SP034',name:'Kit đường huyết Accu-Chek',cat:'Kit xét nghiệm',unit:'Hộp 50 test',cost:185000,price:285000,stock:40,minStock:15,exp:d(180),sup:'Roche VN',notes:'Dải thử cho máy Accu-Chek Active'},
-    {id:'pd6',code:'SP035',name:'Kit Dengue NS1+IgG/IgM',cat:'Kit xét nghiệm',unit:'Hộp 25 test',cost:560000,price:850000,stock:5,minStock:8,exp:d(120),sup:'SD Biosensor VN',notes:'Phát hiện sốt xuất huyết, 3 chỉ số'},
+    // Huyết Áp - Đường Huyết
+    {id:'p1',code:'SP001',name:'Máy đo huyết áp Omron HEM-7156',cat:'Huyết Áp - Đường Huyết',unit:'Cái',cost:850000,price:1250000,stock:18,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Bắp tay, tự động, nhớ 60 lần đo, CE',image:''},
+    {id:'p2',code:'SP002',name:'Máy đo huyết áp Microlife BP A150',cat:'Huyết Áp - Đường Huyết',unit:'Cái',cost:680000,price:990000,stock:22,minStock:5,exp:'',sup:'Microlife VN',notes:'Bắp tay, màn hình lớn, phát hiện rung tâm nhĩ, CE',image:''},
+    {id:'p3',code:'SP003',name:'Máy đo huyết áp Rossmax CH150f',cat:'Huyết Áp - Đường Huyết',unit:'Cái',cost:520000,price:760000,stock:15,minStock:5,exp:'',sup:'Rossmax VN',notes:'Cổ tay, tự động bơm, nhớ 60 lần đo, CE',image:''},
+    {id:'p4',code:'SP004',name:'Máy đo huyết áp cơ ALPK2',cat:'Huyết Áp - Đường Huyết',unit:'Cái',cost:380000,price:580000,stock:12,minStock:3,exp:'',sup:'ALPK2 Japan',notes:'Đồng hồ kim cơ học, vòng bít vải, bền bỉ',image:''},
+    {id:'p5',code:'SP005',name:'Máy đo đường huyết Accu-Chek Active',cat:'Huyết Áp - Đường Huyết',unit:'Cái',cost:280000,price:420000,stock:30,minStock:10,exp:'',sup:'Accuchek (Roche)',notes:'Kết quả trong 5 giây, bộ nhớ 500 lần đo, CE/FDA',image:''},
+    {id:'p6',code:'SP006',name:'Que thử đường huyết Accu-Chek',cat:'Huyết Áp - Đường Huyết',unit:'Hộp 50 que',cost:185000,price:285000,stock:40,minStock:15,exp:'',sup:'Accuchek (Roche)',notes:'Cho máy Accu-Chek Active, CE/ISO',image:''},
+    {id:'p7',code:'SP007',name:'Máy đo SpO2 fingertip',cat:'Huyết Áp - Đường Huyết',unit:'Cái',cost:350000,price:550000,stock:25,minStock:5,exp:'',sup:'Greetmed VN',notes:'Đo SpO2 + nhịp tim, pin AA, CE',image:''},
+    // Y Tế Gia Đình
+    {id:'p8',code:'SP008',name:'Khẩu trang y tế 3 lớp',cat:'Y Tế Gia Đình',unit:'Hộp 50c',cost:38000,price:58000,stock:380,minStock:100,exp:'',sup:'Vimedimex',notes:'Đạt tiêu chuẩn TCVN 8389',image:''},
+    {id:'p9',code:'SP009',name:'Khẩu trang N95 (3M 8210)',cat:'Y Tế Gia Đình',unit:'Hộp 20c',cost:145000,price:210000,stock:60,minStock:20,exp:'',sup:'DKSH VN',notes:'Lọc ≥95% bụi mịn PM2.5, NIOSH',image:''},
+    {id:'p10',code:'SP010',name:'Máy xông khí dung Omron NE-C803',cat:'Y Tế Gia Đình',unit:'Cái',cost:450000,price:650000,stock:15,minStock:5,exp:'',sup:'Omron Healthcare VN',notes:'Phun hạt 3–5 micron, yên tĩnh, CE',image:''},
+    {id:'p11',code:'SP011',name:'Nhiệt kế hồng ngoại trán',cat:'Y Tế Gia Đình',unit:'Cái',cost:80000,price:130000,stock:40,minStock:10,exp:'',sup:'Greetmed VN',notes:'Kết quả trong 1 giây, CE/FDA',image:''},
+    {id:'p12',code:'SP012',name:'Cân sức khỏe điện tử',cat:'Y Tế Gia Đình',unit:'Cái',cost:250000,price:380000,stock:20,minStock:5,exp:'',sup:'Microlife VN',notes:'Tải trọng 180kg, phân giải 0.1kg, CE',image:''},
+    {id:'p13',code:'SP013',name:'Máy trợ thính không dây',cat:'Y Tế Gia Đình',unit:'Cái',cost:1200000,price:1800000,stock:8,minStock:2,exp:'',sup:'DKSH VN',notes:'Đeo tai, điều chỉnh âm lượng, pin sạc, CE',image:''},
+    {id:'p14',code:'SP014',name:'Bao cao su Durex Extra Safe',cat:'Y Tế Gia Đình',unit:'Hộp 12c',cost:55000,price:85000,stock:100,minStock:30,exp:'',sup:'Durex VN',notes:'Latex tự nhiên, CE/ISO 4074',image:''},
+    {id:'p15',code:'SP015',name:'Băng cá nhân vô trùng (hộp 100c)',cat:'Y Tế Gia Đình',unit:'Hộp 100c',cost:28000,price:45000,stock:150,minStock:50,exp:'',sup:'Vimedimex',notes:'Vải dệt, vô trùng, kháng nước',image:''},
+    // Sơ Cấp Cứu
+    {id:'p16',code:'SP016',name:'Túi cứu thương doanh nghiệp TT19',cat:'Sơ Cấp Cứu',unit:'Bộ',cost:280000,price:420000,stock:35,minStock:10,exp:'',sup:'Sơn Hương',notes:'Đủ vật tư theo Thông tư 19, cho DN 25-50 người',image:''},
+    {id:'p17',code:'SP017',name:'Túi cứu thương gia đình cơ bản',cat:'Sơ Cấp Cứu',unit:'Bộ',cost:120000,price:185000,stock:50,minStock:15,exp:'',sup:'Sơn Hương',notes:'15 vật tư thiết yếu, túi vải chống thấm',image:''},
+    {id:'p18',code:'SP018',name:'Băng gạc vô trùng 10x10',cat:'Sơ Cấp Cứu',unit:'Hộp 50c',cost:35000,price:55000,stock:200,minStock:50,exp:'',sup:'Vimedimex',notes:'Vô trùng EO, CE',image:''},
+    {id:'p19',code:'SP019',name:'Bông y tế cuộn 500g',cat:'Sơ Cấp Cứu',unit:'Cuộn',cost:78000,price:115000,stock:95,minStock:25,exp:'',sup:'Vimedimex',notes:'Bông tẩm cồn tinh khiết, CE',image:''},
+    {id:'p20',code:'SP020',name:'Cồn y tế 70° isopropyl (can 5L)',cat:'Sơ Cấp Cứu',unit:'Can 5L',cost:120000,price:180000,stock:35,minStock:10,exp:'',sup:'Vimedimex',notes:'Sát khuẩn dụng cụ và da',image:''},
+    {id:'p21',code:'SP021',name:'Povidone Iodine 10% - Betadine 90ml',cat:'Sơ Cấp Cứu',unit:'Lọ 90ml',cost:62000,price:95000,stock:80,minStock:20,exp:'',sup:'Egis VN',notes:'Sát khuẩn vết thương và da, CE',image:''},
+    // Phục Hồi Chức Năng
+    {id:'p22',code:'SP022',name:'Xe lăn tay tiêu chuẩn',cat:'Phục Hồi Chức Năng',unit:'Cái',cost:1800000,price:2600000,stock:8,minStock:2,exp:'',sup:'Greetmed VN',notes:'Khung thép mạ, bánh hơi, chịu tải 100kg, CE',image:''},
+    {id:'p23',code:'SP023',name:'Gậy chống 4 chân điều chỉnh độ cao',cat:'Phục Hồi Chức Năng',unit:'Cái',cost:280000,price:420000,stock:20,minStock:5,exp:'',sup:'Greetmed VN',notes:'Nhôm hàng không, điều chỉnh 8 mức, CE',image:''},
+    {id:'p24',code:'SP024',name:'Đai lưng thắt lưng chỉnh hình',cat:'Phục Hồi Chức Năng',unit:'Cái',cost:180000,price:280000,stock:30,minStock:10,exp:'',sup:'Jobst VN',notes:'Cao su + vải thoáng khí, size S/M/L/XL, CE',image:''},
+    {id:'p25',code:'SP025',name:'Băng thun thể thao Jobst',cat:'Phục Hồi Chức Năng',unit:'Cuộn',cost:45000,price:70000,stock:60,minStock:20,exp:'',sup:'Jobst VN',notes:'Chống phù nề, hỗ trợ cơ xương khớp, CE',image:''},
+    {id:'p26',code:'SP026',name:'Kim châm cứu vô trùng (hộp 100 kim)',cat:'Phục Hồi Chức Năng',unit:'Hộp 100c',cost:85000,price:130000,stock:40,minStock:10,exp:'',sup:'DKSH VN',notes:'Kim thép không gỉ, đầu siêu mảnh, CE',image:''},
+    {id:'p27',code:'SP027',name:'Bộ dụng cụ giác hơi silicon (12 cái)',cat:'Phục Hồi Chức Năng',unit:'Bộ',cost:95000,price:145000,stock:25,minStock:8,exp:'',sup:'Sơn Hương',notes:'Silicon y tế, nhiều size, có túi đựng',image:''},
+    // Vật Tư Y Tế Tiêu Hao
+    {id:'p28',code:'SP028',name:'Bơm tiêm 10ml',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 100c',cost:52000,price:75000,stock:320,minStock:80,exp:'',sup:'Vimedimex',notes:'Vô trùng EO, CE',image:''},
+    {id:'p29',code:'SP029',name:'Kim tiêm 5ml (kim 22G)',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 100c',cost:45000,price:65000,stock:250,minStock:50,exp:'',sup:'Vimedimex',notes:'Đầu kim vát 3 lớp, vô trùng, CE',image:''},
+    {id:'p30',code:'SP030',name:'Găng tay vô trùng cỡ L',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 100c',cost:85000,price:120000,stock:180,minStock:60,exp:'',sup:'DKSH VN',notes:'Latex, không bột, CE/ISO',image:''},
+    {id:'p31',code:'SP031',name:'Găng tay khám bệnh nitrile đen',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 100c',cost:72000,price:108000,stock:240,minStock:80,exp:'',sup:'DKSH VN',notes:'Nitrile không latex, không bột, CE',image:''},
+    {id:'p32',code:'SP032',name:'Dây truyền dịch vô trùng',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 50c',cost:28000,price:42000,stock:420,minStock:100,exp:'',sup:'Vimedimex',notes:'Có lọc 15 micron, vô trùng EO, CE',image:''},
+    {id:'p33',code:'SP033',name:'Kim luồn tĩnh mạch 20G',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 50c',cost:120000,price:175000,stock:85,minStock:30,exp:'',sup:'DKSH VN',notes:'Màu hồng, vô trùng EO, CE',image:''},
+    {id:'p34',code:'SP034',name:'Chỉ phẫu thuật Vicryl 2-0',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Hộp 12 sợi',cost:85000,price:125000,stock:30,minStock:10,exp:'',sup:'DKSH VN',notes:'Tự tiêu, kim taper 26mm, CE',image:''},
+    {id:'p35',code:'SP035',name:'Hóa chất khử khuẩn Anios NPC 32',cat:'Vật Tư Y Tế Tiêu Hao',unit:'Can 5L',cost:320000,price:480000,stock:12,minStock:5,exp:'',sup:'Anios VN',notes:'Khử khuẩn mức cao, không cồn, CE',image:''},
+    // Thiết Bị Phòng Khám
+    {id:'p36',code:'SP036',name:'Ống nghe Littmann Classic III',cat:'Thiết Bị Phòng Khám',unit:'Cái',cost:1950000,price:2800000,stock:8,minStock:3,exp:'',sup:'DKSH VN',notes:'Đầu nghe kép, thép không gỉ, CE',image:''},
+    {id:'p37',code:'SP037',name:'Đèn soi tai mũi họng Heine',cat:'Thiết Bị Phòng Khám',unit:'Bộ',cost:580000,price:850000,stock:12,minStock:3,exp:'',sup:'Heine Optotechnik VN',notes:'Gồm đầu soi tai + mũi họng, CE',image:''},
+    {id:'p38',code:'SP038',name:'Bộ tiểu phẫu cơ bản inox 316L',cat:'Thiết Bị Phòng Khám',unit:'Bộ',cost:1250000,price:1800000,stock:10,minStock:3,exp:'',sup:'DKSH VN',notes:'Kẹp, dao, kéo, nhíp inox 316L, hộp đựng, CE',image:''},
+    {id:'p39',code:'SP039',name:'Bình oxy y tế 40L (đầy)',cat:'Thiết Bị Phòng Khám',unit:'Bình',cost:1500000,price:2200000,stock:5,minStock:2,exp:'',sup:'Vimedimex',notes:'Van điều áp, đồng hồ đo, xe đẩy đi kèm',image:''},
+    {id:'p40',code:'SP040',name:'Máy tạo oxy 5L/phút',cat:'Thiết Bị Phòng Khám',unit:'Cái',cost:8500000,price:12500000,stock:3,minStock:1,exp:'',sup:'DKSH VN',notes:'Nồng độ oxy ≥93%, liên tục 24/7, CE/FDA',image:''},
+    {id:'p41',code:'SP041',name:'Kit xét nghiệm HBsAg nhanh (25 test)',cat:'Thiết Bị Phòng Khám',unit:'Hộp 25 test',cost:280000,price:420000,stock:8,minStock:15,exp:'',sup:'Accuchek (Roche)',notes:'Viêm gan B bề mặt, độ nhạy 99.5%, CE',image:''},
+    {id:'p42',code:'SP042',name:'Kit Dengue NS1+IgG/IgM (25 test)',cat:'Thiết Bị Phòng Khám',unit:'Hộp 25 test',cost:560000,price:850000,stock:5,minStock:8,exp:'',sup:'SD Biosensor VN',notes:'Phát hiện sốt xuất huyết, 3 chỉ số, CE',image:''},
   ];
   DB.quotes=[
     {id:'q1',code:'BG-20260513-001',custId:'c1',date:d(-10),valid:d(20),by:'Minh N.',items:[{pid:'p1',name:'Kim tiêm 5ml',unit:'Hộp 100c',price:65000,qty:100,amt:6500000},{pid:'p2',name:'Găng tay vô trùng L',unit:'Hộp 100c',price:120000,qty:80,amt:9600000}],disc:5,sub:16100000,vat:1449000,total:17081950,status:'accepted',notes:''},
@@ -1256,7 +1308,7 @@ function seed(){
 function seedEmployees(){
   const d=n=>{const x=new Date();x.setDate(x.getDate()+n);return x.toISOString().slice(0,10);};
   return [
-    {id:'e1',code:'NV001',name:'Nguyễn Văn Thắng',pos:'Giám đốc Kinh doanh',dept:'Ban lãnh đạo',email:'thang.nv@anhsangyte.vn',phone:'0901 234 567',bank:'Vietcombank · 0451000123456 · CN TP.HCM',startDate:'2010-03-15',baseSalary:25000000,allowance:5000000,kpiBonus:4000000,commission:'yes',achieve:'Xây dựng đội ngũ sales từ 2 lên 8 người. Tăng doanh thu 3x trong 5 năm (2018–2023). Ký kết thành công hợp đồng BV Chợ Rẫy và BV TW Cần Thơ. Người thiết lập quy trình CRM đầu tiên cho công ty.',status:'active'},
+    {id:'e1',code:'NV001',name:'Nguyễn Thùy Dung',pos:'Giám Đốc',dept:'Ban lãnh đạo',email:'kinhdoanh@ytesonhuong.com',phone:'094 735 5454',bank:'',startDate:'2007-01-01',baseSalary:0,allowance:0,kpiBonus:0,commission:'no',achieve:'Sáng lập và điều hành Y Tế Sơn Hương từ năm 1991. Xây dựng công ty thành đại lý chính thức của DKSH, Omron, Microlife, Rossmax, Accuchek, Vimedimex. Phát triển thị trường ĐBSCL và TP.HCM hơn 30 năm.',status:'active'},
     {id:'e2',code:'NV002',name:'Trần Thị Lan',pos:'Trưởng nhóm Sales miền Nam',dept:'Kinh doanh',email:'lan.tt@anhsangyte.vn',phone:'0912 345 678',bank:'Techcombank · 19033456789 · CN Tân Bình',startDate:'2016-07-01',baseSalary:18000000,allowance:3000000,kpiBonus:2500000,commission:'yes',achieve:'Phụ trách portfolio 7 bệnh viện công tuyến tỉnh. Đạt 125% KPI năm 2025. Đào tạo 3 nhân viên sales mới. Ký được hợp đồng khung với PXN Medlab Q10.',status:'active'},
     {id:'e3',code:'NV003',name:'Lê Minh Hùng',pos:'Nhân viên Sales',dept:'Kinh doanh',email:'hung.lm@anhsangyte.vn',phone:'0933 456 789',bank:'BIDV · 31410001234567 · CN Quận 5',startDate:'2019-02-10',baseSalary:12000000,allowance:2000000,kpiBonus:1500000,commission:'yes',achieve:'Phát triển 5 khách hàng mới tại khu vực Đồng Nai & Bình Dương năm 2024. Doanh số tháng cao nhất: 38 triệu. Được bầu nhân viên xuất sắc Q3/2024.',status:'active'},
     {id:'e4',code:'NV004',name:'Phạm Thị Thu Hà',pos:'Kế toán trưởng',dept:'Kế toán',email:'ha.ptt@anhsangyte.vn',phone:'0944 567 890',bank:'Vietinbank · 108002345678 · CN Bình Thạnh',startDate:'2014-05-20',baseSalary:16000000,allowance:2500000,kpiBonus:1000000,commission:'no',achieve:'Xây dựng hệ thống sổ sách kế toán từ đầu năm 2014. Tiết kiệm 120 triệu chi phí vận hành qua tối ưu dòng tiền năm 2023. Kiểm soát công nợ quá hạn xuống dưới 8%.',status:'active'},
@@ -1643,10 +1695,12 @@ let pf={s:'',c:''};
 function prodImg(cat){
   // Emoji SVG thumbnail — btoa(unescape(encodeURIComponent())) handles multi-byte chars
   const map={
-    'Vật tư tiêu hao':{bg:'#EFF6FF',bd:'#BFDBFE',ico:'💉'},
-    'Thiết bị y tế':{bg:'#F0FDF4',bd:'#BBF7D0',ico:'🩺'},
-    'Hóa chất':{bg:'#FFF7ED',bd:'#FED7AA',ico:'🧪'},
-    'Kit xét nghiệm':{bg:'#FDF4FF',bd:'#E9D5FF',ico:'🔬'}
+    'Huyết Áp - Đường Huyết':{bg:'#EFF6FF',bd:'#BFDBFE',ico:'💓'},
+    'Y Tế Gia Đình':{bg:'#F0FDF4',bd:'#BBF7D0',ico:'🏠'},
+    'Sơ Cấp Cứu':{bg:'#FEF2F2',bd:'#FECACA',ico:'🚑'},
+    'Phục Hồi Chức Năng':{bg:'#FFF7ED',bd:'#FED7AA',ico:'♿'},
+    'Vật Tư Y Tế Tiêu Hao':{bg:'#FDF4FF',bd:'#E9D5FF',ico:'💉'},
+    'Thiết Bị Phòng Khám':{bg:'#ECFDF5',bd:'#A7F3D0',ico:'🩺'}
   };
   const m=map[cat]||{bg:'#F1F5F9',bd:'#CBD5E1',ico:'💊'};
   const svg=`<svg xmlns="http://www.w3.org/2000/svg" width="40" height="40"><rect width="40" height="40" rx="6" fill="${m.bg}" stroke="${m.bd}" stroke-width="1"/><text x="50%" y="54%" dominant-baseline="middle" text-anchor="middle" font-size="22" font-family="Apple Color Emoji,Segoe UI Emoji,Noto Color Emoji,sans-serif">${m.ico}</text></svg>`;
@@ -1667,7 +1721,7 @@ function rProd(){
   document.getElementById('products').innerHTML=`<div class="card">
     <div class="filter-bar">
       <div class="search-wrap"><span class="search-ico">🔍</span><input type="text" placeholder="Mã, tên SP..." value="${esc(pf.s)}" oninput="pf.s=this.value;rProd()"></div>
-      <select onchange="pf.c=this.value;rProd()"><option value="">Tất cả nhóm</option><option value="Thiết bị y tế">Thiết bị y tế</option><option value="Vật tư tiêu hao">Vật tư tiêu hao</option><option value="Hóa chất">Hóa chất</option><option value="Kit xét nghiệm">Kit xét nghiệm</option><option value="Khác">Khác</option></select>
+      <select onchange="pf.c=this.value;rProd()"><option value="">Tất cả nhóm</option><option value="Huyết Áp - Đường Huyết">Huyết Áp - Đường Huyết</option><option value="Y Tế Gia Đình">Y Tế Gia Đình</option><option value="Sơ Cấp Cứu">Sơ Cấp Cứu</option><option value="Phục Hồi Chức Năng">Phục Hồi Chức Năng</option><option value="Vật Tư Y Tế Tiêu Hao">Vật Tư Y Tế Tiêu Hao</option><option value="Thiết Bị Phòng Khám">Thiết Bị Phòng Khám</option></select>
       <span style="font-size:12px;color:var(--muted)">${list.length} sản phẩm</span>
     </div>
     <div class="tbl-wrap"><table><thead><tr><th>Mã</th><th>Tên SP</th><th>ĐVT</th><th>Giá bán</th><th>Tồn kho</th><th>Hạn SD</th><th></th></tr></thead><tbody>${rows}</tbody></table></div>
@@ -4832,8 +4886,8 @@ function rSettings(){
     <div class="set-card">
       <h3>🏢 Thông tin công ty</h3>
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:14px">
-        <div class="form-group"><label>Tên công ty đầy đủ</label><input class="form-control" id="set-cname" value="${esc(c.name||'')}" placeholder="Sơn Hương Medical Equipment Co., Ltd"></div>
-        <div class="form-group"><label>Tên viết tắt / Thương hiệu</label><input class="form-control" id="set-csname" value="${esc(c.shortName||'')}" placeholder="Sơn Hương Medical Equipment"></div>
+        <div class="form-group"><label>Tên công ty đầy đủ</label><input class="form-control" id="set-cname" value="${esc(c.name||'')}" placeholder="CÔNG TY TNHH THIẾT BỊ Y TẾ SƠN HƯƠNG"></div>
+        <div class="form-group"><label>Tên viết tắt / Thương hiệu</label><input class="form-control" id="set-csname" value="${esc(c.shortName||'')}" placeholder="Y Tế Sơn Hương"></div>
         <div class="form-group"><label>Năm thành lập</label><input class="form-control" id="set-cfounded" value="${esc(c.founded||'')}" placeholder="2010"></div>
         <div class="form-group"><label>Slogan công ty</label><input class="form-control" id="set-ctag" value="${esc(c.tagline||'')}" placeholder="Đồng hành cùng sức khỏe cộng đồng"></div>
       </div>
@@ -5238,11 +5292,15 @@ function teoRespond(msg){
 // ═══════ SEED DATA — NEW MODULES ═══════
 function seedSuppliers(){
   return [
-    {id:gid(),code:'NCC001',name:'Công ty TNHH Thiết bị Y tế Phúc Minh',contact:'Nguyễn Văn Phúc',phone:'0901234567',email:'phucminh@ytemed.vn',address:'Q.3, TP.HCM',cats:'Thiết bị y tế, Vật tư tiêu hao',rating:5,payDays:30,notes:'NCC chính - thiết bị phòng mổ, hàng nhập Đức',active:true},
-    {id:gid(),code:'NCC002',name:'MedPlus Import Vietnam',contact:'Trần Thị Lan',phone:'0902345678',email:'lan@medplus.vn',address:'Q.Bình Thạnh, TP.HCM',cats:'Kit xét nghiệm, Hóa chất',rating:4,payDays:45,notes:'Nhập khẩu kit xét nghiệm Hàn Quốc, Nhật Bản',active:true},
-    {id:gid(),code:'NCC003',name:'Hóa chất y tế Sài Gòn',contact:'Lê Minh Hùng',phone:'0903456789',email:'hung@hcytsg.vn',address:'Q.Gò Vấp, TP.HCM',cats:'Hóa chất',rating:3,payDays:30,notes:'Hóa chất xét nghiệm nội địa, giá tốt',active:true},
-    {id:gid(),code:'NCC004',name:'Vật tư y tế Bình Dương',contact:'Phạm Thu Hà',phone:'0904567890',email:'ha@vtytbd.vn',address:'Thủ Dầu Một, Bình Dương',cats:'Vật tư tiêu hao',rating:4,payDays:30,notes:'Vật tư tiêu hao giá cạnh tranh, giao nhanh',active:true},
-    {id:gid(),code:'NCC005',name:'Delta Med Supplies',contact:'Trần Quốc Huy',phone:'0905678901',email:'huy@deltamed.vn',address:'Q.7, TP.HCM',cats:'Thiết bị y tế, Kit xét nghiệm',rating:5,payDays:60,notes:'Đại lý độc quyền Siemens Healthineers tại VN',active:true}
+    {id:gid(),code:'NCC001',name:'DKSH Vietnam',contact:'Nguyễn Văn Hùng',phone:'028 3825 8888',email:'yt@dksh.com',address:'Q.1, TP.HCM',cats:'Thiết bị y tế, Vật tư tiêu hao, Phục hồi chức năng, Kim châm cứu',rating:5,payDays:30,notes:'Đại lý phân phối lớn — hàng chính hãng CE/FDA/ISO, đại lý chính thức',active:true},
+    {id:gid(),code:'NCC002',name:'Vimedimex',contact:'Trần Thị Mai',phone:'028 3729 8666',email:'kd@vimedimex.com.vn',address:'Q.Bình Thạnh, TP.HCM',cats:'Vật tư tiêu hao, Bông gạc, Bơm tiêm, Dây truyền dịch',rating:5,payDays:30,notes:'Tổng công ty dược phẩm & thiết bị y tế nhà nước, uy tín',active:true},
+    {id:gid(),code:'NCC003',name:'Omron Healthcare Vietnam',contact:'Lê Minh Tuấn',phone:'028 3636 1000',email:'healthcare@omron.com.vn',address:'Q.Phú Nhuận, TP.HCM',cats:'Máy đo huyết áp, Máy xông khí dung, SpO2',rating:5,payDays:45,notes:'Đại lý chính thức Omron Japan tại VN, CE/ISO',active:true},
+    {id:gid(),code:'NCC004',name:'Microlife Vietnam',contact:'Nguyễn Thu Hà',phone:'028 3514 1234',email:'vn@microlife.com',address:'Q.3, TP.HCM',cats:'Máy đo huyết áp, Nhiệt kế, Cân sức khỏe',rating:4,payDays:30,notes:'Thương hiệu Thụy Sĩ, chứng nhận CE/ISO 15223',active:true},
+    {id:gid(),code:'NCC005',name:'Rossmax Vietnam',contact:'Phạm Văn Đức',phone:'028 3820 9999',email:'kd@rossmax.vn',address:'Q.Gò Vấp, TP.HCM',cats:'Máy đo huyết áp, SpO2, Nhiệt kế điện tử',rating:4,payDays:30,notes:'Thương hiệu Đài Loan, CE/ISO, giá cạnh tranh',active:true},
+    {id:gid(),code:'NCC006',name:'Accuchek - Roche Diabetes Care',contact:'Vũ Thị Linh',phone:'028 3521 2000',email:'diabetes@roche.com',address:'Q.1, TP.HCM',cats:'Máy đo đường huyết, Que thử, Kit xét nghiệm HBsAg',rating:5,payDays:45,notes:'Tập đoàn Roche Thụy Sĩ, CE/FDA — tiêu chuẩn quốc tế',active:true},
+    {id:gid(),code:'NCC007',name:'Durex Vietnam (Reckitt)',contact:'Đinh Quốc Hùng',phone:'028 3636 7777',email:'kd@durex.vn',address:'Q.Bình Thạnh, TP.HCM',cats:'Bao cao su, Sản phẩm sức khỏe tình dục',rating:5,payDays:30,notes:'Thương hiệu số 1 thế giới, CE/ISO 4074',active:true},
+    {id:gid(),code:'NCC008',name:'Greetmed Vietnam',contact:'Nguyễn Thành Long',phone:'028 3511 8888',email:'info@greetmed.vn',address:'Q.Tân Bình, TP.HCM',cats:'Xe lăn, Thiết bị phục hồi chức năng, SpO2, Nhiệt kế',rating:4,payDays:30,notes:'Thiết bị y tế chất lượng cao, CE — phân phối toàn VN',active:true},
+    {id:gid(),code:'NCC009',name:'Jobst Vietnam',contact:'Lê Thị Phương',phone:'028 3899 4444',email:'kd@jobst.vn',address:'Q.3, TP.HCM',cats:'Băng thun y tế, Đai nẹp chỉnh hình, Tất áp lực',rating:4,payDays:45,notes:'Thương hiệu Đức chuyên y tế cơ xương khớp, CE',active:true}
   ];
 }
 function seedTenders(){
@@ -5549,7 +5607,7 @@ function genTenderPrice(id){
     </tr>`).join(''):`<tr><td colspan="8" style="text-align:center;color:#888;padding:12px;font-style:italic">Chưa có danh mục hàng. Thêm trong ✏️ Sửa gói thầu.</td></tr>`;
   return`<div class="doc-wrap">
   <div class="doc-head-grid">
-    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b><br>MST: <span class="ef" contenteditable="true">01234567890</span><br>ĐT: <span class="ef" contenteditable="true">028 xxxx xxxx</span><br>Địa chỉ: <span class="ef" contenteditable="true">TP. Hồ Chí Minh</span></div>
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b><br>MST: <span class="ef" contenteditable="true">0304873870</span><br>ĐT: <span class="ef" contenteditable="true">(028) 7300 5454</span><br>Địa chỉ: <span class="ef" contenteditable="true">349/175 Lê Đại Hành, P. Phú Thọ, TP.HCM</span></div>
     <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${_todayStr()}</em></div>
   </div>
   <div class="doc-title">BẢNG KÊ KHAI GIÁ DỰ THẦU</div>
@@ -5615,7 +5673,7 @@ function genContract(id){
   const benB=isSupplier?{title:'BÊN BÁN (BÊN B)',name:`<span class="ef" contenteditable="true">${esc(c.party||'Tên nhà cung cấp')}</span>`,role:'Giám đốc'}:{title:'BÊN BÁN (BÊN B)',name:esc(co.name||'Sơn Hương Medical Equipment Co., Ltd'),role:'Giám đốc'};
   return`<div class="doc-wrap">
   <div class="doc-head-grid">
-    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b><br>MST: <span class="ef" contenteditable="true">01234567890</span></div>
+    <div style="font-size:12px"><b>${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</b><br>MST: <span class="ef" contenteditable="true">0304873870</span></div>
     <div class="doc-republic"><strong>CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM</strong><u>Độc lập – Tự do – Hạnh phúc</u><em>TP.HCM, ngày ${c.signDate?fmtD(c.signDate):_todayStr()}</em></div>
   </div>
   <div class="doc-title">HỢP ĐỒNG MUA BÁN VẬT TƯ Y TẾ</div>
@@ -5714,7 +5772,7 @@ function genWarrantyCard(id){
     <div style="text-align:center;margin-bottom:16px">
       <div style="font-size:22px">🏥</div>
       <div style="font-size:16px;font-weight:700;color:#1e40af;margin-top:4px">${esc(co.shortName||'SƠN HƯƠNG MEDICAL')}</div>
-      <div style="font-size:11px;color:#64748b">MST: <span class="ef" contenteditable="true">01234567890</span> &nbsp; ĐT: <span class="ef" contenteditable="true">028 xxxx xxxx</span></div>
+      <div style="font-size:11px;color:#64748b">MST: <span class="ef" contenteditable="true">0304873870</span> &nbsp; ĐT: <span class="ef" contenteditable="true">(028) 7300 5454</span></div>
     </div>
     <div style="text-align:center;font-size:15px;font-weight:700;text-transform:uppercase;background:#1e40af;color:#fff;padding:8px;border-radius:6px;margin-bottom:16px">PHIẾU BẢO HÀNH THIẾT BỊ</div>
     ${[
